@@ -1,0 +1,305 @@
+:root {
+  --c-bg: #21656e;              /* dark form card (unused now but kept) */
+  --c-chip: #e7f6f2;
+  --c-chip-text: #0b2a2a;
+  --c-accent: #10b981;
+  --c-accent-2: #2dd4bf;
+  --c-text: #0e1b2b;
+  --c-muted: #5b6472;
+  --c-white: #ffffff;
+  --c-ring: rgba(255, 255, 255, .15);
+  --c-shadow: 0 20px 70px rgba(2, 8, 23, .24);
+
+  /* monochrome theme for the form */
+  --mono-ink: #0b0b0b;
+  --mono-muted: #6b7280;
+  --mono-line: #e5e7eb;
+}
+
+/* ===== WRAPPER ===== */
+.consult-block {
+  background: #ffffff;
+  padding: clamp(18px, 3vw, 26px);
+}
+
+.consult-block__inner {
+  width: min(100%, 1350px);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(16px, 2vw, 22px);
+  align-items: stretch;
+}
+
+/* form-only mode */
+.consult-block[data-form-only="1"] .consult-block__inner {
+  grid-template-columns: 1fr;
+}
+
+/* ===== LEFT SIDE (WHY CHOOSE US) ===== */
+
+.consult-left {
+  position: relative;
+  background: #fff;
+  border-radius: 20px;
+  padding: clamp(18px, 3.5vw, 30px);
+  overflow: hidden;
+  min-height: 320px;
+  box-shadow: 0 12px 40px rgba(2, 8, 23, .08);
+}
+
+.consult-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: var(--c-chip);
+  color: var(--c-chip-text);
+  font-weight: 800;
+  font-size: .85rem;
+  padding: .35rem .7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(11, 42, 42, .1);
+}
+
+.consult-badge::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--c-accent), var(--c-accent-2));
+}
+
+.consult-title {
+  margin: .8rem 0 1.1rem;
+  font-size: clamp(1.6rem, 5.2vw, 3rem);
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.consult-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  border: 2px solid #e6eaee;
+  color: #0a2430;
+  text-decoration: none;
+  padding: .7rem 1rem;
+  border-radius: 12px;
+  font-weight: 800;
+  background: #fff;
+  transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease;
+}
+
+.consult-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(2, 8, 23, .08);
+  background-color: #0b2326;
+  color: #ffffff;
+}
+
+.consult-photo {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: min(46%, 320px);
+  pointer-events: none;
+}
+
+.consult-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===== RIGHT SIDE (FORM CARD) ===== */
+
+.consult-form {
+  background: #ffffff !important;
+  color: var(--mono-ink) !important;
+  border-radius: 20px;
+  padding: clamp(18px, 3.5vw, 30px);
+  box-shadow: var(--c-shadow);
+  border: 1px solid var(--mono-line);
+}
+
+.consult-form__title {
+  margin: .2rem 0 1rem;
+  color: var(--mono-ink) !important;
+  font-weight: 900;
+  font-size: clamp(1.2rem, 2.6vw, 1.6rem);
+}
+
+/* ===== GRID LAYOUT FOR FIELDS ===== */
+
+.consult-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.consult-grid input,
+.consult-grid textarea,
+.consult-grid select {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--mono-line);
+  background: #ffffff;
+  color: var(--mono-ink);
+  padding: .9rem .9rem;
+  outline: none;
+  box-shadow: none;
+}
+
+.consult-grid ::placeholder {
+  color: var(--mono-muted);
+}
+
+/* span full width */
+.consult-grid textarea {
+  grid-column: 1 / -1;
+  min-height: 76px;
+  resize: vertical;
+}
+
+/* select styling + caret */
+.consult-grid select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background:
+    #ffffff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 20 20'%3E%3Cpath fill='%236b7280' d='M5.5 7.5l4.5 4.5 4.5-4.5z'/%3E%3C/svg%3E")
+    no-repeat right 12px center / 14px;
+  cursor: pointer;
+}
+
+.consult-grid select option {
+  background: #ffffff;
+  color: var(--mono-ink);
+}
+
+/* focus */
+.consult-grid input:focus,
+.consult-grid textarea:focus,
+.consult-grid select:focus {
+  border-color: #111111;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, .08);
+}
+
+/* ===== SUBMIT BUTTON ===== */
+
+.consult-send {
+  grid-column: 2;
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: #c14300 !important;
+  color: #ffffff !important;
+  padding: .9rem 1rem;
+  border-radius: 12px;
+  border: 0;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform .2s ease, filter .2s ease, background-color .2s ease;
+}
+
+.consult-send:hover {
+  transform: translateY(-2px);
+  background: rgb(1, 98, 177) !important;
+}
+
+/* spinner inside button */
+.consult-send .spinner {
+  display: none;
+  width: 16px;
+  height: 16px;
+  margin-left: .6rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .35);
+  border-top-color: #e6baba;
+  animation: spin 0.9s linear infinite;
+}
+
+.consult-send.is-loading .spinner { display: inline-block; }
+.consult-send.is-loading .label   { opacity: .65; }
+.consult-send.is-loading          { cursor: wait; pointer-events: none; }
+
+/* ===== TOAST (GLOBAL) ===== */
+
+.global-toast {
+  position: fixed;
+  left: 50%;
+  top: 12px;
+  transform: translateX(-50%) translateY(-16px);
+  width: min(920px, calc(100% - 32px));
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: #ffffff;
+  font-weight: 700;
+  text-align: center;
+  background: #111111;
+  border: 1px solid #222222;
+  box-shadow: 0 18px 56px rgba(2, 8, 23, .28);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10000;
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+.global-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.global-toast--error   { background: #4a0e14; }
+.global-toast--success { background: #0f3c2e; }
+
+/* hide old inline alerts – we now use the global toast */
+.consult-alert { display: none !important; }
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== RESPONSIVE TWEAKS ===== */
+
+/* tablet & down: stack columns */
+@media (max-width: 900px) {
+  .consult-block__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .consult-photo {
+    position: static;
+    width: 70%;
+    margin: 10px auto 0;
+  }
+
+  .consult-grid {
+    grid-template-columns: 1fr;   /* each field full-width */
+  }
+
+  .consult-send {
+    grid-column: 1;               /* button aligns left under fields */
+    justify-self: flex-start;
+  }
+}
+
+/* small phones: reduce padding slightly, keep same visual design */
+@media (max-width: 540px) {
+  .consult-block {
+    padding: 14px;
+  }
+
+  .consult-left,
+  .consult-form {
+    border-radius: 16px;
+    padding: 16px;
+  }
+
+  .global-toast {
+    width: calc(100% - 24px);
+  }
+}

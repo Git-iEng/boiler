@@ -1,0 +1,1522 @@
+.cmms-contact-form-section {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    padding: 80px 20px;
+    top: 30px;
+
+    color: white;
+    text-align: center;
+}
+
+.cmms-contact-form-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.cmms-contact-form-container {
+    position: relative;
+    max-width: 700px;
+    margin: auto;
+    z-index: 2;
+}
+
+.cmms-contact-form-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid white;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.cmms-contact-form-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: limegreen;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.cmms-contact-form-title {
+    font-size: 42px;
+    margin-bottom: 40px;
+}
+
+.cmms-contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cmms-contact-form-input,
+.cmms-contact-form-textarea {
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+}
+
+.cmms-contact-form-textarea {
+    height: 120px;
+    resize: none;
+}
+
+.cmms-contact-form-btn {
+    background: limegreen;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.cmms-contact-form-btn:hover {
+    background: green;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cmms-contact-form-title {
+        font-size: 32px;
+    }
+}
+
+/* Container */
+.cmms-contact-form-wrap {
+    width: 100%;
+    background: #ffffff;
+    padding: 48px 20px 26px;
+ 
+}
+
+.cmms-contact-form-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Badge (new) */
+.cmms-contact-form-badge2 {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    /* border: 1px solid rgba(0, 0, 0, .15); */
+    padding: 8px 14px;
+    /* border-radius: 999px; */
+    text-decoration: none;
+    color: #111;
+    font-size: 14px;
+    /* background: #fff; */
+}
+
+.cmms-contact-form-dot2 {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #9BEA2E;
+    display: inline-block
+}
+
+/* Heading */
+.cmms-contact-form-heading2 {
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.15;
+    margin: 20px 0 28px;
+    color: #0b0b0b;
+}
+
+/* Success */
+.cmms-contact-form-success2 {
+    background: #ffffff;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+}
+
+/* Form layout */
+.cmms-contact-form-form2 {
+    width: 100%;
+}
+
+.cmms-contact-form-grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+}
+
+.cmms-contact-form-field2 {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cmms-contact-form-label2 {
+    margin-top: 2px;
+    padding-top: 4px;
+    font-size: 13px;
+    color: #656565;
+    letter-spacing: .1px;
+}
+
+/* Inputs */
+.cmms-contact-form-input2,
+.cmms-contact-form-textarea2 {
+    border: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, .18);
+    padding: 12px 0;
+    outline: none;
+    font-size: 16px;
+    color: #121212;
+    background: transparent;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.cmms-contact-form-input2:focus,
+.cmms-contact-form-textarea2:focus {
+    border-bottom-color: #111;
+    box-shadow: 0 1px 0 0 #111;
+}
+
+/* Button */
+.cmms-contact-form-submit2 {
+    width: 100%;
+    margin-top: 28px;
+    background: #c7ff80;
+    color: #0b0b0b;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: filter .2s ease, transform .02s ease-in-out;
+}
+
+.cmms-contact-form-submit2:hover {
+    filter: brightness(.95);
+}
+
+.cmms-contact-form-submit2:active {
+    transform: translateY(1px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cmms-contact-form-grid2 {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .cmms-contact-form-wrap {
+        padding: 36px 16px 72px;
+    }
+}
+
+.cmms-contact-form-submit2.cmms-contact-form-btnloading {
+    position: relative;
+    pointer-events: none;
+    opacity: .85;
+}
+
+.cmms-contact-form-submit2.cmms-contact-form-btnloading::after {
+    content: "";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    margin-top: -8px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, .35);
+    border-top-color: rgba(0, 0, 0, .9);
+    animation: cmms-contact-form-spin .8s linear infinite;
+}
+
+@keyframes cmms-contact-form-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.cmms-contact-form-loc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.cmms-contact-form-loc-card {
+    border-radius: 16px;
+    padding: 32px;
+    /* increased from 24px */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* ensures top-aligned content */
+    min-height: 280px;
+    /* ensures uniform taller cards */
+}
+
+.cmms-contact-form-loc-card p {
+    padding-top: 4px;
+    color: #121212;
+    font-size: 1em;
+    margin-top: 4px;
+    margin-left: 4px;
+    padding-left: 2px
+}
+
+/* Background colors for each card */
+.cmms-contact-form-loc-card:nth-child(1) {
+    background-color: #f9d9a9;
+    /* peach */
+}
+
+.cmms-contact-form-loc-card:nth-child(2) {
+    background-color: #e6d4f9;
+    /* lavender */
+}
+
+.cmms-contact-form-loc-card:nth-child(3) {
+    background-color: #d3dec2;
+    /* light green */
+}
+
+/* Header with icon + title */
+.cmms-contact-form-loc-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.cmms-contact-form-loc-icon {
+    background-color: #000;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cmms-contact-form-loc-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+.cmms-contact-form-loc-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #000;
+}
+
+/* Content text */
+.cmms-contact-form-loc-info {
+    font-size: 1rem;
+    color: #000;
+    line-height: 1.6;
+    /* better spacing between lines */
+    margin-bottom: 20px;
+}
+
+/* Learn more link */
+.cmms-contact-form-loc-learn {
+    color: #000;
+    text-decoration: underline;
+    font-weight: 500;
+    align-self: flex-start;
+}
+
+/* Responsive: stack on mobile */
+@media (max-width: 768px) {
+    .cmms-contact-form-loc-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cmms-contact-form-loc-map {
+    padding: 2px;
+    margin: 4px;
+}
+
+/* cmms-contact-form.css */
+.cmms-contact-form-error {
+    font-size: 14px;
+    color: red;
+    margin-top: 5px;
+}
+
+.about-container-abou-ieng {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.about-title-abou-ieng {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.about-text-abou-ieng {
+    font-size: 1.1rem;
+    text-align: justify;
+    /* margin-bottom: 40px; */
+    margin: 0;
+    color: var(--muted-meet-ieng-about);
+    font: 400 15px/1.7 ui-sans-serif, system-ui;
+    max-width: 1100px;
+
+}
+
+
+.services-list-abou-ieng {
+    list-style-type: disc;
+    /* classic bullet style */
+    padding-left: 20px;
+    /* indent bullets nicely */
+    margin: 0;
+    font-size: 1.05rem;
+    /* adjust text size */
+    line-height: 1.8;
+    /* spacing between items */
+    color: #222;
+    /* dark text */
+}
+
+.services-list-abou-ieng li {
+    margin-bottom: 6px;
+    /* slight spacing below each item */
+}
+
+
+/* team */
+
+:root {
+    --ink-meet-ieng-about: #0b2239;
+    --muted-meet-ieng-about: #6a7a89;
+    --card-meet-ieng-about: #ffffff;
+    --bg-meet-ieng-about: #ffffff;
+    --pill-bg-meet-ieng-about: #ffffff;
+      --teal-700-solar: #d34300;
+  --cyan-800-solar: #751515;
+    --pill-ink-meet-ieng-about: #107a6d;
+    --shadow-meet-ieng-about: 0 14px 36px rgba(10, 36, 60, .10);
+    --radius-meet-ieng-about: 16px;
+}
+
+/* Section — tight vertical rhythm (no big extra space) */
+.section-meet-ieng-about {
+    padding: 18px 12px;
+    background:#ffffff;
+}
+
+.container-meet-ieng-about {
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.header-meet-ieng-about {
+    margin: 0 0 12px;
+}
+
+.title-meet-ieng-about {
+    margin: 0 0 6px;
+    color: var(--ink-meet-ieng-about);
+    font: 800 clamp(18px, 1vw, 12px)/1.2 ui-sans-serif, system-ui;
+    letter-spacing: -.02em;
+}
+
+.subtitle-meet-ieng-about {
+    margin: 0;
+    color: var(--muted-meet-ieng-about);
+    font: 400 15px/1.7 ui-sans-serif, system-ui;
+    max-width: 1100px;
+}
+
+/* Grid */
+.grid-meet-ieng-about {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    padding: 10px 4px;
+}
+
+@media (max-width:980px) {
+    .grid-meet-ieng-about {
+        grid-template-columns: 1fr 1fr
+    }
+}
+
+@media (max-width:640px) {
+    .grid-meet-ieng-about {
+        grid-template-columns: 1fr
+    }
+}
+
+/* Card */
+.card-meet-ieng-about {
+    background: var(--card-meet-ieng-about);
+    border-radius: 20px;
+    box-shadow: var(--shadow-meet-ieng-about);
+    overflow: hidden;
+    outline: none;
+}
+
+.card-meet-ieng-about:focus-visible {
+    box-shadow: 0 0 0 3px #b6efe7, var(--shadow-meet-ieng-about)
+}
+
+/* Flip wrapper */
+.flip-meet-ieng-about {
+    margin: 0;
+    position: relative;
+    height: 230px;
+    /* image height */
+    perspective: 1000px;
+    background: var(--bg-meet-ieng-about);
+}
+
+.face-front-meet-ieng-about,
+.face-back-meet-ieng-about {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px 20px 0 0;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transition: transform .5s ease;
+}
+
+.face-front-meet-ieng-about {
+    overflow: hidden
+}
+
+.img-meet-ieng-about {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block
+}
+
+.face-back-meet-ieng-about {
+    background: #0d2a41;
+    color: #ecfdff;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    transform: rotateY(180deg);
+}
+
+.name-meet-ieng-about {
+    margin: 0;
+    font: 700 18px/1.25 ui-sans-serif, system-ui
+}
+
+.role-meet-ieng-about {
+    margin: 0;
+    font: 600 14px/1.3 ui-sans-serif, system-ui;
+    color: #a8fff0
+}
+
+.bio-meet-ieng-about {
+    margin: 6px 0 0;
+    font: 400 13.5px/1.6 ui-sans-serif, system-ui;
+    opacity: .95
+}
+
+/* Flip interaction */
+.card-meet-ieng-about:hover .face-front-meet-ieng-about,
+.card-meet-ieng-about:focus .face-front-meet-ieng-about {
+    transform: rotateY(180deg)
+}
+
+.card-meet-ieng-about:hover .face-back-meet-ieng-about,
+.card-meet-ieng-about:focus .face-back-meet-ieng-about {
+    transform: rotateY(360deg)
+}
+
+/* Body area (caption + pills) */
+.body-meet-ieng-about {
+    padding: 12px 14px 14px
+}
+
+.caption-name-meet-ieng-about {
+    margin: 0 0 2px;
+    font: 700 16px/1.3 ui-sans-serif, system-ui;
+    color: var(--ink-meet-ieng-about)
+}
+
+.caption-role-meet-ieng-about {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--muted-meet-ieng-about);
+    font: 500 13.5px/1.4 ui-sans-serif, system-ui
+}
+
+.socials-meet-ieng-about {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap
+}
+
+.pill-meet-ieng-about {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: var(--pill-bg-meet-ieng-about);
+    color: var(--pill-ink-meet-ieng-about);
+    font: 700 12.5px/1 ui-sans-serif, system-ui;
+    text-decoration: none;
+    box-shadow: inset 0 0 0 1px rgba(16, 122, 109, .05)
+}
+
+.pill-meet-ieng-about:hover {
+    filter: brightness(1.03)
+}
+
+/* Image card keeps the same card-about-ieng-mission shell you already have */
+.img-wrap-about-ieng-mission {
+    position: relative;
+    width: 100%;
+    /* keeps a nice responsive box: 4:3 on desktop, taller on mobile below */
+    aspect-ratio: 4 / 3;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(10, 20, 35, .12);
+    background: #0b2239;
+    /* fallback while loading */
+}
+
+.img-wrap-about-ieng-mission img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    /* avoid blurry scaling */
+    transition: opacity .32s ease;
+    /* cross-fade */
+}
+
+/* ghost is used to fade-in the next image smoothly */
+#about-ieng-hero-ghost {
+    opacity: 0;
+    pointer-events: none;
+}
+
+@media (max-width: 720px) {
+    .img-wrap-about-ieng-mission {
+        aspect-ratio: 16 / 10;
+    }
+
+    /* a bit taller on phones */
+}
+
+
+/* ===============================
+   6-card staggered grid (triangle reveal)
+   =============================== */
+:root {
+    --text: #0e1b2b;
+    --muted: #5b6472;
+    --ring: rgba(14, 27, 43, .10);
+    --tile: #f6f8fb;
+    --shadow: 0 18px 44px rgba(2, 8, 23, .10);
+    --accent1: #d34300;
+    /* teal */
+    --accent2: #751515;
+   
+    /* cyan/teal */
+}
+
+.section-neplan-card-with-animation {
+    padding: clamp(28px, 1vw, 32px) 16px;
+    background:  #ffffff;
+    color: var(--text);
+}
+
+.container-neplan-card-with-animation {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Layout: 3 columns desktop, 2 tablet, 1 mobile */
+.grid-neplan-card-with-animation {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2.6vw, 24px);
+}
+
+@media (max-width: 900px) {
+    .grid-neplan-card-with-animation {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .grid-neplan-card-with-animation {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Common card frame */
+.card-neplan-card-with-animation {
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid var(--ring);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    position: relative;
+
+    /* animation base (hidden) */
+    opacity: 0;
+    transform: translateY(28px) scale(.98);
+}
+
+/* Image card */
+.img-card-neplan-card-with-animation {
+    padding: 0;
+    background: #e9eef6;
+}
+
+.img-card-neplan-card-with-animation img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16/11;
+    object-fit: cover;
+}
+
+/* Content card */
+.content-card-neplan-card-with-animation {
+    background: var(--tile);
+    padding: clamp(16px, 2.2vw, 20px);
+}
+
+.icon-neplan-card-with-animation {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    margin-bottom: .6rem;
+    font-size: 1.05rem;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    box-shadow: inset 0 0 0 4px rgba(255, 255, 255, .5);
+}
+
+.title-neplan-card-with-animation {
+    margin: 0 0 .35rem;
+    font-weight: 900;
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+}
+
+.desc-neplan-card-with-animation {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: .95rem;
+}
+
+/* Directional entry flavors */
+.from-left {
+    --x: -26px;
+    --y: 22px;
+}
+
+.from-right {
+    --x: 26px;
+    --y: 22px;
+}
+
+.from-up {
+    --x: 0px;
+    --y: 26px;
+}
+
+.card-neplan-card-with-animation {
+    transform: translate(var(--x, 0), var(--y, 28px)) scale(.98);
+}
+
+/* Stagger groups (triangle pattern) */
+.tri-1 {
+    --delay: 0s;
+}
+
+/* top-left + top-right */
+.tri-2 {
+    --delay: .18s;
+}
+
+/* top-middle */
+.tri-3 {
+    --delay: .36s;
+}
+
+/* bottom-left + bottom-right */
+.tri-4 {
+    --delay: .54s;
+}
+
+/* bottom-middle */
+
+/* Reveal */
+.show-neplan-card-with-animation {
+    animation: reveal-neplan-card-with-animation .7s cubic-bezier(.2, .7, .2, 1) forwards;
+    animation-delay: var(--delay, 0s);
+}
+
+@keyframes reveal-neplan-card-with-animation {
+    from {
+        opacity: 0;
+        transform: translate(var(--x, 0), var(--y, 28px)) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .card-neplan-card-with-animation {
+        opacity: 1;
+        transform: none;
+    }
+
+    .show-neplan-card-with-animation {
+        animation: none;
+    }
+}
+
+/* Tag + title */
+.tag-neplan-testimonials {
+    display: inline-block;
+    font-size: .78rem;
+    font-weight: 800;
+    padding: .35rem .6rem;
+    border-radius: 999px;
+    background:  #751515;
+    color: #fff;
+    margin-bottom: .5rem;
+}
+
+/* Tag + title */
+.tag-neplan-testimonials {
+    display: inline-block;
+    font-size: .78rem;
+    font-weight: 800;
+    padding: .35rem .6rem;
+    border-radius: 999px;
+    background:  #751515;
+    color: #fff;
+    margin-bottom: .5rem;
+}
+
+
+/* ================================
+   What we bring — styles
+   ================================ */
+:root {
+    
+    --wwb-primary: #d34300;
+    /* teal-700 */
+    --wwb-primary2: #751515;
+    /* cyan-800 */
+    --wwb-text: #0e1b2b;
+    --wwb-muted: #5b6472;
+    --wwb-ring: rgba(14, 27, 43, .12);
+    --wwb-soft: #f6f8fb;
+    --wwb-shadow: 0 18px 44px rgba(2, 8, 23, .10);
+}
+
+.section-neplan-what-we-bring {
+    padding: clamp(28px, 2vw, 32px) 16px;
+    background: #fff;
+    color: var(--wwb-text);
+}
+
+.container-neplan-what-we-bring {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Header */
+.eyebrow-neplan-what-we-bring {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    margin: 0 0 .5rem;
+    font-weight: 800;
+    font-size: .92rem;
+    opacity: .85;
+}
+
+.eyebrow-neplan-what-we-bring::before {
+    content: "";
+    width: 28px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--wwb-primary), var(--wwb-primary2));
+}
+
+.title-neplan-what-we-bring {
+    margin: 0 0 1.2rem;
+    font-weight: 900;
+    letter-spacing: .2px;
+    font-size: clamp(1.4rem, 4.6vw, 2.2rem);
+}
+
+/* Grid list */
+.grid-neplan-what-we-bring {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 2.4vw, 24px);
+}
+
+@media (max-width: 720px) {
+    .grid-neplan-what-we-bring {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Item */
+.item-neplan-what-we-bring {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    align-items: start;
+    gap: 14px;
+    background: #fff;
+    border: 1px solid var(--wwb-ring);
+    border-radius: 16px;
+    box-shadow: var(--wwb-shadow);
+    padding: clamp(14px, 2vw, 18px);
+    position: relative;
+    overflow: hidden;
+}
+
+.item-neplan-what-we-bring::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--wwb-primary), var(--wwb-primary2));
+}
+
+/* Icon */
+.icon-neplan-what-we-bring {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 1.1rem;
+    color: #fff;
+    background: linear-gradient(135deg, var(--wwb-primary), var(--wwb-primary2));
+    box-shadow: inset 0 0 0 5px rgba(255, 255, 255, .5);
+}
+
+/* Text */
+.item-title-neplan-what-we-bring {
+    margin: .15rem 0 .35rem;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    font-weight: 900;
+}
+
+.content-neplan-what-we-bring p {
+    margin: 0;
+    line-height: 1.65;
+    color: var(--wwb-muted);
+}
+
+.content-neplan-what-we-bring a {
+    color: var(--wwb-primary2);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(117, 59, 21, 0.25);
+}
+
+.content-neplan-what-we-bring a:hover {
+    border-color: transparent;
+    text-decoration: underline;
+}
+
+/* Closing highlight */
+.closing-neplan-what-we-bring {
+    margin-top: clamp(18px, 1vw, 26px);
+    padding: clamp(12px, 1vw, 16px) clamp(14px, 1.4vw, 18px);
+    /* border: 1px dashed var(--wwb-ring); */
+    border-radius: 14px;
+    background: linear-gradient(180deg, #fff, var(--wwb-soft));
+}
+
+/* Subtle load-in animation */
+.item-neplan-what-we-bring {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: wwbFadeUp .6s ease forwards;
+}
+
+.item-neplan-what-we-bring:nth-child(1) {
+    animation-delay: .02s;
+}
+
+.item-neplan-what-we-bring:nth-child(2) {
+    animation-delay: .08s;
+}
+
+.item-neplan-what-we-bring:nth-child(3) {
+    animation-delay: .14s;
+}
+
+.item-neplan-what-we-bring:nth-child(4) {
+    animation-delay: .20s;
+}
+
+@keyframes wwbFadeUp {
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .item-neplan-what-we-bring {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Reveal on scroll — utility classes */
+.reveal-left,
+.reveal-right,
+.reveal-up,
+.reveal-down {
+    --reveal-distance: 28px;
+    --reveal-duration: .72s;
+    --reveal-ease: cubic-bezier(.22, 1, .36, 1);
+    --reveal-delay: 0ms;
+
+    opacity: 0;
+    will-change: transform, opacity;
+    transition:
+        transform var(--reveal-duration) var(--reveal-ease) var(--reveal-delay),
+        opacity var(--reveal-duration) ease var(--reveal-delay);
+}
+
+/* Start positions */
+.reveal-left {
+    transform: translateX(calc(-1 * var(--reveal-distance)));
+}
+
+.reveal-right {
+    transform: translateX(var(--reveal-distance));
+}
+
+.reveal-up {
+    transform: translateY(var(--reveal-distance));
+}
+
+.reveal-down {
+    transform: translateY(calc(-1 * var(--reveal-distance)));
+}
+
+/* When visible */
+.is-visible {
+    opacity: 1 !important;
+    transform: translateX(0) translateY(0) !important;
+}
+
+/* Nice hover lift (optional) */
+.is-visible:hover {
+    transform: translateY(-3px);
+}
+
+/* Reduced-motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+    .reveal-left,
+    .reveal-right,
+    .reveal-up,
+    .reveal-down {
+        transition: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* =========================================================
+   NEPLAN — Locations (cards)
+   Use with: .neplan-locations-wrap / -grid / -card / etc.
+   ========================================================= */
+:root {
+     
+    --nl-primary: #d34300;
+    /* teal-700  */
+    --nl-primary-2: #751515;
+    /* cyan-800  */
+    --nl-hover: #d34300;
+    --nl-active:  #751515;
+    --nl-text: #0e1b2b;
+    --nl-muted: #5b6472;
+    --nl-ring: rgba(14, 27, 43, .12);
+    --nl-soft: #f6f8fb;
+    --nl-shadow: 0 18px 44px rgba(2, 8, 23, .10);
+    --nl-shadow-lg: 0 26px 60px rgba(2, 8, 23, .16);
+}
+
+/* Wrapper */
+.neplan-locations-wrap {
+    padding: clamp(28px, 6vw, 72px) 16px;
+    background:#ffffff;
+    max-width: 1120px;
+    justify-items: center;
+    align-items: center;
+    color: var(--nl-text);
+}
+
+/* Grid */
+.neplan-locations-grid {
+    display: grid;
+    gap: clamp(14px, 2.4vw, 22px);
+    grid-template-columns: repeat(3, minmax(260px, 1fr));
+    align-items: stretch;
+}
+
+@media (max-width:1024px) {
+    .neplan-locations-grid {
+        grid-template-columns: repeat(2, minmax(260px, 1fr));
+    }
+}
+
+@media (max-width:620px) {
+    .neplan-locations-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Card */
+.neplan-locations-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    background: #fff;
+    border: 1px solid var(--nl-ring);
+    border-radius: 18px;
+    box-shadow: var(--nl-shadow);
+    padding: clamp(16px, 2.2vw, 20px);
+    transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    overflow: hidden;
+}
+
+.neplan-locations-card::before {
+    /* top accent line */
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--nl-primary), var(--nl-primary-2));
+}
+
+.neplan-locations-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--nl-shadow-lg);
+    border-color: color-mix(in oklab, var(--nl-primary) 45%, var(--nl-ring));
+}
+
+/* Header */
+.neplan-locations-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: .25rem;
+}
+
+/* Icon */
+.neplan-locations-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    background: linear-gradient(135deg, var(--nl-primary), var(--nl-primary-2));
+    box-shadow: inset 0 0 0 5px rgba(255, 255, 255, .55);
+}
+
+.neplan-locations-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: #fff;
+    display: block;
+}
+
+/* Title */
+.neplan-locations-title {
+    margin: 0;
+    font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+    font-weight: 900;
+    letter-spacing: .2px;
+    color: var(--nl-text);
+}
+
+/* Body text */
+.neplan-locations-phone,
+.neplan-locations-email,
+.neplan-locations-address {
+    margin: .15rem 0;
+    color: var(--nl-text);
+    line-height: 1.55;
+}
+
+.neplan-locations-email a {
+    color: var(--nl-primary-2);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(117, 61, 21, 0.28);
+}
+
+.neplan-locations-email a:hover {
+    border-color: transparent;
+    text-decoration: underline;
+}
+
+/* Map button */
+.neplan-locations-map {
+    margin-top: .5rem;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    padding: .7rem 1.05rem;
+    border-radius: 999px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 800;
+    border: 2px solid transparent;
+    background: linear-gradient(90deg, var(--nl-primary), var(--nl-primary-2));
+    box-shadow: 0 10px 24px rgba(23, 2, 2, 0.18);
+    transition: transform .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease;
+}
+
+.neplan-locations-map:hover {
+    transform: translateY(-2px);
+    background: var(--nl-hover);
+    border-color: var(--nl-hover);
+}
+
+.neplan-locations-map:active {
+    transform: none;
+    background: var(--nl-active);
+    border-color: var(--nl-active);
+}
+
+/* Subtle separators inside card (optional) */
+.neplan-locations-card p+p {
+    border-top: 1px dashed var(--nl-ring);
+    padding-top: .5rem;
+}
+
+/* Variant accents (optional) */
+.neplan-locations-card--au .neplan-locations-icon {
+    background: linear-gradient(135deg,  #a16207, #f59e0b);
+}
+
+.neplan-locations-card--in .neplan-locations-icon {
+    background: linear-gradient(135deg,  #a16207, #f59e0b);
+}
+
+.neplan-locations-card--fj .neplan-locations-icon {
+    background: linear-gradient(135deg,  #a16207, #f59e0b);
+}
+
+/* Accessibility: reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .neplan-locations-card {
+        transition: none;
+    }
+
+    .neplan-locations-map {
+        transition: none;
+    }
+}
+
+/* Center the locations section and cap width at 1400px */
+.neplan-locations-wrap {
+    width: min(100%, 1220px);
+    max-width: 1220px;
+    /* hard cap */
+    margin-inline: auto;
+    /* centers the block */
+    padding: clamp(28px, 1vw, 32px) 16px;
+    background: #ffffff;
+    color: var(--nl-text);
+    box-sizing: border-box;
+    /* keep padding inside width */
+}
+
+/* (optional) if you previously used justify-items/align-items here,
+   move them to the grid container instead */
+.neplan-locations-grid {
+    justify-items: stretch;
+    align-items: stretch;
+}
+
+/* =========================================
+   NEPLAN — Advantages (7)
+   ========================================= */
+:root {
+   
+    --adv7-primary:  #d34300;
+    --adv7-primary2: #751515;
+    --adv7-text: #0e1b2b;
+    --adv7-muted: #5b6472;
+    --adv7-ring: rgba(14, 27, 43, .12);
+    --adv7-soft: #f6f8fb;
+    --adv7-shadow: 0 18px 44px rgba(2, 8, 23, .10);
+}
+
+.section-neplan-advantages-seven {
+    padding: clamp(28px, 3vw, 72px) 16px;
+    background: #fff;
+    color: var(--adv7-text);
+}
+
+.container-neplan-advantages-seven {
+    width: min(100%, 1120px);
+    margin-inline: auto;
+}
+
+/* Header */
+.eyebrow-neplan-advantages-seven {
+    display: inline-flex;
+    gap: .5rem;
+    align-items: center;
+    font-weight: 800;
+    font-size: .92rem;
+    opacity: .9;
+    margin: 0 0 .5rem;
+}
+
+.eyebrow-neplan-advantages-seven::before {
+    content: "";
+    width: 28px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--adv7-primary), var(--adv7-primary2));
+}
+
+.title-neplan-advantages-seven {
+    margin: 0 0 .6rem;
+    font-size: clamp(1.6rem, 4.6vw, 2.4rem);
+    font-weight: 900;
+    line-height: 1.15;
+}
+
+.intro-neplan-advantages-seven {
+    margin: 0 0 1.2rem;
+    color: var(--adv7-muted);
+    line-height: 1.7;
+}
+
+.intro-neplan-advantages-seven a {
+    color: var(--adv7-primary2);
+    font-weight: 700;
+}
+
+/* Grid of cards */
+.adv-grid-neplan-advantages-seven {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: clamp(16px, 2.4vw, 24px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 1000px) {
+    .adv-grid-neplan-advantages-seven {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 620px) {
+    .adv-grid-neplan-advantages-seven {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Card */
+.adv-card-neplan-advantages-seven {
+    background: linear-gradient(180deg, #fff, var(--adv7-soft));
+    border: 1px solid var(--adv7-ring);
+    border-radius: 16px;
+    padding: clamp(14px, 2vw, 18px);
+    box-shadow: var(--adv7-shadow);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(16px) scale(.985);
+    animation: adv7-fadeUp .7s cubic-bezier(.22, 1, .36, 1) forwards;
+}
+
+.adv-card-neplan-advantages-seven::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--adv7-primary), var(--adv7-primary2));
+}
+
+/* Stagger */
+.adv-card-neplan-advantages-seven:nth-child(1) {
+    animation-delay: .02s;
+}
+
+.adv-card-neplan-advantages-seven:nth-child(2) {
+    animation-delay: .10s;
+}
+
+.adv-card-neplan-advantages-seven:nth-child(3) {
+    animation-delay: .18s;
+}
+
+.adv-card-neplan-advantages-seven:nth-child(4) {
+    animation-delay: .26s;
+}
+
+.adv-card-neplan-advantages-seven:nth-child(5) {
+    animation-delay: .34s;
+}
+
+.adv-card-neplan-advantages-seven:nth-child(6) {
+    animation-delay: .42s;
+}
+
+.adv-card-neplan-advantages-seven:nth-child(7) {
+    animation-delay: .50s;
+}
+
+@keyframes adv7-fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(16px) scale(.985);
+    }
+
+    60% {
+        opacity: 1;
+        transform: translateY(0) scale(1.01);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* inside card */
+.adv-top-neplan-advantages-seven {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    margin-bottom: .35rem;
+}
+
+.adv-num-neplan-advantages-seven {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    color: #fff;
+    background: linear-gradient(135deg, var(--adv7-primary), var(--adv7-primary2));
+    box-shadow: inset 0 0 0 4px rgba(255, 255, 255, .5);
+}
+
+.adv-head-neplan-advantages-seven {
+    margin: 0;
+    font-size: clamp(1.02rem, 1.6vw, 1.22rem);
+    font-weight: 900;
+}
+
+.adv-card-neplan-advantages-seven p {
+    margin: 0;
+    line-height: 1.65;
+    color: var(--adv7-muted);
+}
+
+.adv-card-neplan-advantages-seven a {
+    color: var(--adv7-primary2);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(21, 94, 117, .28);
+}
+
+.adv-card-neplan-advantages-seven a:hover {
+    border-color: transparent;
+    text-decoration: underline;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .adv-card-neplan-advantages-seven {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+
+/* ========== Center the 7th advantage card ========== */
+
+/* Desktop (3 columns): put #7 in the middle column */
+@media (min-width: 1001px){
+  .adv-grid-neplan-advantages-seven
+  > .adv-card-neplan-advantages-seven:nth-child(7){
+    grid-column: 2;               /* middle column */
+  }
+}
+
+/* Tablet (2 columns): make #7 span both and center it */
+@media (max-width: 1000px) and (min-width: 621px){
+  .adv-grid-neplan-advantages-seven
+  > .adv-card-neplan-advantages-seven:nth-child(7){
+    grid-column: 1 / -1;          /* span both columns */
+    justify-self: center;         /* center within the row */
+    max-width: clamp(420px, 70%, 620px);
+  }
+}
+
+/* Mobile (1 column): no change needed; it’s naturally centered */

@@ -79,28 +79,7 @@ a {
 .nav {
   height: var(--header-height);
 }
-.nav__logo1{
-  color: var(--white-color);
-}
-.nav__logo1 {
-  display: inline-flex;
-  align-items: center;
-  column-gap: .40rem;
-  font-weight: var(--font-semi-bold);
-  /* Color highlighting when pressed on mobile devices */
-  /*-webkit-tap-highlight-color: transparent;*/
-}
 
-.nav__logo1 i {
-  font-weight: initial;
-  font-size: 1.25rem;
-}
-.nav__logo1 img {
-    width: 150px; /* Adjust the width as needed */
-    height: auto; /* Maintain aspect ratio */
-    padding-left: 20px;
-    margin-left: 20px;
-}
 .nav__logo, 
 .nav__burger, 
 .nav__close {
@@ -426,6 +405,8 @@ a {
     justify-content: space-between;
     gap: .5rem;
 }
+
+
 .solutions-dropdown {
     position: relative;
     z-index: 2000;
@@ -479,490 +460,434 @@ a {
     margin-top: 1rem;
     display: inline-block;
 }
-/***** RESPONSIVE ENHANCEMENTS — PASTE AFTER YOUR EXISTING CSS *****/
-
-/* iOS safe area & subtle stacking */
-.header {
-  padding-top: env(safe-area-inset-top);
+/*=============== DROPDOWN ===============*/
+.dropdown__item {
+  position: relative;
+  /* Remove max-width here if it's restricting the container */
+  /* max-width: 1000px; */ 
 }
 
-/* Improve focus for keyboard users */
-.nav__link:focus,
-.dropdown__link:focus,
-.dropdown__sublink:focus,
-.book-demo-btn:focus {
-  outline: 2px solid rgba(255,255,255,.6);
-  outline-offset: 2px;
+.dropdown__menu {
+  /* This is the key change for the width */
+  min-width: 300px; /* Adjust this value to your desired width */
+  max-width: 500px; /* Optional: Set a max-width to prevent it from becoming too wide */
+  
+  /* Keep your original dropdown menu positioning and styling */
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%); /* This centers the dropdown relative to the parent */
+  
+  /* Basic styling for the dropdown menu */
+  background-color: var(--black-color);
+  box-shadow: 0 8px 16px hsla(220, 32%, 8%, .3);
+  z-index: var(--z-fixed);
+  
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease-out;
 }
 
-/* Touch devices: rely on .active class, not hover */
-@media (hover: none) {
-  .dropdown__item:hover .dropdown__menu,
-  .dropdown__subitem:hover > .dropdown__submenu,
-  .dropdown__item:hover .dropdown__arrow {
-    /* neutralize hover-only behavior on touch */
-    opacity: initial;
-    pointer-events: none;
-    transform: none;
-  }
-
-  .dropdown__item.active .dropdown__menu,
-  .dropdown__item.active .solutions-menu {
-    display: block !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
+/* Ensure these styles are kept for the links inside the dropdown */
+.dropdown__link, 
+.dropdown__sublink {
+  padding: 12px;
+  color: var(--white-color);
+  background-color: var(--black-color-light);
+  display: flex;
+  align-items: center;
+  column-gap: .5rem;
+  font-weight: var(--font-semi-bold);
+  transition: background-color .3s;
 }
 
-/* ---------- XL & DESKTOP POLISH ---------- */
-@media screen and (min-width: 1280px) {
-  .nav.container {
-    max-width: 1280px;
-    padding: 0 1.25rem;
-  }
-  /* Mega menu alignment on wide screens */
-  .solutions-dropdown .solutions-menu {
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(1000px, 85vw);
-  }
+/* On hover, make the menu visible and centered */
+.dropdown__item:hover .dropdown__menu {
+  max-height: 1000px; /* Use a large number to show all content */
+  transition: max-height .4s ease-in;
 }
 
-@media screen and (min-width: 1536px) {
-  .nav.container {
-    max-width: 1400px;
-  }
-  .solutions-dropdown .solutions-menu {
-    width: 1000px;
-  }
-}
-
-/* ---------- TABLET LANDSCAPE (<= 1118px already has base rules) ---------- */
-@media screen and (max-width: 1118px) {
-  /* Make the mobile menu a fixed, scrollable drawer under the header */
-  .nav__menu {
-    position: fixed;
-    top: var(--header-height);
-    left: 0;
-    width: 100%;
-    height: calc(100vh - var(--header-height));
-    background-color: var(--black-color);
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity .25s ease, transform .25s ease;
-  }
-
-  /* When menu is shown */
-  .show-menu {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  /* Keep container spacing inside the drawer */
-  .nav__list {
-    padding: .5rem 0 2rem;
-  }
-
-  /* Scale down logos a bit */
-  .nav__logo img,
-  .nav__logo1 img {
-    width: 130px;
-  }
-
-  /* Mega menu stacks vertically inside the drawer */
-  .dropdown__menu,
-  .solutions-menu {
-    position: static;
-    top: auto;
-    left: auto;
-    transform: none;
-    width: 100%;
-    max-width: none;
-    opacity: 1;
-    pointer-events: auto;
-    box-shadow: none;
-    border-radius: 0;
-    padding: .25rem 1rem;
-    display: none; /* only visible when .active is applied */
-  }
-
-  .dropdown__item.active .dropdown__menu,
-  .dropdown__item.active .solutions-menu {
-    display: block !important;
-    max-height: none;
-  }
-
-  .solutions-menu {
-    display: none;
-    flex-direction: column;
-    gap: .25rem;
-    padding: .75rem 1rem 1rem;
-    background: var(--black-color);
-  }
-
-  .solution-column {
-    min-width: auto;
-    flex: 1 1 auto;
-    margin-bottom: .5rem;
-  }
-
-  .solution-column h4 {
-    color: #cfcfcf;
-    margin: .75rem 0 .25rem;
-  }
-
-  .solution-column .dropdown__link {
-    color: var(--white-color);
-    padding: .5rem 0;
-  }
-
-  /* Larger tap targets inside the drawer */
-  .nav__link {
-    padding: 1rem 1.25rem;
-  }
-
-  /* Demo button spans width on mobile drawer */
-  .book-demo-btn {
-    display: block;
-    width: calc(100% - 2rem);
-    margin: 1rem auto 2rem;
-    justify-content: center;
-  }
-}
-
-/* ---------- TABLET PORTRAIT ---------- */
-@media screen and (max-width: 992px) {
-  .nav.container {
-    padding: 0 .75rem;
-  }
-  .nav__logo img,
-  .nav__logo1 img {
-    width: 120px;
-  }
-  .dropdown__link,
-  .dropdown__sublink {
-    padding: .75rem 0;
-  }
-}
-
-/* ---------- LARGE PHONES ---------- */
-@media screen and (max-width: 768px) {
-  .nav.container {
-    padding: 0 .75rem;
-  }
-  .nav__logo img,
-  .nav__logo1 img {
-    width: 112px;
-  }
-  .nav__toggle {
-    width: 36px;
-    height: 36px;
-  }
-  .nav__burger,
-  .nav__close {
-    font-size: 1.35rem;
-  }
-}
-
-/* ---------- MEDIUM PHONES ---------- */
-@media screen and (max-width: 576px) {
-  .nav__logo img,
-  .nav__logo1 img {
-    width: 105px;
-  }
-  .nav__link {
-    padding: .9rem 1rem;
-  }
-  .solutions-menu {
-    padding: .5rem 1rem 1rem;
-  }
-}
-
-/* ---------- SMALL PHONES ---------- */
-@media screen and (max-width: 420px) {
-  .nav__logo img,
-  .nav__logo1 img {
-    width: 96px;
-  }
-  .nav__link {
-    padding: .8rem .9rem;
-  }
-  .book-demo-btn {
-    font-size: 15px;
-    padding: 10px 12px;
-    border-radius: 12px;
-  }
-}
-
-/* ---------- VERY SMALL PHONES ---------- */
-@media screen and (max-width: 360px) {
-  .nav__logo img,
-  .nav__logo1 img {
-    width: 90px;
-  }
-  .nav__link {
-    padding: .7rem .8rem;
-  }
-  .solution-column h4 {
-    font-size: 13px;
-  }
-}
-
-/* ---------- DESKTOP HOVER MENUS STABILITY ---------- */
+/*
+For large devices (desktop)
+This section is important for the desktop view, as it overrides the mobile styles.
+*/
 @media screen and (min-width: 1118px) {
-  /* Keep your existing desktop dropdown behavior, just refine position & visibility */
-  .dropdown__menu,
-  .dropdown__submenu {
-    will-change: opacity, top;
-  }
+  .dropdown__menu {
+    /* Set the desired width for desktop */
+    min-width: 300px;
+    max-width: 500px; /* Keeps the max-width for consistency */
 
-  /* Ensure Solutions mega menu looks crisp on desktop */
-  .solutions-dropdown .solutions-menu {
-    display: flex;
-    gap: 1rem;
-    padding: 1.25rem 1.5rem;
-    background: #fff;
-    color: #000;
-  }
+    /* Position the dropdown below the parent link */
+    top: 6rem;
+    left: 50%; /* Center it again */
+    transform: translateX(-50%); /* Centering transform */
 
-  .solutions-dropdown .solution-column .dropdown__link {
-    color: #000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s, top .3s;
+  }
+  
+  /* Show dropdown menu on hover */
+  .dropdown__item:hover .dropdown__menu {
+    opacity: 1;
+    top: 5.5rem; /* Adjust this value to position it below the nav link */
+    pointer-events: initial;
+    transition: top .3s;
   }
 }
-/* ===== FIX: Mobile/Tablet dropdown behavior (paste AFTER your CSS) ===== */
+
+/* Ensure mobile menu layers above content and is clickable */
 @media screen and (max-width: 1118px) {
-  /* Make the drawer solid and scrollable */
   .nav__menu {
-    position: fixed;
-    top: var(--header-height);
-    left: 0;
+    z-index: 1001;            /* higher than header shadow */
+    pointer-events: none;     /* default blocked */
+  }
+  .show-menu {
+    pointer-events: auto;     /* clickable when open */
+  }
+}
+
+/* Swap burger/close icons when nav has .show-icon */
+.show-icon .nav__burger { opacity: 0; transform: rotate(90deg); }
+.show-icon .nav__close  { opacity: 1; transform: rotate(90deg); }
+
+/* Optional: prevent background scroll when menu is open */
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* (Safety) Make the toggle button sit above the sliding panel */
+.nav__toggle { z-index: 1002; }
+
+/* (Optional) Give the mobile panel a solid background so it’s obvious */
+@media screen and (max-width: 1118px) {
+  .nav__list { background-color: var(--black-color); }
+}
+
+
+/* ===== Base ===== */
+:root{
+  --ink: #0b1220;
+  --muted: #6b7a8c;
+  --bg: #ffffff;
+
+  --teal: #0f766e;
+  --teal-dark: #155e75;
+
+  --card-border: rgba(11, 18, 32, 0.10);
+  --shadow: 0 10px 30px rgba(0,0,0,.08);
+
+  --container: 1200px;
+}
+
+.ieng-container{
+  width: min(92vw, var(--container));
+  margin-inline: auto;
+}
+
+/* ===== Sections 1 & 2 ===== */
+.ieng-info-section{
+  background: var(--bg);
+  padding: 28px 0;
+}
+
+.ieng-mini-title{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.ieng-mini-line{
+  width: 34px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--teal), var(--teal-dark));
+}
+
+.ieng-info-text{
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 1050px;
+}
+
+/* ===== Locations ===== */
+.ieng-locations{
+  background: var(--bg);
+  padding: 18px 0 46px;
+}
+
+.ieng-loc-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  align-items: stretch;
+}
+
+.ieng-loc-card{
+  background: #fff;
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+}
+
+.ieng-loc-head{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.ieng-loc-title{
+  margin: 0;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.ieng-loc-icon{
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: #0b1220;
+}
+
+/* icon color blocks */
+.ieng-loc-card--au .ieng-loc-icon{ background: rgba(59,130,246,.25); }
+.ieng-loc-card--in .ieng-loc-icon{ background: rgba(245,158,11,.28); }
+.ieng-loc-card--fj .ieng-loc-icon{ background: rgba(16,185,129,.25); }
+
+.ieng-loc-row{
+  margin: 10px 0 0;
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.ieng-loc-row a{
+  color: #1d4ed8;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ieng-loc-address{
+  margin: 12px 0 16px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* button */
+.ieng-loc-btn{
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--teal-dark);
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform .2s ease, filter .2s ease;
+}
+
+.ieng-loc-btn:hover{
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 980px){
+  .ieng-loc-grid{ grid-template-columns: 1fr; }
+  .ieng-loc-card{ min-height: auto; }
+}
+
+
+/* ===== HERO IMAGE: fix mobile cropping + make desktop a bit larger ===== */
+
+/* Make the hero media/card slightly bigger on web */
+.bo-hero-media { width: 100%; }
+.bo-hero-card  { width: 100%; max-width: 720px; margin-left: auto; }
+
+/* Control the image box */
+.bo-hero-image-wrap{
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #f3f6fb;            /* shows behind image if contain adds letterbox */
+  aspect-ratio: 16 / 9;            /* consistent look on desktop */
+}
+
+/* Default (desktop/web): fill nicely */
+.bo-hero-image-wrap img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;               /* nice look on desktop */
+  object-position: center;
+}
+
+/* MOBILE: show FULL image (no cropping) */
+@media (max-width: 768px){
+  .bo-hero-card { max-width: 520px; margin-inline: auto; }
+
+  .bo-hero-image-wrap{
+    aspect-ratio: 4 / 3;           /* a bit taller on mobile */
+  }
+
+  .bo-hero-image-wrap img{
+    object-fit: contain;           /* IMPORTANT: stops cropping */
+  }
+}
+
+/* ===== HERO IMAGE: STOP CROPPING (MOBILE + WEB) ===== */
+
+/* Let the wrapper size naturally (no forced height/ratio) */
+.bo-hero-image-wrap{
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #f3f6fb;   /* shows if image doesn't fill */
+}
+
+/* Show full image (no crop) */
+.bo-hero-image-wrap img{
+  display: block;
+  width: 100%;
+  height: auto;          /* IMPORTANT */
+  object-fit: contain;   /* safety if any height is applied elsewhere */
+  object-position: center;
+}
+
+/* Slightly bigger hero card on web */
+@media (min-width: 1024px){
+  .bo-hero-card{
+    max-width: 860px;    /* increase size */
+    margin-left: auto;
+  }
+}
+
+
+/* ===== FIX GAP BETWEEN FIXED HEADER AND HERO ===== */
+:root { --header-offset: 3.5rem; }          /* mobile header height */
+@media (min-width: 1118px){
+  :root { --header-offset: 5.5rem; }        /* desktop header height (3.5rem + 2rem) */
+}
+
+/* Remove any extra spacing added elsewhere */
+.bo-hero{
+  margin-top: 0 !important;
+  padding-top: calc(var(--header-offset) + 10px) !important; /* small breathing space */
+}/* =========================================================
+   FIX: header gap + responsive hero/overview images
+   (paste at END of your CSS so it overrides everything)
+========================================================= */
+
+/* 1) Correct offset for your fixed header (mobile + desktop) */
+:root{
+  --header-offset: var(--header-height); /* 3.5rem */
+}
+@media (min-width: 1118px){
+  :root{
+    /* your desktop nav height = header-height + 2rem */
+    --header-offset: calc(var(--header-height) + 2rem);
+  }
+}
+
+/* Remove the visible gap (usually caused by extra padding/margin on hero) */
+.bo-hero{
+  margin-top: 0 !important;
+  padding-top: calc(var(--header-offset) + 8px) !important; /* small breathing room */
+}
+
+/* If any parent adds spacing above the hero content, kill it */
+.bo-hero .bo-container,
+.bo-hero .bo-hero-inner{
+  margin-top: 0 !important;
+}
+
+/* 2) HERO IMAGE: prevent weird cropping on mobile, make a bit bigger on web */
+.bo-hero-card{
+  width: 100%;
+}
+
+.bo-hero-image-wrap{
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #eef2f6;
+  aspect-ratio: 16 / 9;              /* keeps image stable in web view */
+}
+
+/* Desktop/web: slightly taller/bigger feel */
+@media (min-width: 1118px){
+  .bo-hero-image-wrap{
+    aspect-ratio: 15 / 8;            /* a touch taller than 16:9 */
+  }
+}
+
+.bo-hero-image-wrap img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;                 /* web view looks clean */
+  object-position: center;
+}
+
+/* Mobile: show full image (no aggressive crop) */
+@media (max-width: 640px){
+  .bo-hero-image-wrap{
+    aspect-ratio: 4 / 3;             /* gives more height so it doesn’t feel cropped */
+  }
+  .bo-hero-image-wrap img{
+    object-fit: contain;             /* prevents cutting the boiler image */
+    background: #eef2f6;             /* keeps it nice if there are side gaps */
+  }
+}
+
+/* 3) OVERVIEW (“What we provide”) image: center align + increase size */
+.bo-overview-grid{
+  align-items: center !important;     /* vertical centering with the left text */
+}
+
+.bo-overview-media{
+  display: flex;
+  align-items: center;
+  justify-content: center;            /* keeps it centered in its column */
+}
+
+.bo-overview-image-wrap{
+  width: min(560px, 100%);            /* increases size but stays responsive */
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 18px;
+  margin: 0;
+}
+
+.bo-overview-image-wrap img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Mobile stacking safety */
+@media (max-width: 980px){
+  .bo-overview-image-wrap{
     width: 100%;
-    height: calc(100vh - var(--header-height));
-    background: var(--black-color); /* uses your var (white in your map) */
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* Neutralize ALL hover-driven opens on small screens */
-  .dropdown__item:hover .dropdown__menu,
-  .dropdown__subitem:hover > .dropdown__submenu {
-    max-height: 0 !important;
-    opacity: 1 !important;
-    pointer-events: none !important;
-  }
-
-  /* Force in-drawer layout for all submenus */
-  .dropdown__menu,
-  .dropdown__submenu,
-  .solutions-menu {
-    position: static !important;
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
-    display: none;                 /* hidden until .active */
-    max-height: none !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    width: 100% !important;
-    background: var(--black-color); /* match drawer background */
-    padding: .5rem 1rem !important;
-  }
-
-  /* Show when toggled via JS (.active on the parent item) */
-  .dropdown__item.active > .dropdown__menu,
-  .dropdown__item.active > .solutions-menu,
-  .dropdown__subitem.active > .dropdown__submenu {
-    display: block !important;
-  }
-
-  /* Spacing & readable tap targets */
-  .nav__link { padding: 1rem 1.25rem; }
-  .solution-column { min-width: 0; margin-bottom: .5rem; }
-  .solution-column h4 { color: #8a8a8a; margin: .5rem 0 .25rem; }
-  .solution-column .dropdown__link { color: var(--white-color); padding: .5rem 0; }
-}
-/* --- Mobile dropdown fix: disable hover-open, use .active instead --- */
-@media screen and (max-width: 1118px) {
-  /* Neutralize hover behavior that creates the tiny floating panel */
-  .dropdown__item:hover .dropdown__menu,
-  .dropdown__subitem:hover > .dropdown__submenu {
-    max-height: 0 !important;
-    opacity: 1 !important;
-    pointer-events: none !important;
-  }
-
-  /* Force in-drawer layout */
-  .dropdown__menu,
-  .solutions-menu,
-  .dropdown__submenu {
-    position: static !important;
-    left: auto !important;
-    top: auto !important;
-    transform: none !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    width: 100% !important;
-    display: none;                /* hidden until parent is .active */
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-
-  /* Show when toggled by JS */
-  .dropdown__item.active > .dropdown__menu,
-  .dropdown__item.active > .solutions-menu,
-  .dropdown__subitem.active > .dropdown__submenu {
-    display: block !important;
-  }
-}
-
-/* --- Mobile accordion: hide all dropdowns by default, show only when .active --- */
-@media screen and (max-width: 1118px) {
-  /* Kill hover-open on touch */
-  .dropdown__item:hover .dropdown__menu,
-  .dropdown__subitem:hover > .dropdown__submenu {
-    max-height: 0 !important;
-    opacity: 1 !important;
-    pointer-events: none !important;
-  }
-
-  /* Force in-drawer layout + collapsed by default */
-  .dropdown__menu,
-  .solutions-menu,
-  .dropdown__submenu {
-    position: static !important;
-    left: auto !important;
-    top: auto !important;
-    transform: none !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    width: 100% !important;
-    display: none !important;      /* collapsed */
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-
-  /* Expand ONLY the tapped parent */
-  .dropdown__item.active > .dropdown__menu,
-  .dropdown__item.active > .solutions-menu,
-  .dropdown__subitem.active > .dropdown__submenu {
-    display: block !important;
-  }
-
-  /* Arrow rotates when open */
-  .dropdown__item.active > .nav__link .dropdown__arrow {
-    transform: rotate(180deg);
-    transition: transform .25s ease;
-  }
-}
-
-/* === MOBILE DROPDOWN FIX + REMOVE RIGHT GUTTER === */
-@media screen and (max-width: 1118px) {
-  /* Remove container side margins so the drawer is full width */
-  .container,
-  .nav.container {
-    margin-inline: 0 !important;
-    width: 100% !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  /* Make the drawer full-bleed, scrollable */
-  .nav__menu {
-    position: fixed !important;
-    top: var(--header-height) !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    height: calc(100vh - var(--header-height)) !important;
-    overflow: auto !important;
-    -webkit-overflow-scrolling: touch;
-    background: var(--black-color); /* your palette = white */
-  }
-
-  /* Kill hover-open on touch */
-  .dropdown__item:hover .dropdown__menu,
-  .dropdown__subitem:hover > .dropdown__submenu {
-    max-height: 0 !important;
-    pointer-events: none !important;
-  }
-
-  /* In-drawer layout; keep COLLAPSED by default */
-  .dropdown__menu,
-  .solutions-menu,
-  .dropdown__submenu {
-    position: static !important;
-    left: auto !important;
-    top: auto !important;
-    transform: none !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    width: 100% !important;
-    display: none !important;     /* collapsed */
-    /* >>> Fix blank submenu: remove old constraints <<< */
-    max-height: none !important;
-    overflow: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    background: var(--black-color); /* white in your map */
-    padding: .5rem 1rem !important;
-  }
-
-  /* Show ONLY the tapped parent */
-  .dropdown__item.active > .dropdown__menu,
-  .dropdown__item.active > .solutions-menu,
-  .dropdown__subitem.active > .dropdown__submenu {
-    display: block !important;
-  }
-
-  /* Rotate arrow when open */
-  .dropdown__item.active > .nav__link .dropdown__arrow {
-    transform: rotate(180deg);
-    transition: transform .25s ease;
-  }
-
-  /* Neater spacing for links in the drawer */
-  .nav__link { padding: 1rem 1.25rem; }
-  .dropdown__link, .dropdown__sublink { padding: .6rem 0; }
-}
-/* === FIX: mobile drawer flush to edges, no right gap === */
-@media (max-width: 991px){
-  html, body { overflow-x: hidden; }
-
-  /* Make the slide-down menu span the full viewport width */
-  .nav__menu{
-    left: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
-    margin: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    border-left: 0 !important;
-    border-right: 0 !important;
-  }
-
-  /* Ensure list/content doesn’t create side gutters */
-  .nav__list{
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-  .nav__link{
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-    border-left: 0 !important;
-    border-right: 0 !important;
-  }
-
-  /* Submenus (including Solutions) align with the drawer edges */
-  .dropdown__menu,
-  .dropdown__menu.solutions-menu{
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-left: .75rem !important;
-    padding-right: .75rem !important;
-    border-radius: 0 !important;
+    aspect-ratio: 16 / 9;
   }
 }

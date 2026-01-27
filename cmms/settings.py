@@ -22,12 +22,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-tpzqxw&&@03wq2yzgf!gzh6u2=044s2j+_!#jioe(#f^6%quzo'
  
+ 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
- 
-ALLOWED_HOSTS = ['*']
+DEBUG = True  # keep false on server, true locally if needed
  
  
+ALLOWED_HOSTS = ["boiler.ieng.tech", ".ieng.tech","*", "*"]
+ 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+ 
+ 
+CSRF_TRUSTED_ORIGINS = ["https://*.ieng.tech"]
 # Application definition
  
 INSTALLED_APPS = [
@@ -41,14 +46,15 @@ INSTALLED_APPS = [
 ]
  
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # add here
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+ 
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
  
 ROOT_URLCONF = 'cmms.urls'
@@ -128,7 +134,7 @@ MEDIA_ROOT = BASE_DIR / "media"
  
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Where to store the Excel (optional)
-CONTACT_SUBMISSIONS_XLSX = BASE_DIR / "contact_submissions.xlsx"
+# CONTACT_SUBMISSIONS_XLSX = BASE_DIR / "contact_submissions.xlsx"
  
 # Email (configure to your provider)
  
@@ -142,9 +148,10 @@ EMAIL_HOST_PASSWORD = 'test@iEng'  # Your email password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 CONTACT_RECIPIENTS = [
     "shila@iengaust.com.au",
-    "enquiries@iengaust.com.au"
+    "enquiries@iengaust.com.au",
+    "test@ieng.tech",
 ]
-CONTACT_RECIPIENTS = ["shila@iengaust.com.au","enquiries@iengaust.com.au"]
+CONTACT_RECIPIENTS = ["shila@iengaust.com.au","enquiries@iengaust.com.au","test@ieng.tech"]
 DEMO_RECIPIENTS = CONTACT_RECIPIENTS
  
 # CONTACT_EMAIL = 'diksha@iengaust.com.au'
