@@ -123,13 +123,14 @@ body {
 }
 
 .bo-btn-primary {
-  background: linear-gradient(135deg, #0f766e, #155e75);
+  background: #0f766e;
   color: #ffffff;
   box-shadow: var(--bo-shadow-soft);
 }
 
 .bo-btn-primary:hover {
   transform: translateY(-2px);
+  background: #0d5f5a;
 }
 
 .bo-btn-ghost {

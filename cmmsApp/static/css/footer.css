@@ -85,17 +85,28 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  text-align: left;            /* text inside left aligned */
+  text-align: center;            /* center aligned */
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .footer-links li {
-  margin: 4px 0;
+  margin: 0;
 }
 
 .footer-links a {
   color: #fff;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 20px;
+  transition: color 0.3s ease, transform 0.3s ease;
+  display: inline-block;
+}
+
+.footer-links a:hover {
+  color: #0f766e;
+  transform: translateY(-2px);
 }
 
 /* -------- BOTTOM ROW -------- */

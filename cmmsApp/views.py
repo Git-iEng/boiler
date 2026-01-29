@@ -145,7 +145,7 @@ def request_demo_view(request):
 
     # Build email
     ts = timezone.now().strftime("%Y-%m-%d %H:%M:%S %Z")
-    subject = "New CARL Demo Request"
+    subject = "New Boiler Inquiry"
     text_body = (
         "A new CARL demo request was submitted.\n\n"
         f"Submitted: {ts}\n"

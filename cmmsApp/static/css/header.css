@@ -676,9 +676,15 @@ This section is important for the desktop view, as it overrides the mobile style
 }
 
 .ieng-loc-row a{
-  color: #1d4ed8;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  color: #0f766e;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.ieng-loc-row a:hover{
+  color: #0d5f5a;
+  opacity: 0.8;
 }
 
 .ieng-loc-address{
