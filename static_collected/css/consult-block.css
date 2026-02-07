@@ -80,8 +80,8 @@
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  border: 2px solid #e6eaee;
-  color: #0a2430;
+  border: 2px solid #0f766e;
+  color: #0f766e;
   text-decoration: none;
   padding: .7rem 1rem;
   border-radius: 12px;
@@ -92,8 +92,8 @@
 
 .consult-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(2, 8, 23, .08);
-  background-color: #0b2326;
+  box-shadow: 0 10px 24px rgba(15, 118, 110, .2);
+  background-color: #0f766e;
   color: #ffffff;
 }
 
@@ -194,7 +194,7 @@
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  background: #c14300 !important;
+  background: #0f766e !important;
   color: #ffffff !important;
   padding: .9rem 1rem;
   border-radius: 12px;
@@ -206,7 +206,7 @@
 
 .consult-send:hover {
   transform: translateY(-2px);
-  background: rgb(1, 98, 177) !important;
+  background: #0d5f5a !important;
 }
 
 /* spinner inside button */
