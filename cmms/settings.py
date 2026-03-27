@@ -35,7 +35,7 @@ else:
     SESSION_COOKIE_SECURE = True
 
 
-ALLOWED_HOSTS = ["boiler.ieng.tech", ".ieng.tech","*"]
+ALLOWED_HOSTS = ["boiler.ieng.tech", ".ieng.tech"]
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 CSRF_TRUSTED_ORIGINS = ["https://*.ieng.tech"]
