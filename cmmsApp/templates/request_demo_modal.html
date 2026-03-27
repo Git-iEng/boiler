@@ -1,4 +1,24 @@
 {% load static %}
+
+<style>
+.form-captcha{
+  width: 100%;
+  margin: 15px 0 20px;
+}
+
+.form-captcha .g-recaptcha{
+  background: #fff;
+  border-radius: 10px;
+}
+
+@media (max-width: 480px){
+  .form-captcha .g-recaptcha{
+    transform: scale(0.92);
+    transform-origin: left top;
+  }
+}
+</style>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 <!-- Request Demo Modal -->
@@ -60,6 +80,11 @@
         Your privacy is important to us. We’ll only use your information to communicate about Boilers.
       </p>
 
+      <div class="form-captcha">
+    <div class="g-recaptcha" data-sitekey="{{ RECAPTCHA_SITE_KEY }}"></div>
+</div>
+
+
       <div class="modal__footer">
   <button class="btn-submit" id="submitBtn" type="submit" form="demoForm">
     <span class="btn-label">Submit</span>
@@ -73,3 +98,5 @@
   </div>
 </div>
 <div id="cmmsToastRoot" class="cmms-toast-wrap" aria-live="polite" aria-atomic="true"></div>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>

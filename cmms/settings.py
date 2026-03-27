@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-tpzqxw&&@03wq2yzgf!gzh6u2=044s2j+_!#jioe(#f^6%quzo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
     SECURE_SSL_REDIRECT = False
@@ -154,11 +154,12 @@ EMAIL_HOST_USER = 'test@ieng.tech'  # Your email address
 EMAIL_HOST_PASSWORD = 'test@iEng'  # Your email password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 CONTACT_RECIPIENTS = [
-    "shila@iengaust.com.au",
-   "enquiries@iengaust.com.au",
-   "test@ieng.tech",
+        "shila@iengaust.com.au",
+    "amar@iengaust.com.au",
+    "kushankur@iengaust.com.au"
 ]
-CONTACT_RECIPIENTS = ["shila@iengaust.com.au","enquiries@iengaust.com.au", "test@ieng.tech"]
+CONTACT_RECIPIENTS = ["shila@iengaust.com.au","amar@iengaust.com.au", "kushankur@iengaust.com.au"]
+
 DEMO_RECIPIENTS = CONTACT_RECIPIENTS
 
 # CONTACT_EMAIL = 'diksha@iengaust.com.au'
@@ -170,3 +171,6 @@ EMAIL_TIMEOUT = 15
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
+
+RECAPTCHA_SITE_KEY = "6LdJgJgsAAAAACrJJ-nuo1Iw2sBxiKpTWADZ5stZ"
+RECAPTCHA_SECRET_KEY = "6LdJgJgsAAAAAMtKmtGv8pLZ3y7pvxV0UAe7Sx10"

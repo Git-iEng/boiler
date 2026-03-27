@@ -1,5 +1,25 @@
 {% load static %}
 
+<style>
+.form-captcha{
+  width: 100%;
+  margin: 15px 0 20px;
+}
+
+.form-captcha .g-recaptcha{
+  background: #fff;
+  border-radius: 10px;
+}
+
+@media (max-width: 480px){
+  .form-captcha .g-recaptcha{
+    transform: scale(0.92);
+    transform-origin: left top;
+  }
+}
+</style>
+
+
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -68,6 +88,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                 <textarea name="message" rows="2" placeholder="Your Message (optional)"></textarea>
 
+                <div class="form-captcha">
+    <div class="g-recaptcha" data-sitekey="{{ RECAPTCHA_SITE_KEY }}"></div>
+</div>
+<br>
+
                 <button id="consult-submit" class="consult-send btn-primary-solar-system" type="submit">
                     <span class="label">Send Message</span>
                     <span class="spinner" aria-hidden="true"></span>
@@ -81,6 +106,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
    Uses a tiny JSON endpoint provided below. Remove if you prefer only server-side logic.  -->
 <!-- Global top-of-page toast -->
 <div id="global-toast" class="global-toast" role="status" aria-live="polite"></div>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
 (function(){
   const toastEl = document.getElementById('global-toast');

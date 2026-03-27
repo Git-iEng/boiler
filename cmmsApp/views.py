@@ -12,6 +12,9 @@ from django.core import signing
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.contrib.staticfiles import finders
 
+import requests
+from django.conf import settings
+
 from threading import Thread
 from pathlib import Path
 import mimetypes
@@ -74,6 +77,12 @@ def _send_contact_email_async(subject: str, text_body: str, html_body: str | Non
 def request_demo_view(request):
     if request.method != "POST":
         return redirect("/")
+    
+    # CAPTCHA check
+    if not verify_recaptcha(request):
+        messages.error(request, "Please complete the CAPTCHA.")
+        return redirect(request.META.get("HTTP_REFERER", "/"))
+
 
     # detect ajax/fetch
 
@@ -159,13 +168,19 @@ def request_demo_view(request):
 
 
 def home(request):
-    return render(request, "index.html")
+    return render(request, "index.html", {
+"RECAPTCHA_SITE_KEY": settings.RECAPTCHA_SITE_KEY
+})
+
 
 
 def request_demo(request):
     return render(request, "request_demo_modal.html")
 
-def contact(request):     return render(request, "contact.html")
+def contact(request):     
+    return render(request, "contact.html", {
+        "RECAPTCHA_SITE_KEY": settings.RECAPTCHA_SITE_KEY
+    })
 
 
 def sitemap(request):
@@ -280,6 +295,12 @@ def contact_block_submit(request):
     """
     if request.method != "POST":
         return redirect(request.META.get("HTTP_REFERER", "/"))
+    
+    # CAPTCHA check
+    if not verify_recaptcha(request):
+        messages.error(request, "Please complete the CAPTCHA.")
+        return redirect(request.META.get("HTTP_REFERER", "/"))
+
 
     name    = (request.POST.get("name")    or "").strip()
     email   = (request.POST.get("email")   or "").strip()
@@ -351,3 +372,28 @@ def country_list(request):
   return JsonResponse(data, safe=False)
 def contact_thanks(request):
     return render(request, "contact_thanks.html", {})
+
+
+def verify_recaptcha(request):
+    captcha_response = (request.POST.get("g-recaptcha-response") or "").strip()
+    print("captcha_response:", captcha_response)
+    print("captcha length:", len(captcha_response) if captcha_response else 0)
+    if not captcha_response:
+        print("reCAPTCHA failed: no captcha response")
+        return False
+    data = {
+        "secret": settings.RECAPTCHA_SECRET_KEY,
+        "response": captcha_response,
+    }
+    try:
+        response = requests.post(
+            "https://www.google.com/recaptcha/api/siteverify",
+            data=data,
+            timeout=10
+        )
+        result = response.json()
+        print("reCAPTCHA result:", result)
+        return result.get("success", False)
+    except requests.RequestException as e:
+        print("reCAPTCHA request error:", str(e))
+        return False
