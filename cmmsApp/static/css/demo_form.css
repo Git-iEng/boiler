@@ -1,202 +1,1096 @@
-:root{
-  --ink:#0b2239; --muted:#6a7a89;
-  --brand:#0c8c73; --brand-weak:#e6f6f3;
-  --accent:#b83b5e; --error:#d72c2c; --surface:#fff;
-  --shadow:0 16px 44px rgba(10,36,60,.18);
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap");
+
+
+:root {
+
+  --ink: #0b2239;
+
+  --muted: #6a7a89;
+
+  --brand: #0c8c73;
+
+  --brand-weak: #e6f6f3;
+
+  --accent: #b83b5e;
+
+  --error: #d72c2c;
+
+  --surface: #ffffff;
+
+  --shadow: 0 16px 44px rgba(10, 36, 60, 0.18);
+
 }
 
-.modal{position:fixed;inset:0;display:none;z-index:999}
-.modal.is-open{display:block}
-.modal__backdrop{position:absolute;inset:0;background:rgba(8,18,28,.55);backdrop-filter:blur(2px)}
-.modal__dialog{
-  position:relative;max-width:860px;margin:6vh auto;background:var(--surface);
-  border-radius:18px;box-shadow:var(--shadow);padding:22px 22px 26px
-}
-.modal__close{position:absolute;top:10px;right:12px;width:36px;height:36px;border:0;border-radius:50%;
-  background:#f2f4f6;color:#334;cursor:pointer;font-size:20px;line-height:36px}
 
-.modal__title{margin:6px 0 4px;color:var(--ink);font:800 28px/1.2 system-ui}
-.modal__subtitle{margin:0 0 12px;color:var(--muted)}
+* {
 
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.field{display:flex;flex-direction:column;gap:6px}
-.field--full{grid-column:1/-1}
-label{font-weight:600;color:var(--ink)}
-input,select,textarea{border:1px solid #e1e6ea;border-radius:10px;padding:10px 12px;font:500 14px/1.4 system-ui;outline:0}
-input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px var(--brand-weak);border-color:#bfeee3}
-.error{color:var(--error);min-height:14px;font-size:12px}
+  box-sizing: border-box;
 
-.privacy{font-size:12px;color:var(--muted);margin:8px 0 14px}
-
-.btn-submit{position:relative;border:0;border-radius:999px;background:var(--accent);
-  color:#fff;font-weight:800;padding:12px 18px;cursor:pointer;display:inline-flex;align-items:center;gap:10px}
-.btn-submit[disabled]{opacity:.7;cursor:not-allowed}
-.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;display:none;animation:spin .7s linear infinite}
-.btn-submit.is-loading .spinner{display:inline-block}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-@media (max-width:720px){.grid{grid-template-columns:1fr}}
-/* ==== responsive modal sizing + internal scroll ==== */
-
-/* give the overlay a little padding so the dialog can shrink on narrow screens */
-.modal { padding: 12px; }
-
-/* the dialog is a vertical layout: title, subtitle, then a scrollable form */
-.modal__dialog{
-  width: min(860px, 100%);
-  max-height: calc(100dvh - 8vh);   /* use dynamic viewport height on mobile */
-  overflow: hidden;
-  display: grid;
-  grid-template-rows: auto auto 1fr; /* h2, p, form grows & scrolls */
 }
 
-/* make the form the scroll container */
-#demoForm{
-  overflow: auto;
-  min-height: 0;                     /* allow the grid child to shrink */
-  -webkit-overflow-scrolling: touch; /* smooth iOS scrolling */
-  padding-right: 2px;                /* avoid scrollbar overlap on some UAs */
+
+/* ============================================================
+   MODAL
+============================================================ */
+
+.modal {
+
+  position: fixed;
+
+  inset: 0;
+
+  display: none;
+
+  z-index: 999;
+
+  padding: 40px 16px;
+
 }
 
-/* keep inputs comfortable on small screens */
-@media (max-width: 900px){
-  .grid{ grid-template-columns: 1fr; }  /* single column sooner */
-}
 
-/* full-screen modal on very small phones */
-@media (max-width: 560px){
-  .modal{ padding: 0; }                     /* edge-to-edge */
-  .modal__dialog{
-    margin: 0; border-radius: 0;
-    width: 100vw; height: 100dvh; max-height: 100dvh;
-    grid-template-rows: auto auto 1fr;
-  }
-  .modal__title{ font-size: 22px; }
-  .modal__subtitle{ font-size: 14px; }
-  .modal__close{ top: 8px; right: 8px; }
-  #demoForm{ padding: 0 16px max(16px, env(safe-area-inset-bottom)); }
-}
+.modal.is-open {
 
-/* optional: keep the submit button visible while scrolling */
-@supports (position: sticky){
-  #submitBtn{
-    position: sticky;
-    bottom: 0;
-    margin-top: 12px;
-  }
-}
-/* ===== Modal scroll + sticky submit ===== */
-
-/* Make the dialog a 3-row grid: title, subtitle, scrollable form */
-.modal__dialog{
-  display: grid;
-  grid-template-rows: auto auto 1fr;     /* h2, p, form */
-  width: min(860px, 100%);
-  max-height: min(92dvh, 820px);         /* avoid cutting on small screens */
-  overflow: hidden;
-}
-
-/* The form is the scroll container */
-#demoForm{
-  overflow: auto;
-  min-height: 0;                          /* allow grid child to shrink */
-  -webkit-overflow-scrolling: touch;
-  padding-right: 2px;                      /* keep scrollbar off the edge */
-  padding-bottom: 80px;                    /* 40px breathing room + 40px for sticky btn */
-}
-
-/* Keep the submit button always visible (sticky within the scrolling form) */
-#submitBtn{
-  position: sticky;
-  bottom: 24px;                            /* distance from bottom edge */
-  z-index: 2;
-  margin-top: 16px;
-  box-shadow: 0 8px 24px rgba(184, 59, 94, 0.28); /* slight elevation */
-}
-
-/* Optional: soften the content behind the floating button */
-#demoForm::after{
-  content: "";
   display: block;
-  height: 40px;                            /* breathing space at very end */
+
 }
 
-/* Responsive tweaks */
-@media (max-width: 900px){
-  .grid{ grid-template-columns: 1fr; }     /* single column sooner */
+
+.modal__backdrop {
+
+  position: absolute;
+
+  inset: 0;
+
+  background: rgba(8, 18, 28, 0.55);
+
+  backdrop-filter: blur(2px);
+
 }
 
-@media (max-width: 560px){
-  .modal{ padding: 0; }
-  .modal__dialog{
-    margin: 0; border-radius: 0;
-    width: 100vw; height: 100dvh; max-height: 100dvh;
-  }
-  #demoForm{
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 96px;                  /* bit more room on tiny screens */
-  }
-  .modal__title{ font-size: 22px; }
-  .modal__subtitle{ font-size: 14px; }
-  .modal__close{ top: 8px; right: 8px; }
-}
-/* --- Outside padding so the dialog breathes: 40px top/bottom on desktop --- */
-.modal{ padding: 40px 16px; }  /* outside space (not inside the form) */
 
-/* Dialog is a grid: title, subtitle, scrollable form, fixed footer */
-.modal__dialog{
+.modal__dialog {
+
+  position: relative;
+
   width: min(860px, 100%);
+
+  max-height: calc(100dvh - 80px);
+
   margin: auto;
-  max-height: calc(100dvh - 80px);      /* match the 40px top/bottom padding */
-  overflow: hidden;
+
+  background: var(--surface);
+
+  border-radius: 18px;
+
+  box-shadow: var(--shadow);
+
+  padding: 22px 22px 26px;
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+}
+
+
+.modal__close {
+
+  position: absolute;
+
+  top: 10px;
+
+  right: 12px;
+
+  width: 36px;
+
+  height: 36px;
+
+  border: 0;
+
+  border-radius: 50%;
+
+  background: #f2f4f6;
+
+  color: #334;
+
+  cursor: pointer;
+
+  font-size: 20px;
+
+  line-height: 36px;
+
+}
+
+
+.modal__title {
+
+  margin: 6px 0 4px;
+
+  color: var(--ink);
+
+  font-family: "Montserrat", sans-serif;
+
+  font-size: 28px;
+
+  font-weight: 800;
+
+  line-height: 1.2;
+
+}
+
+
+.modal__subtitle {
+
+  margin: 0 0 12px;
+
+  color: var(--muted);
+
+  font-family: "Montserrat", sans-serif;
+
+}
+
+
+/* ============================================================
+   FORM
+============================================================ */
+
+#demoForm {
+
+  overflow: visible;
+
+}
+
+
+.grid {
+
   display: grid;
-  grid-template-rows: auto auto 1fr auto; /* h2, p, FORM, FOOTER */
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 14px;
+
 }
 
-/* Form is the only scrollable area */
-#demoForm{
-  overflow: auto;
-  min-height: 0;                         /* allow it to shrink inside the grid */
-  -webkit-overflow-scrolling: touch;
-  padding-right: 2px;                    /* keep scrollbar off the edge */
-  padding-bottom: 0;                     /* no internal bottom space */
-}
 
-/* Footer stays put at the bottom of the dialog */
-.modal__footer{
-  padding-top: 12px;
-  background: transparent;
+.field {
+
   display: flex;
-  justify-content: flex-start;           /* or: space-between / center */
+
+  flex-direction: column;
+
+  gap: 6px;
+
 }
 
-/* Submit button is normal (not sticky) */
-#submitBtn{
-  position: static;
-  box-shadow: 0 8px 24px rgba(184, 59, 94, 0.18);
+
+.field--full {
+
+  grid-column: 1 / -1;
+
 }
 
-/* One-column fields sooner for comfort */
-@media (max-width: 900px){
-  .grid{ grid-template-columns: 1fr; }
+
+label {
+
+  font-weight: 600;
+
+  color: var(--ink);
+
+  font-family: "Montserrat", sans-serif;
+
 }
 
-/* Full-height mobile sheet; outside space not needed on tiny phones */
-@media (max-width: 560px){
-  .modal{ padding: 0; }
-  .modal__dialog{
-    margin: 0;
-    width: 100vw;
-    height: 100dvh;
-    max-height: 100dvh;
-    border-radius: 0;
-    grid-template-rows: auto auto 1fr auto;
+
+input,
+select,
+textarea {
+
+  width: 100%;
+
+  border: 1px solid #e1e6ea;
+
+  border-radius: 10px;
+
+  padding: 10px 12px;
+
+  font: 500 14px/1.4 system-ui;
+
+  outline: 0;
+
+}
+
+
+input:focus,
+select:focus,
+textarea:focus {
+
+  box-shadow: 0 0 0 3px var(--brand-weak);
+
+  border-color: #bfeee3;
+
+}
+
+
+textarea {
+
+  resize: vertical;
+
+  min-height: 68px;
+
+}
+
+
+.error {
+
+  color: var(--error);
+
+  min-height: 14px;
+
+  font-size: 12px;
+
+}
+
+
+input.is-error,
+select.is-error,
+textarea.is-error {
+
+  border-color: var(--error);
+
+}
+
+
+.privacy {
+
+  font-size: 12px;
+
+  color: var(--muted);
+
+  margin: 8px 0 14px;
+
+}
+
+
+
+/* ============================================================
+   CHANGE BY JYOTI - 10-Sep-2026
+   EMAIL OTP VERIFICATION - START
+============================================================ */
+
+
+/* Whole email OTP field */
+
+.demo-email-verification {
+
+  width: 100%;
+
+  min-width: 0;
+
+}
+
+
+/* Wrapper allows buttons to stay inside email / OTP input */
+
+.demo-email-input-wrap {
+
+  position: relative;
+
+  width: 100%;
+
+}
+
+
+/* Email + OTP inputs */
+
+.demo-email-input,
+.demo-otp-input {
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+}
+
+
+/*
+   Keep enough space on right side
+   for "Verify email"
+*/
+
+.demo-email-input {
+
+  padding-right: 115px !important;
+
+}
+
+
+/*
+   OTP field needs extra right space
+   for timer + Verify OTP + Resend
+*/
+
+.demo-otp-input {
+
+  padding-right: 255px !important;
+
+  letter-spacing: 3px;
+
+  font-weight: 600;
+
+}
+
+
+/* ============================================================
+   VERIFY EMAIL BUTTON
+============================================================ */
+
+.demo-verify-email {
+
+  position: absolute;
+
+  right: 12px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  border: 0;
+
+  background: transparent;
+
+  padding: 0;
+
+  color: var(--brand);
+
+  font-family: "Montserrat", sans-serif;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  text-decoration: underline;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+}
+
+
+.demo-verify-email:hover {
+
+  opacity: 0.8;
+
+}
+
+
+.demo-verify-email:disabled {
+
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+}
+
+
+/* ============================================================
+   OTP ACTIONS
+============================================================ */
+
+.demo-otp-actions {
+
+  position: absolute;
+
+  right: 10px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 7px;
+
+  white-space: nowrap;
+
+}
+
+
+/* OTP expiry timer */
+
+.demo-otp-timer {
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  font-family: "Montserrat", sans-serif;
+
+}
+
+
+/* Verify OTP button */
+
+.demo-verify-otp {
+
+  border: 0;
+
+  border-radius: 7px;
+
+  padding: 6px 9px;
+
+  background: var(--brand);
+
+  color: #ffffff;
+
+  font-family: "Montserrat", sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+}
+
+
+.demo-verify-otp:hover {
+
+  opacity: 0.9;
+
+}
+
+
+.demo-verify-otp:disabled {
+
+  opacity: 0.55;
+
+  cursor: not-allowed;
+
+}
+
+
+/* Resend OTP */
+
+.demo-resend-otp {
+
+  border: 0;
+
+  background: transparent;
+
+  padding: 0;
+
+  color: var(--brand);
+
+  font-family: "Montserrat", sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  text-decoration: underline;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+}
+
+
+.demo-resend-otp:disabled {
+
+  color: var(--muted);
+
+  opacity: 0.65;
+
+  cursor: not-allowed;
+
+}
+
+
+/* ============================================================
+   VERIFIED STATUS
+============================================================ */
+
+.demo-email-verified {
+
+  position: absolute;
+
+  right: 12px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: var(--brand);
+
+  font-family: "Montserrat", sans-serif;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+
+}
+
+
+/* Make room for ✓ Verified */
+
+.demo-email-input:read-only {
+
+  padding-right: 95px !important;
+
+  background: #f8fafb;
+
+}
+
+
+/* OTP optional message */
+
+.demo-otp-message {
+
+  display: block;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  min-height: 0;
+
+}
+
+
+/* ============================================================
+   CHANGE BY JYOTI - 10-Sep-2026
+   EMAIL OTP VERIFICATION - END
+============================================================ */
+
+
+
+/* ============================================================
+   CAPTCHA + FOOTER
+============================================================ */
+
+.modal__footer {
+
+  display: flex !important;
+
+  flex-direction: column !important;
+
+  align-items: flex-start !important;
+
+  gap: 16px !important;
+
+  margin-top: 12px !important;
+
+  padding-top: 12px !important;
+
+  width: 100% !important;
+
+}
+
+
+/* Captcha wrapper */
+
+.form-captcha {
+
+  width: 328px !important;
+
+  min-width: 328px !important;
+
+  height: 94px !important;
+
+  min-height: 94px !important;
+
+  padding: 8px 10px !important;
+
+  background: #fff !important;
+
+  border-radius: 22px !important;
+
+  box-shadow:
+    0 8px 24px rgba(10, 36, 60, 0.08) !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+
+  justify-content: center !important;
+
+}
+
+
+.form-captcha .g-recaptcha {
+
+  width: 304px !important;
+
+  min-width: 304px !important;
+
+  min-height: 78px !important;
+
+  transform: none !important;
+
+}
+
+
+
+/* ============================================================
+   SUBMIT BUTTON
+============================================================ */
+
+.btn-submit,
+#submitBtn {
+
+  position: static !important;
+
+  margin: 0 !important;
+
+  align-self: flex-start !important;
+
+  display: inline-flex !important;
+
+  align-items: center !important;
+
+  justify-content: center !important;
+
+  min-height: 64px !important;
+
+  padding: 12px 26px !important;
+
+  border: 0 !important;
+
+  border-radius: 999px !important;
+
+  background: var(--accent) !important;
+
+  color: #fff !important;
+
+  font-weight: 800 !important;
+
+  white-space: nowrap !important;
+
+  box-shadow:
+    0 8px 24px rgba(184, 59, 94, 0.18) !important;
+
+  gap: 10px !important;
+
+  cursor: pointer;
+
+}
+
+
+/*
+   CHANGE BY JYOTI:
+   Submit button remains disabled until Email OTP verification
+*/
+
+.btn-submit[disabled],
+#submitBtn[disabled] {
+
+  opacity: 0.55 !important;
+
+  cursor: not-allowed !important;
+
+}
+
+
+/* ============================================================
+   SPINNER
+============================================================ */
+
+.spinner {
+
+  width: 16px;
+
+  height: 16px;
+
+  border:
+    2px solid rgba(255, 255, 255, 0.45);
+
+  border-top-color: #fff;
+
+  border-radius: 50%;
+
+  display: none;
+
+  animation:
+    spin 0.7s linear infinite;
+
+}
+
+
+.btn-submit.is-loading .spinner,
+#submitBtn.is-loading .spinner {
+
+  display: inline-block;
+
+}
+
+
+@keyframes spin {
+
+  to {
+
+    transform:
+      rotate(360deg);
+
   }
-  #demoForm{ padding: 0 16px; }
-  .modal__footer{ padding: 12px 16px max(16px, env(safe-area-inset-bottom)); }
-  .modal__title{ font-size: 22px; }
-  .modal__subtitle{ font-size: 14px; }
-  .modal__close{ top: 8px; right: 8px; }
+
 }
-  
+
+
+
+/* ============================================================
+   CHANGE BY JYOTI - 10-Sep-2026
+   TOAST MESSAGE
+============================================================ */
+
+/*
+   Toast is fixed to the screen.
+   It does NOT require the page to scroll to the top.
+*/
+
+#cmmsToastRoot,
+#transformerToastRoot {
+
+  position: fixed;
+
+  top: 20px;
+
+  right: 20px;
+
+  z-index: 99999;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  pointer-events: none;
+
+}
+
+
+.transformer-toast {
+
+  min-width: 280px;
+
+  max-width: 420px;
+
+  padding: 12px 14px;
+
+  border-radius: 10px;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 10px;
+
+  background: #ffffff;
+
+  color: var(--ink);
+
+  box-shadow:
+    0 10px 30px rgba(10, 36, 60, 0.20);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  pointer-events: auto;
+
+}
+
+
+.transformer-toast--ok {
+
+  border-left:
+    4px solid var(--brand);
+
+}
+
+
+.transformer-toast--error {
+
+  border-left:
+    4px solid var(--error);
+
+}
+
+
+.transformer-toast > div {
+
+  flex: 1;
+
+}
+
+
+.transformer-toast__close {
+
+  border: 0;
+
+  background: transparent;
+
+  color: var(--muted);
+
+  padding: 0;
+
+  font-size: 19px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+}
+
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+  .grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+}
+
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 560px) {
+
+  .modal {
+
+    padding: 0;
+
+  }
+
+
+  .modal__dialog {
+
+    width: 100vw;
+
+    height: 100dvh;
+
+    max-height: 100dvh;
+
+    margin: 0;
+
+    border-radius: 0;
+
+    padding:
+      20px
+      16px
+      16px;
+
+  }
+
+
+  .modal__title {
+
+    font-size: 22px;
+
+  }
+
+
+  .modal__subtitle {
+
+    font-size: 14px;
+
+  }
+
+
+  .modal__close {
+
+    top: 8px;
+
+    right: 8px;
+
+  }
+
+
+  .modal__footer {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 14px;
+
+  }
+
+
+  .form-captcha {
+
+    width: 328px !important;
+
+    min-width: 328px !important;
+
+    max-width: 100% !important;
+
+  }
+
+
+  .btn-submit,
+  #submitBtn {
+
+    align-self: flex-start;
+
+  }
+
+
+  /* ==========================================================
+     CHANGE BY JYOTI
+     EMAIL OTP MOBILE
+  ========================================================== */
+
+  .demo-email-input {
+
+    padding-right: 105px !important;
+
+  }
+
+
+  /*
+     On mobile OTP controls go underneath the OTP field
+     so buttons do not overlap.
+  */
+
+  .demo-otp-input {
+
+    padding-right: 12px !important;
+
+  }
+
+
+  .demo-otp-actions {
+
+    position: static;
+
+    transform: none;
+
+    width: 100%;
+
+    margin-top: 8px;
+
+    justify-content: flex-start;
+
+    flex-wrap: wrap;
+
+  }
+
+
+  .demo-verify-email {
+
+    right: 10px;
+
+    font-size: 12px;
+
+  }
+
+
+  .demo-email-verified {
+
+    right: 10px;
+
+    font-size: 12px;
+
+  }
+
+
+  .demo-verify-otp {
+
+    padding:
+      7px
+      10px;
+
+    font-size: 11px;
+
+  }
+
+
+  .demo-resend-otp {
+
+    font-size: 11px;
+
+  }
+
+
+  /*
+     Toast remains visible on mobile
+     without moving page position.
+  */
+
+  #cmmsToastRoot,
+  #transformerToastRoot {
+
+    top: 12px;
+
+    left: 12px;
+
+    right: 12px;
+
+  }
+
+
+  .transformer-toast {
+
+    min-width: 0;
+
+    width: 100%;
+
+    max-width: 100%;
+
+  }
+
+}
+
+
+
+/* ============================================================
+   VERY SMALL SCREENS
+============================================================ */
+
+@media (max-width: 480px) {
+
+  .form-captcha {
+
+    height: 86px !important;
+
+  }
+
+
+  .form-captcha .g-recaptcha {
+
+    transform:
+      scale(0.92) !important;
+
+    transform-origin:
+      left center !important;
+
+  }
+
+}

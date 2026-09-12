@@ -13,12 +13,15 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.contrib.staticfiles import finders
 
 import requests
-from django.conf import settings
 
 from threading import Thread
 from pathlib import Path
 import mimetypes
 import re
+import hashlib
+import hmac
+import secrets
+import time
 
 import phonenumbers
 import pycountry
@@ -72,76 +75,331 @@ def _send_contact_email_async(subject: str, text_body: str, html_body: str | Non
     Thread(target=_send_email, args=(subject, text_body, html_body, recipients), daemon=True).start()
 
 
+
+# ============================================================
+# CHANGE BY JYOTI - 12-Sep-2026
+# EMAIL OTP VERIFICATION - START
+# ============================================================
+
+CONTACT_OTP_EXPIRY_SECONDS = 3 * 60
+CONTACT_OTP_RESEND_SECONDS = 60
+CONTACT_OTP_MAX_ATTEMPTS = 5
+CONTACT_VERIFICATION_TOKEN_MAX_AGE = 15 * 60
+
+CONTACT_OTP_SESSION_KEY = "contact_email_otp"
+CONTACT_VERIFIED_SESSION_KEY = "contact_email_verified"
+CONTACT_VERIFICATION_SALT = "contact-email-verification-v1"
+
+
+def _normalise_email(email: str) -> str:
+    return (email or "").strip().lower()
+
+
+def _hash_contact_otp(email: str, otp: str) -> str:
+    message = f"{_normalise_email(email)}:{otp}".encode("utf-8")
+    key = settings.SECRET_KEY.encode("utf-8")
+    return hmac.new(key, message, hashlib.sha256).hexdigest()
+
+
+def _send_contact_otp_email(email: str, otp: str):
+    subject = "Boilers Email Verification Code"
+    text_body = (
+        "Your email verification code for the Boilers website is: "
+        f"{otp}\n\n"
+        "This code will expire in 3 minutes.\n"
+        "If you did not request this code, you can ignore this email."
+    )
+
+    conn = get_connection(timeout=getattr(settings, "EMAIL_TIMEOUT", 15))
+    msg = EmailMultiAlternatives(
+        subject=subject,
+        body=text_body,
+        from_email=(
+            getattr(settings, "DEFAULT_FROM_EMAIL", None)
+            or getattr(settings, "EMAIL_HOST_USER", None)
+        ),
+        to=[email],
+        connection=conn,
+    )
+    msg.send(fail_silently=False)
+
+
+@require_POST
+def send_email_otp(request):
+    email = _normalise_email(request.POST.get("email", ""))
+
+    try:
+        validate_email(email)
+    except ValidationError:
+        return JsonResponse(
+            {"ok": False, "message": "Please enter a valid email address."},
+            status=400,
+        )
+
+    now = int(time.time())
+    current = request.session.get(CONTACT_OTP_SESSION_KEY) or {}
+
+    if current.get("email") == email:
+        elapsed = now - int(current.get("sent_at") or 0)
+
+        if elapsed < CONTACT_OTP_RESEND_SECONDS:
+            remaining = CONTACT_OTP_RESEND_SECONDS - elapsed
+            return JsonResponse(
+                {
+                    "ok": False,
+                    "message": f"Please wait {remaining} seconds before requesting another OTP.",
+                    "resend_in": remaining,
+                },
+                status=429,
+            )
+
+    otp = f"{secrets.randbelow(1_000_000):06d}"
+
+    request.session[CONTACT_OTP_SESSION_KEY] = {
+        "email": email,
+        "otp_hash": _hash_contact_otp(email, otp),
+        "sent_at": now,
+        "expires_at": now + CONTACT_OTP_EXPIRY_SECONDS,
+        "attempts": 0,
+    }
+
+    request.session.pop(CONTACT_VERIFIED_SESSION_KEY, None)
+    request.session.modified = True
+
+    try:
+        _send_contact_otp_email(email, otp)
+    except Exception as exc:
+        print("OTP EMAIL ERROR:", repr(exc))
+        request.session.pop(CONTACT_OTP_SESSION_KEY, None)
+        request.session.modified = True
+
+        return JsonResponse(
+            {
+                "ok": False,
+                "message": "We could not send the verification code. Please try again.",
+            },
+            status=500,
+        )
+
+    return JsonResponse(
+        {
+            "ok": True,
+            "message": "Verification code sent.",
+            "expires_in": CONTACT_OTP_EXPIRY_SECONDS,
+            "resend_in": CONTACT_OTP_RESEND_SECONDS,
+        }
+    )
+
+
+@require_POST
+def verify_email_otp(request):
+    email = _normalise_email(request.POST.get("email", ""))
+    otp = (request.POST.get("otp") or "").strip()
+
+    if not re.fullmatch(r"\d{6}", otp):
+        return JsonResponse(
+            {"ok": False, "message": "Please enter the 6-digit verification code."},
+            status=400,
+        )
+
+    state = request.session.get(CONTACT_OTP_SESSION_KEY) or {}
+
+    if not state or state.get("email") != email:
+        return JsonResponse(
+            {"ok": False, "message": "Please request a new verification code."},
+            status=400,
+        )
+
+    now = int(time.time())
+
+    if now > int(state.get("expires_at") or 0):
+        request.session.pop(CONTACT_OTP_SESSION_KEY, None)
+        request.session.modified = True
+        return JsonResponse(
+            {"ok": False, "message": "The verification code has expired. Please resend it."},
+            status=400,
+        )
+
+    attempts = int(state.get("attempts") or 0)
+
+    if attempts >= CONTACT_OTP_MAX_ATTEMPTS:
+        request.session.pop(CONTACT_OTP_SESSION_KEY, None)
+        request.session.modified = True
+        return JsonResponse(
+            {"ok": False, "message": "Too many incorrect attempts. Please request a new code."},
+            status=429,
+        )
+
+    expected_hash = state.get("otp_hash") or ""
+    supplied_hash = _hash_contact_otp(email, otp)
+
+    if not hmac.compare_digest(expected_hash, supplied_hash):
+        state["attempts"] = attempts + 1
+        request.session[CONTACT_OTP_SESSION_KEY] = state
+        request.session.modified = True
+
+        return JsonResponse(
+            {"ok": False, "message": "Incorrect verification code."},
+            status=400,
+        )
+
+    nonce = secrets.token_urlsafe(24)
+
+    request.session[CONTACT_VERIFIED_SESSION_KEY] = {
+        "email": email,
+        "nonce": nonce,
+        "verified_at": now,
+    }
+
+    request.session.pop(CONTACT_OTP_SESSION_KEY, None)
+    request.session.modified = True
+
+    verification_token = signing.dumps(
+        {"email": email, "nonce": nonce},
+        salt=CONTACT_VERIFICATION_SALT,
+        compress=True,
+    )
+
+    return JsonResponse(
+        {
+            "ok": True,
+            "verified": True,
+            "message": "Email verified successfully.",
+            "verification_token": verification_token,
+        }
+    )
+
+
+def _is_contact_email_verified(request, email: str, token: str) -> bool:
+    email = _normalise_email(email)
+    token = (token or "").strip()
+
+    if not email or not token:
+        return False
+
+    try:
+        payload = signing.loads(
+            token,
+            salt=CONTACT_VERIFICATION_SALT,
+            max_age=CONTACT_VERIFICATION_TOKEN_MAX_AGE,
+        )
+    except signing.BadSignature:
+        return False
+
+    verified = request.session.get(CONTACT_VERIFIED_SESSION_KEY) or {}
+
+    return (
+        _normalise_email(payload.get("email", "")) == email
+        and _normalise_email(verified.get("email", "")) == email
+        and bool(payload.get("nonce"))
+        and hmac.compare_digest(
+            str(payload.get("nonce", "")),
+            str(verified.get("nonce", "")),
+        )
+    )
+
+
+def _consume_contact_email_verification(request):
+    request.session.pop(CONTACT_VERIFIED_SESSION_KEY, None)
+    request.session.modified = True
+
+
+# ============================================================
+# CHANGE BY JYOTI - 12-Sep-2026
+# EMAIL OTP VERIFICATION - END
+# ============================================================
+
 # ---------- Views ----------
 
 def request_demo_view(request):
     if request.method != "POST":
         return redirect("/")
-    
-    # CAPTCHA check
+
+    wants_json = request.headers.get("x-requested-with") == "XMLHttpRequest"
+
     if not verify_recaptcha(request):
+        if wants_json:
+            return JsonResponse(
+                {"ok": False, "errors": {"captcha": "Please complete the CAPTCHA."}},
+                status=400,
+            )
+
         messages.error(request, "Please complete the CAPTCHA.")
         return redirect(request.META.get("HTTP_REFERER", "/"))
 
-
-    # detect ajax/fetch
-
-    wants_json = request.headers.get("x-requested-with") == "XMLHttpRequest"
-     
-
-    full_name = request.POST.get("full_name", "").strip()
-    company   = request.POST.get("company", "").strip()
-    email     = request.POST.get("email", "").strip()
-    phone     = request.POST.get("phone", "").strip()
-    country   = request.POST.get("country", "").strip()  # "IN|+91"
-    address   = request.POST.get("address", "").strip()
-    message   = request.POST.get("message", "").strip()
+    full_name = (request.POST.get("full_name") or "").strip()
+    company = (request.POST.get("company") or "").strip()
+    email = _normalise_email(request.POST.get("email", ""))
+    verification_token = (
+        request.POST.get("email_verification_token") or ""
+    ).strip()
+    phone = (request.POST.get("phone") or "").strip()
+    country = (request.POST.get("country") or "").strip()
+    address = (request.POST.get("address") or "").strip()
+    message = (request.POST.get("message") or "").strip()
 
     errors = {}
+
     if not NAME_RE.match(full_name):
         errors["full_name"] = "Please enter a valid full name (letters only)."
+
     if not company:
         errors["company"] = "Company is required."
+
     try:
         validate_email(email)
     except ValidationError:
-        errors["email"] = "Enter a valid email."
+        errors["email"] = "Enter a valid email address."
+
     if not PHONE_RE.match(phone):
         errors["phone"] = "Enter a valid phone number."
+
     if not country:
         errors["country"] = "Select a country."
 
     if errors:
-        # JSON mode: return errors to JS
         if wants_json:
             return JsonResponse({"ok": False, "errors": errors}, status=400)
 
-        # normal mode: use messages + redirect back
         for msg in errors.values():
             messages.error(request, msg)
+
+        return redirect(request.META.get("HTTP_REFERER", "/"))
+
+    if not _is_contact_email_verified(request, email, verification_token):
+        if wants_json:
+            return JsonResponse(
+                {
+                    "ok": False,
+                    "errors": {"email": "Please verify your email address."},
+                },
+                status=400,
+            )
+
+        messages.error(request, "Please verify your email address.")
         return redirect(request.META.get("HTTP_REFERER", "/"))
 
     country_code, dial = (country.split("|", 1) + [""])[:2]
 
-    ts = timezone.now().strftime("%Y-%m-%d %H:%M:%S %Z")
-    subject = "New Boiler inquiry"
-    text_body = (
-        "A new Boiler inquiry request was submitted.\n\n"
-        f"Submitted: {ts}\n"
-        f"IP: {request.META.get('REMOTE_ADDR','')}\n\n"
-        f"Full name: {full_name}\n"
-        f"Company: {company}\n"
-        f"Email: {email}\n"
-        f"Phone: {phone}\n"
-        f"Country: {country_code} {dial}\n"
-        f"Address: {address}\n\n"
-        "Message:\n"
-        f"{message or '(none)'}\n"
+    subject = "New Boilers Enquiry"
+
+    text_body = "\n".join(
+        [
+            "A new Boilers enquiry was submitted:",
+            f"Full name: {full_name}",
+            f"Company: {company}",
+            f"Email: {email}",
+            f"Phone: {phone}",
+            f"Country: {country_code} {dial}".strip(),
+            f"Address: {address}",
+            "",
+            "Message:",
+            message or "(none)",
+        ]
     )
 
     html_body = f"""
-        <h2 style="margin:0 0 8px">New Boiler Inquiry Request</h2>
-        <p style="margin:0 0 12px;color:#334">Submitted {ts} from {request.META.get('REMOTE_ADDR','')}</p>
+        <h2 style="margin:0 0 8px">New Boilers Enquiry</h2>
         <table cellpadding="6" cellspacing="0" style="border-collapse:collapse;background:#f9fbfc">
           <tr><td><b>Full name</b></td><td>{full_name}</td></tr>
           <tr><td><b>Company</b></td><td>{company}</td></tr>
@@ -154,19 +412,15 @@ def request_demo_view(request):
         <pre style="white-space:pre-wrap;font-family:system-ui,Segoe UI,Arial,sans-serif">{message or '(none)'}</pre>
     """
 
-    # send email (sync call but it returns quickly since you call the thread sender)
     _send_demo_email_async(subject, text_body, html_body)
+    _consume_contact_email_verification(request)
 
     thanks_url = reverse("cmmsApp:contact_thanks")
 
-    # JSON mode: JS will redirect only when ok=true
     if wants_json:
         return JsonResponse({"ok": True, "redirect": thanks_url})
 
-    # normal mode
     return redirect(thanks_url)
-
-
 def home(request):
     return render(request, "index.html", {
 "RECAPTCHA_SITE_KEY": settings.RECAPTCHA_SITE_KEY
@@ -175,7 +429,11 @@ def home(request):
 
 
 def request_demo(request):
-    return render(request, "request_demo_modal.html")
+    return render(
+        request,
+        "request_demo_modal.html",
+        {"RECAPTCHA_SITE_KEY": settings.RECAPTCHA_SITE_KEY},
+    )
 
 def contact(request):     
     return render(request, "contact.html", {
@@ -287,77 +545,72 @@ def phone_info(request):
 
 # ---------- NEW: consulting/contact form submit ----------
 def contact_block_submit(request):
-    """
-    Handles the 'Get Free Consulting' form shown in the new block.
-    - Normalizes Country <-> Phone
-    - Appends a row to CONTACT_SUBMISSIONS_XLSX
-    - Sends email to CONTACT_RECIPIENTS
-    """
     if request.method != "POST":
         return redirect(request.META.get("HTTP_REFERER", "/"))
-    
-    # CAPTCHA check
+
     if not verify_recaptcha(request):
         messages.error(request, "Please complete the CAPTCHA.")
         return redirect(request.META.get("HTTP_REFERER", "/"))
 
-
-    name    = (request.POST.get("name")    or "").strip()
-    email   = (request.POST.get("email")   or "").strip()
-    phone   = (request.POST.get("phone")   or "").strip()
+    name = (request.POST.get("name") or "").strip()
+    email = _normalise_email(request.POST.get("email", ""))
+    verification_token = (
+        request.POST.get("email_verification_token") or ""
+    ).strip()
+    phone = (request.POST.get("phone") or "").strip()
     country = (request.POST.get("country") or "").strip()
-    service = (request.POST.get("service") or "").strip()
     message = (request.POST.get("message") or "").strip()
 
-    # --- Basic validation (lightweight) ---
     errors = []
-    if not re.match(r"^[A-Za-z\s'.-]{2,}$", name):
+
+    if not NAME_RE.match(name):
         errors.append("Please enter a valid name.")
+
     try:
         validate_email(email)
     except ValidationError:
         errors.append("Enter a valid email address.")
-    if not re.match(r"^\+?\d[\d\s\-()]{6,}$", phone):
+
+    if not PHONE_RE.match(phone):
         errors.append("Enter a valid phone number.")
+
     if not country and not phone.startswith("+"):
-        # If there's no +code in phone, we do need a country hint
         errors.append("Please enter your country.")
 
     if errors:
-        for e in errors:
-            messages.error(request, e)
+        for error in errors:
+            messages.error(request, error)
+
         return redirect(request.META.get("HTTP_REFERER", "/"))
 
-    # --- Normalize country/phone ---
-    e164_phone, alpha2, country_name = normalize_phone_and_country(phone, country)
-    dial_code = _dial_code_from_alpha2(alpha2)
+    if not _is_contact_email_verified(request, email, verification_token):
+        messages.error(request, "Please verify your email address.")
+        return redirect(request.META.get("HTTP_REFERER", "/"))
 
-    
-    # --- Email notification ---
-    subject = f"[Website] Consulting request: {name} – {service or 'General'}"
-    text_body = "\n".join([
-        "A new consulting request was submitted:",
-        f"Name: {name}",
-        f"Email: {email}",
-        f"Phone: {e164_phone or phone} ({dial_code})",
-        f"Country: {country_name or country}",
-        f"Service: {service}",
-        "",
-        "Message:",
-        message or "(none)",
-        "",
-        f"From: {request.META.get('HTTP_REFERER','')}",
-        f"IP:   {request.META.get('REMOTE_ADDR','')}",
-    ])
-    # Reuse your async sender
+    e164_phone, _alpha2, country_name = normalize_phone_and_country(
+        phone,
+        country,
+    )
+
+    subject = f"[Boilers Website] Consulting request: {name}"
+
+    text_body = "\n".join(
+        [
+            "A new consulting request was submitted for Boilers:",
+            f"Name: {name}",
+            f"Email: {email}",
+            f"Phone: {e164_phone or phone}",
+            f"Country: {country_name or country}",
+            "",
+            "Message:",
+            message or "(none)",
+        ]
+    )
+
     _send_contact_email_async(subject, text_body, None)
+    _consume_contact_email_verification(request)
 
-    messages.success(request, "Thanks! Your request was submitted successfully.")
     return redirect(reverse("cmmsApp:contact_thanks"))
-
-
-
-
 def country_list(request):
   """Return [{alpha2,name,dial}] sorted by name."""
   data = []

@@ -1,34 +1,37 @@
-# In iEngApp/urls.py
 from django.urls import path
 from . import views
 
-app_name = 'cmmsApp'
-
+app_name = "cmmsApp"
 
 urlpatterns = [
-     # Home
+    # Main pages
     path("", views.home, name="home"),
-
-    # Static pages
-
     path("contact/", views.contact, name="contact"),
 
-    # Demo form submit (POST)
+    # Submit Enquiry
     path("request-demo/", views.request_demo_view, name="request_demo"),
 
-    # Thanks page (use ONE route + ONE name)
-    path("thanks/", views.contact_thanks, name="contact_thanks"),
+    # CHANGE BY JYOTI - 12-Sep-2026
+    # Email OTP verification
+    path(
+        "api/contact/send-email-otp/",
+        views.send_email_otp,
+        name="send_email_otp",
+    ),
+    path(
+        "api/contact/verify-email-otp/",
+        views.verify_email_otp,
+        name="verify_email_otp",
+    ),
 
-    # Downloads
-  
-    
-
-    # Consulting block form + helper endpoints
+    # Contact form and helpers
     path("contact/submit/", views.contact_block_submit, name="contact_submit"),
     path("contact/phone-info/", views.phone_info, name="phone_info"),
     path("contact/country-list/", views.country_list, name="country_list"),
 
+    # Existing Boilers thanks URL
+    path("thanks/", views.contact_thanks, name="contact_thanks"),
+
     # Sitemap
     path("sitemap.xml", views.sitemap, name="sitemap"),
-
 ]
