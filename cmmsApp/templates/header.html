@@ -1,103 +1,226 @@
+<!DOCTYPE html>
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/header.css' %}">
-<link rel="stylesheet" href="{% static 'css/demo_form.css' %}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css">
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--=============== REMIXICONS ===============-->
+  <link rel="stylesheet" href="{% static 'css/demo_form.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+  <!--=============== CSS ===============-->
+  <link rel="stylesheet" href="{% static 'css/header.css' %}">
+</head>
 
+<body>
+  {% include 'request_demo_modal.html' %}
+
+  <!--=============== HEADER ===============-->
 <header class="header">
-  <nav class="nav container" aria-label="Primary navigation">
+  <nav class="nav container" aria-label="Primary">
     <div class="nav__data">
-      <a href="#home" class="nav__logo" data-scroll-to aria-label="iEtrack home">
-        <img src="{% static 'images/logo.png' %}" alt="iEngineering" class="logo-img">
+      <a href="#home" class="nav__logo" data-scroll-to>
+        <img src="{% static 'images/logo.png' %}" alt="Company Logo" class="logo-img">
       </a>
-      <button type="button" class="nav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
-        <i class="ri-menu-line nav__burger" aria-hidden="true"></i>
-        <i class="ri-close-line nav__close" aria-hidden="true"></i>
+
+      <button class="nav__toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
+        <i class="ri-menu-line nav__burger"></i>
+        <i class="ri-close-line nav__close"></i>
       </button>
     </div>
 
+    <!--=============== NAV MENU ===============-->
     <div class="nav__menu" id="nav-menu">
       <ul class="nav__list">
-        <li class="dropdown__item"><a href="#types" class="nav__link" data-scroll-to>Features</a></li>
-        <li class="dropdown__item"><a href="#overview" class="nav__link" data-scroll-to>Why iEtrack</a></li>
-        <li class="dropdown__item"><a href="#process" class="nav__link" data-scroll-to>How it works</a></li>
-        <li class="dropdown__item"><a href="#about-us" class="nav__link" data-scroll-to>About</a></li>
-        <li class="dropdown__item"><a href="#contact" class="nav__link" data-scroll-to>Contact</a></li>
+        <!-- Simple section anchors (no dropdowns) -->
+        {% comment %} <li class="dropdown__item">
+          <a href="#solutions" class="nav__link" data-scroll-to>Solutions</a>
+        </li> {% endcomment %}
         <li class="dropdown__item">
-          <button type="button" class="book-demo-btn js-open-demo">Request a demo <i class="ri-arrow-right-line" aria-hidden="true"></i></button>
+          <a href="#types" class="nav__link" data-scroll-to>Types</a>
         </li>
+       
+        <li class="dropdown__item">
+          <a href="#overview" class="nav__link" data-scroll-to>Services</a>
+        </li>
+        <li class="dropdown__item">
+          <a href="#process" class="nav__link" data-scroll-to>Workflow</a>
+        </li>
+         <li class="dropdown__item">
+          <a href="#about-us" class="nav__link" data-scroll-to>About</a>
+        </li>
+        <li class="dropdown__item">
+          <a href="#contact" class="nav__link" data-scroll-to>Contact</a>
+        </li>
+
+        <button type="button" class="book-demo-btn js-open-demo" data-scroll-to data-target="#request-demo">
+          Submit Enquiry <i class="bi bi-arrow-right-circle"></i>
+        </button>
       </ul>
     </div>
   </nav>
 </header>
 
-<script>
-  (() => {
-    const header = document.querySelector('.header');
-    const nav = header?.querySelector('.nav');
-    const menu = header?.querySelector('#nav-menu');
-    const toggle = header?.querySelector('#nav-toggle');
-    if (!header || !nav || !menu || !toggle) return;
 
-    const closeMenu = () => {
-      menu.classList.remove('show-menu');
-      nav.classList.remove('show-icon');
-      toggle.classList.remove('show-icon');
-      toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', 'Open menu');
-      document.body.classList.remove('no-scroll');
-    };
+  <!-- Your sections go below … -->
 
-    toggle.addEventListener('click', () => {
-      const opening = !menu.classList.contains('show-menu');
-      menu.classList.toggle('show-menu', opening);
-      nav.classList.toggle('show-icon', opening);
-      toggle.classList.toggle('show-icon', opening);
-      toggle.setAttribute('aria-expanded', String(opening));
-      toggle.setAttribute('aria-label', opening ? 'Close menu' : 'Open menu');
-      document.body.classList.toggle('no-scroll', opening);
-    });
+  <!--=============== MAIN JS ===============-->
+  <script src="{% static 'js/header.js' %}"></script>
+  <script defer src="{% static 'js/demo_form.js' %}"></script>
+  <script>
+    /* ===== Smooth in-page scroll + active link + mobile close ===== */
+    (function () {
+      const header = document.querySelector('.header');
+      const navMenu = document.getElementById('nav-menu');
+      const navToggle = document.getElementById('nav-toggle');
+      const links = document.querySelectorAll('[data-scroll-to]');
 
-    header.querySelectorAll('a[data-scroll-to]').forEach(link => {
-      link.addEventListener('click', event => {
-        const target = document.getElementById(link.hash.slice(1));
-        if (!target) return;
-        event.preventDefault();
-        const top = target.getBoundingClientRect().top + window.scrollY - header.offsetHeight;
-        window.scrollTo({ top, behavior: 'smooth' });
-        closeMenu();
-        history.replaceState(null, '', link.hash);
-      });
-    });
-
-    header.querySelector('.js-open-demo')?.addEventListener('click', closeMenu);
-    document.addEventListener('keydown', event => {
-      if (event.key === 'Escape') closeMenu();
-    });
-    document.addEventListener('click', event => {
-      if (!nav.contains(event.target)) closeMenu();
-    });
-
-    let scheduled = false;
-    const updateActiveLink = () => {
-      const offset = header.offsetHeight + 20;
-      let sectionId = 'home';
-      document.querySelectorAll('section[id]').forEach(section => {
-        if (section.getBoundingClientRect().top <= offset) sectionId = section.id;
-      });
-      header.querySelectorAll('a.nav__link').forEach(link => {
-        const active = link.hash === `#${sectionId}`;
-        link.classList.toggle('active-link', active);
-        if (active) link.setAttribute('aria-current', 'location');
-        else link.removeAttribute('aria-current');
-      });
-      scheduled = false;
-    };
-    window.addEventListener('scroll', () => {
-      if (!scheduled) {
-        scheduled = true;
-        requestAnimationFrame(updateActiveLink);
+      function headerOffset() {
+        return header ? header.offsetHeight : 0;
       }
-    }, { passive: true });
-    window.addEventListener('load', updateActiveLink);
+
+      function smoothScrollTo(id) {
+        const target = id ? document.querySelector(id) : null;
+        if (!target) return;
+
+        const y = target.getBoundingClientRect().top + window.pageYOffset - headerOffset();
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+
+      function setActiveOnScroll() {
+        const sections = document.querySelectorAll('section[id]');
+        let current = '';
+        sections.forEach(sec => {
+          const secTop = sec.offsetTop - headerOffset() - 1;
+          if (pageYOffset >= secTop) current = sec.getAttribute('id');
+        });
+        document.querySelectorAll('.nav__link, .dropdown__link').forEach(a => {
+          const href = a.getAttribute('href') || a.dataset.target;
+          a.classList.toggle('active-link', href === `#${current}`);
+        });
+      }
+
+      // Click handler
+      links.forEach(el => {
+        el.addEventListener('click', (e) => {
+          const targetSel = el.getAttribute('href') || el.dataset.target;
+          if (!targetSel || !targetSel.startsWith('#')) return;
+          e.preventDefault();
+          smoothScrollTo(targetSel);
+          // close mobile menu
+          if (navMenu?.classList.contains('show-menu')) {
+            navMenu.classList.remove('show-menu');
+            navToggle?.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+
+      // Toggle mobile nav
+      navToggle?.addEventListener('click', () => {
+        navMenu.classList.toggle('show-menu');
+        const expanded = navMenu.classList.contains('show-menu');
+        navToggle.setAttribute('aria-expanded', String(expanded));
+      });
+
+      window.addEventListener('scroll', setActiveOnScroll);
+      window.addEventListener('load', () => {
+        // If page loads with a hash, adjust to header height
+        if (window.location.hash) {
+          setTimeout(() => smoothScrollTo(window.location.hash), 0);
+        }
+        setActiveOnScroll();
+      });
+    })();
+  </script>
+  <!-- ...same head/body/header markup as you posted... -->
+
+<script>
+  /* ===== Smooth in-page scroll + active link + mobile close ===== */
+  (function () {
+    const header = document.querySelector('.header');
+    const nav = document.querySelector('.nav');               // NEW
+    const navMenu = document.getElementById('nav-menu');
+    const navToggle = document.getElementById('nav-toggle');
+    const links = document.querySelectorAll('[data-scroll-to]');
+
+    function headerOffset() {
+      return header ? header.offsetHeight : 0;
+    }
+
+    function smoothScrollTo(id) {
+      const target = id ? document.querySelector(id) : null;
+      if (!target) return;
+      const y = target.getBoundingClientRect().top + window.pageYOffset - headerOffset();
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+
+    function setActiveOnScroll() {
+      const sections = document.querySelectorAll('section[id]');
+      let current = '';
+      sections.forEach(sec => {
+        const secTop = sec.offsetTop - headerOffset() - 1;
+        if (pageYOffset >= secTop) current = sec.getAttribute('id');
+      });
+      document.querySelectorAll('.nav__link, .dropdown__link').forEach(a => {
+        const href = a.getAttribute('href') || a.dataset.target;
+        a.classList.toggle('active-link', href === `#${current}`);
+      });
+    }
+
+    function openMenu() {
+      navMenu.classList.add('show-menu');
+      nav?.classList.add('show-icon');              // NEW: swap icons
+      document.body.classList.add('no-scroll');     // Optional: lock body scroll
+      navToggle?.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeMenu() {
+      navMenu.classList.remove('show-menu');
+      nav?.classList.remove('show-icon');           // NEW
+      document.body.classList.remove('no-scroll');  // Optional
+      navToggle?.setAttribute('aria-expanded', 'false');
+    }
+
+    // Click handler for in-page links
+    links.forEach(el => {
+      el.addEventListener('click', (e) => {
+        const targetSel = el.getAttribute('href') || el.dataset.target;
+        if (!targetSel || !targetSel.startsWith('#')) return;
+        e.preventDefault();
+        smoothScrollTo(targetSel);
+        closeMenu();                                 // close on navigate (mobile)
+      });
+    });
+
+    // Toggle mobile nav
+    navToggle?.addEventListener('click', () => {
+      const isOpen = navMenu.classList.contains('show-menu');
+      isOpen ? closeMenu() : openMenu();
+    });
+
+    // Close when clicking outside the menu (mobile)
+    document.addEventListener('click', (e) => {
+      const isClickInside = nav?.contains(e.target);
+      if (!isClickInside && navMenu.classList.contains('show-menu')) {
+        closeMenu();
+      }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navMenu.classList.contains('show-menu')) {
+        closeMenu();
+      }
+    });
+
+    window.addEventListener('scroll', setActiveOnScroll);
+    window.addEventListener('load', () => {
+      if (window.location.hash) {
+        setTimeout(() => smoothScrollTo(window.location.hash), 0);
+      }
+      setActiveOnScroll();
+    });
   })();
 </script>
+
+</body>
+</html>

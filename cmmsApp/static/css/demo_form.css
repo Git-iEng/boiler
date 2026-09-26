@@ -1094,20 +1094,3 @@ textarea.is-error {
   }
 
 }
-/* iEtrack demo modal: visual overrides scoped to this dialog. */
-#demoModal .modal__backdrop{background:#061727bd;backdrop-filter:blur(5px)}
-#demoModal .modal__dialog{width:min(780px,100%);border:1px solid #dbe9e9;border-radius:19px;padding:clamp(22px,3.5vw,39px);box-shadow:0 30px 80px #061b2f69}
-#demoModal .modal__title{color:#102e40;font:800 clamp(26px,3vw,37px)/1.14 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.04em;margin:3px 44px 10px 0}
-#demoModal .modal__subtitle{max-width:570px;color:#5e7480;font:400 15px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;margin:0 0 25px}
-#demoModal .modal__close{top:17px;right:17px;background:#edf6f5;color:#143548;border:1px solid #d9e9e7}
-#demoModal .modal__close:hover{background:#d8efed}
-#demoModal .field label{color:#1b3a48;font:700 13px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-#demoModal .field input,#demoModal .field select,#demoModal .field textarea{background:#fbfdfd;border:1px solid #ccdfe0;border-radius:9px;color:#173544;min-height:46px}
-#demoModal .field textarea{min-height:90px}
-#demoModal .field input:focus,#demoModal .field select:focus,#demoModal .field textarea:focus{border-color:#148e98;box-shadow:0 0 0 3px #1494a129}
-#demoModal .privacy{color:#627984;font-size:12px;line-height:1.55;margin:16px 0 10px}
-#demoModal .form-captcha{box-shadow:none!important;border:1px solid #e0eaea!important;border-radius:10px!important}
-#demoModal #submitBtn{min-height:48px!important;border-radius:9px!important;background:#0d3447!important;box-shadow:0 8px 18px #12354529!important;font:750 14px system-ui,-apple-system,"Segoe UI",sans-serif!important}
-#demoModal #submitBtn:not(:disabled):hover{background:#0a6575!important}
-#demoModal #submitBtn:focus-visible,#demoModal .modal__close:focus-visible{outline:2px solid #087f91;outline-offset:3px}
-@media(max-width:600px){#demoModal{padding:13px}#demoModal .modal__dialog{max-height:calc(100dvh - 26px);padding:22px 17px}#demoModal .grid{grid-template-columns:1fr}#demoModal .field--full{grid-column:1}#demoModal .modal__subtitle{font-size:14px}}

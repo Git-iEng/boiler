@@ -303,24 +303,3 @@
     width: calc(100% - 24px);
   }
 }
-
-/* iEtrack contact section. Scoped to the existing form to preserve OTP behaviour. */
-.consult-block{background:#f3f8f8;padding:clamp(46px,6vw,84px) 20px}
-.consult-block[data-form-only="1"] .consult-block__inner{width:min(100%,920px)}
-.consult-block .consult-form{background:#fff!important;color:#163343!important;border:1px solid #dae9e9;border-radius:20px;padding:clamp(24px,4vw,50px);box-shadow:0 20px 55px #0f344319}
-.consult-block .consult-form__title{color:#102d40!important;font-size:clamp(27px,3.2vw,40px);line-height:1.15;letter-spacing:-.04em;margin:0 0 9px}
-.consult-block .ietrack-contact-intro{color:#5b7380;font-size:15px;line-height:1.6;margin-bottom:28px;max-width:660px}
-.consult-block .consult-grid{gap:16px}
-.consult-block .consult-grid input,.consult-block .consult-grid select,.consult-block .consult-grid textarea{border:1px solid #cddfe1;border-radius:9px;background:#fbfdfd;color:#173444;font:inherit;min-height:49px;transition:border-color .2s,box-shadow .2s}
-.consult-block .consult-grid textarea{min-height:100px}
-.consult-block .consult-grid input:focus,.consult-block .consult-grid select:focus,.consult-block .consult-grid textarea:focus{border-color:#148e98;box-shadow:0 0 0 3px #1b9eab25;outline:none}
-.consult-block .consult-grid ::placeholder{color:#718792;opacity:1}
-.consult-block .consult-send{background:#0d3447!important;color:#fff!important;border-radius:9px;padding:14px 24px;box-shadow:0 9px 20px #11384a22;font-size:14px}
-.consult-block .consult-send:not(:disabled):hover{background:#0a6575!important;transform:translateY(-1px)}
-.consult-block .consult-send:disabled{opacity:.6;cursor:not-allowed;box-shadow:none}
-.consult-block .consult-left{background:#0d3447;color:white;border-radius:18px;box-shadow:none}
-.consult-block .consult-left .consult-title{color:#fff}
-.consult-block .consult-left .consult-badge{background:#ffffff1e;color:#9fead9;border-color:#ffffff30}
-.consult-block .consult-left .consult-cta{border-color:#8fe3d0;color:#0d3447;background:#8fe3d0}
-.consult-block .consult-left .consult-cta:hover{background:#b9f1e3}
-@media(max-width:540px){.consult-block{padding:42px 16px}.consult-block .consult-form{padding:22px 17px}.consult-block .consult-send{justify-self:stretch;justify-content:center}}

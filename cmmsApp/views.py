@@ -102,9 +102,9 @@ def _hash_contact_otp(email: str, otp: str) -> str:
 
 
 def _send_contact_otp_email(email: str, otp: str):
-    subject = "iEtrack Email Verification Code"
+    subject = "Boilers Email Verification Code"
     text_body = (
-        "Your email verification code for the iEtrack website is: "
+        "Your email verification code for the Boilers website is: "
         f"{otp}\n\n"
         "This code will expire in 3 minutes.\n"
         "If you did not request this code, you can ignore this email."
@@ -381,11 +381,11 @@ def request_demo_view(request):
 
     country_code, dial = (country.split("|", 1) + [""])[:2]
 
-    subject = "New iEtrack Enquiry"
+    subject = "New Boilers Enquiry"
 
     text_body = "\n".join(
         [
-            "A new iEtrack enquiry was submitted:",
+            "A new Boilers enquiry was submitted:",
             f"Full name: {full_name}",
             f"Company: {company}",
             f"Email: {email}",
@@ -399,7 +399,7 @@ def request_demo_view(request):
     )
 
     html_body = f"""
-        <h2 style="margin:0 0 8px">New iEtrack Enquiry</h2>
+        <h2 style="margin:0 0 8px">New Boilers Enquiry</h2>
         <table cellpadding="6" cellspacing="0" style="border-collapse:collapse;background:#f9fbfc">
           <tr><td><b>Full name</b></td><td>{full_name}</td></tr>
           <tr><td><b>Company</b></td><td>{company}</td></tr>
@@ -479,10 +479,10 @@ def contact_section(request):
         # )
 
         # Email body
-        subject = "New website contact submission for iEtrack Enquiry"
+        subject = "New website contact submission for Boiler Inquiry"
         text_body = "\n".join(
             [
-                "New contact submission for iEtrack Enquiry:",
+                "New contact submission for Boiler Inquiry:",
                 f"Name: {cd['first_name']} {cd.get('last_name','')}".strip(),
                 f"Company: {cd.get('company','')}",
                 f"Email: {cd['email']}",
@@ -592,11 +592,11 @@ def contact_block_submit(request):
         country,
     )
 
-    subject = f"[iEtrack Website] Demo request: {name}"
+    subject = f"[Boilers Website] Consulting request: {name}"
 
     text_body = "\n".join(
         [
-            "A new demo request was submitted for iEtrack:",
+            "A new consulting request was submitted for Boilers:",
             f"Name: {name}",
             f"Email: {email}",
             f"Phone: {e164_phone or phone}",

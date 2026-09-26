@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-tpzqxw&&@03wq2yzgf!gzh6u2=044s2j+_!#jioe(#f^6%quzo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
     SECURE_SSL_REDIRECT = False
@@ -35,7 +35,7 @@ else:
     SESSION_COOKIE_SECURE = True
 
 
-ALLOWED_HOSTS = ["", ".ieng.tech","*"]
+ALLOWED_HOSTS = ["boiler.ieng.tech", ".ieng.tech"]
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 CSRF_TRUSTED_ORIGINS = ["https://*.ieng.tech"]
@@ -174,13 +174,13 @@ EMAIL_HOST_USER = 'test@ieng.tech'  # Your email address
 EMAIL_HOST_PASSWORD = 'test@iEng'  # Your email password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 CONTACT_RECIPIENTS = [
-    #"shila@iengaust.com.au",
-     #"test@ieng.tech",
-     #"aarti@iengaust.com.au"
-    "jyoti@iengaust.com.au"
+    "shila@iengaust.com.au",
+     "test@ieng.tech",
+     "aarti@iengaust.com.au"
+    #"jyoti@iengaust.com.au"
 ]
-#CONTACT_RECIPIENTS = [ "shila@iengaust.com.au","test@ieng.tech","aarti@iengaust.com.au"]
-CONTACT_RECIPIENTS = [ "jyoti@iengaust.com.au"]
+CONTACT_RECIPIENTS = [ "shila@iengaust.com.au","test@ieng.tech","aarti@iengaust.com.au"]
+#CONTACT_RECIPIENTS = [ "jyoti@iengaust.com.au"]
 DEMO_RECIPIENTS = CONTACT_RECIPIENTS
 
 # CONTACT_EMAIL = 'diksha@iengaust.com.au'

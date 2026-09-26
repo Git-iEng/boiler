@@ -1,31 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex">
-  <title>Thank you | iEtrack</title>
-  <style>
-    *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d2036;color:#fff}
-    body::before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 80% 20%,#128e9360,transparent 42%);pointer-events:none}
-    .cmms-contact-form-thanks{position:relative;width:min(100%,610px);padding:clamp(32px,6vw,64px);border:1px solid #ffffff25;border-radius:22px;background:#142d43;box-shadow:0 24px 70px #0004;text-align:center}
-    .brand{display:inline-block;margin-bottom:32px;font-size:23px;font-weight:800;letter-spacing:-.055em}.brand span{color:#8fe3d0}
-    .check{display:grid;place-items:center;width:70px;height:70px;margin:0 auto 23px;border-radius:50%;background:#8fe3d0;color:#0d3040;font-size:34px;font-weight:800}
-    h1{margin:0 0 14px;font-size:clamp(30px,5vw,45px);letter-spacing:-.04em}
-    p{max-width:440px;margin:0 auto 30px;color:#c0d5dc;font-size:16px;line-height:1.65}
-    .cmms-contact-form-back{display:inline-block;padding:13px 22px;border-radius:9px;background:#8fe3d0;color:#0c2d39;font-weight:800;text-decoration:none;transition:background .2s}
-    .cmms-contact-form-back:hover,.cmms-contact-form-back:focus-visible{background:#b8f3e3}
-    .cmms-contact-form-back:focus-visible{outline:3px solid white;outline-offset:3px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You</title>
+    <style>
+        body { font-family: system-ui, Segoe UI, Arial, sans-serif; margin: 0; background: #fafafa; color: #111; }
+        .cmms-contact-form-thanks {
+            max-width: 720px;
+            margin: 12vh auto;
+            padding: 32px;
+            border-radius: 16px;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        .cmms-contact-form-thanks h1 { font-size: 32px; margin: 0 0 8px; }
+        .cmms-contact-form-thanks p { font-size: 16px; color: #444; margin: 0 0 24px; }
+        .cmms-contact-form-back {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: #0b0b0b;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
-  <main class="cmms-contact-form-thanks">
-    <div class="brand" aria-label="iEtrack"><span>iE</span>track</div>
-    <div class="check" aria-hidden="true">✓</div>
-    <h1>Thank you for reaching out.</h1>
-    <p>We’ve received your iEtrack enquiry. Our team will review your message and get back to you using the contact details you provided.</p>
-    <a href="/" class="cmms-contact-form-back">Return to iEtrack</a>
-  </main>
+    <main class="cmms-contact-form-thanks">
+        <h1>Thank you!</h1>
+        <p>Your message has been submitted. We’ll get back to you shortly.</p>
+ <a href="/" class="cmms-contact-form-back" window.location.reload(); return false;>Go back</a>
+
+    </main>
+    <script>
+(function(){
+  const form = document.getElementById('contact'); // your form id
+  if(!form) return;
+
+  function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); }
+
+  form.addEventListener('submit', function(e){
+    const first = form.querySelector('#id_first_name');
+    const email = form.querySelector('#id_email');
+    const country = form.querySelector('#id_country');
+
+    let bad = [];
+    if(!first || !/^[A-Za-z\s'.-]{2,}$/.test(first.value.trim())) bad.push("Enter a valid name.");
+    if(!email || !validEmail(email.value)) bad.push("Enter a valid email address.");
+    if(country && !country.value) bad.push("Select your country.");
+
+    if(bad.length){
+      e.preventDefault();
+      showToast(bad[0] || "Please correct the highlighted fields.");
+      // Optional: visually mark fields
+      [first,email,country].forEach(f=>{ if(f) f.classList.toggle('is-error', true); });
+    }
+  });
+})();
+</script>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKQV8LKX"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 </body>
 </html>
