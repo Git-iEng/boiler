@@ -897,3 +897,33 @@ This section is important for the desktop view, as it overrides the mobile style
     aspect-ratio: 16 / 9;
   }
 }
+
+/* iEtrack navigation: keeps existing markup and responsive menu behaviour. */
+.header{background:#fff;box-shadow:0 1px 0 #dfe9eb,0 8px 24px #132a3a0b}
+.header .nav{width:min(100% - 40px,1200px);margin-inline:auto}
+.header .nav__logo img{width:140px;max-height:58px;object-fit:contain}
+.header .nav__list{align-items:center}
+.header .dropdown__item{background:transparent}
+.header .nav__link{background:transparent;color:#173246;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px;font-weight:650;white-space:nowrap;position:relative}
+.header .nav__link:hover,.header .nav__link.active-link{color:#087f91;background:transparent}
+.header .nav__link:focus-visible,.header .book-demo-btn:focus-visible,.header .nav__toggle:focus-visible{outline:2px solid #087f91;outline-offset:4px}
+.header .book-demo-btn{margin:0;padding:12px 18px;background:#0d3447;color:#fff;border:0;border-radius:9px;box-shadow:none;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px;font-weight:750;white-space:nowrap;cursor:pointer}
+.header .book-demo-btn:hover{background:#0a6575;transform:translateY(-1px)}
+.header .book-demo-btn i{margin-left:8px}
+.header .nav__toggle{border:0;background:transparent;color:#123246;cursor:pointer}
+.header .nav__burger,.header .nav__close{color:#123246}
+@media(min-width:1118px){
+  .header .nav{height:78px}
+  .header .nav__list{gap:clamp(16px,2vw,30px)}
+  .header .nav__link{height:78px;padding:0}
+  .header .nav__link.active-link::after{content:"";position:absolute;bottom:17px;left:0;right:0;height:2px;border-radius:2px;background:#0ca5a7}
+}
+@media(max-width:1117px){
+  .header .nav{height:66px}
+  .header .nav__data{padding-right:0}
+  .header .nav__menu{top:66px;height:calc(100dvh - 66px);background:#fff;box-shadow:0 18px 30px #0a283124}
+  .header .nav__menu.show-menu{top:66px}
+  .header .nav__list{background:#fff;display:flex;align-items:stretch;flex-direction:column;gap:0;padding:12px 20px 30px}
+  .header .nav__link{padding:14px 10px;border-bottom:1px solid #e9eff0}
+  .header .book-demo-btn{margin:20px 10px 0;justify-content:center;width:calc(100% - 20px)}
+}

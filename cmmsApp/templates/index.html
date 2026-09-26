@@ -1,660 +1,709 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 {% load static %}
+
 <head>
+
   <meta charset="UTF-8" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Boilers</title>
+
+  <title>iEtrack | Workforce Visibility, Attendance & Work Insights</title>
+
+  <meta name="description" content="Explore iEtrack: attendance, breaks, leave and permissions, computer activity, Learning Reports, productivity insights and role-based workforce reporting.">
 
   <!-- Google Tag Manager -->
+
   <script>
+
     (function (w, d, s, l, i) {
+
       w[l] = w[l] || [];
+
       w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+
       var f = d.getElementsByTagName(s)[0],
+
         j = d.createElement(s),
+
         dl = l != "dataLayer" ? "&l=" + l : "";
+
       j.async = true;
+
       j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+
       f.parentNode.insertBefore(j, f);
+
     })(window, document, "script", "dataLayer", "GTM-TKQV8LKX");
+
   </script>
+
   <!-- End Google Tag Manager -->
 
   <!-- Shared site CSS -->
+
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
   <link rel="stylesheet" href="{% static 'css/neplan-about.css' %}">
+
   <link rel="stylesheet" href="{% static 'css/consult-block.css' %}">
+
   <link rel="stylesheet" href="{% static 'css/footer.css' %}">
 
-  <!-- Boiler-specific CSS -->
-  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <style>
+
+    /* iEtrack home page theme. Existing Django templates and section classes stay intact. */
+
+    :root{--boiler-ink:#11263a;--boiler-muted:#5d7081;--boiler-accent:#087f91;--boiler-accent-soft:#e6f7f5;--boiler-surface:#f3f8f8;--boiler-border:#dce9e9}
+
+    html{scroll-behavior:smooth}section[id]{scroll-margin-top:94px}
+
+    .boiler-hero{background:#0d2036;color:white;overflow:hidden;padding:clamp(72px,8vw,112px) 0 80px;isolation:isolate}
+
+    .boiler-hero::before{content:"";position:absolute;inset:-40% -20% auto auto;width:850px;height:850px;background:radial-gradient(circle,#10a5a555,transparent 65%);z-index:-1}
+
+    .boiler-hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(to right,transparent 25%,black);z-index:-1;pointer-events:none}
+
+    .boiler-hero .boiler-container{width:min(1720px,calc(100% - 48px));max-width:1720px}
+
+    .boiler-hero-inner{grid-template-columns:minmax(0,.82fr) minmax(0,1.38fr);gap:clamp(24px,2.5vw,42px);align-items:center}
+
+    .boiler-hero .boiler-hero-left{transition-delay:.05s}
+
+    .boiler-hero .boiler-hero-media{transition-delay:.22s}
+
+    .boiler-hero-title span{background:linear-gradient(105deg,#64ded3 20%,#c3fff2 48%,#64ded3 75%);background-size:220% 100%;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:hero-shimmer 8s ease-in-out infinite}
+
+    @keyframes hero-shimmer{0%,20%,100%{background-position:100% 0}55%{background-position:0 0}}
+
+    .boiler-hero-kicker{background:#ffffff12;color:#7de2dd;border:1px solid #ffffff27;padding:9px 14px;font-size:11px;text-transform:uppercase;letter-spacing:.11em}
+
+    .boiler-hero-title{font-size:clamp(43px,5vw,72px);letter-spacing:-.055em;line-height:1.05;color:#fff;margin:14px 0 22px;max-width:650px}.boiler-hero-title span{color:#64ded3}
+
+    .boiler-hero-sub{color:#c4d6dd;font-size:clamp(15px,1.2vw,18px);line-height:1.65;max-width:560px}.boiler-hero-sub+.boiler-hero-sub{font-size:15px;color:#9ebbc5}
+
+    .boiler-hero-cta{margin-top:27px;gap:14px}.boiler-btn-primary{background:#8fe3d0!important;color:#0b2d34!important;border-color:#8fe3d0!important;box-shadow:0 16px 38px #0003;font-weight:800}.boiler-btn-primary:hover{background:#b0f3df!important}.boiler-btn-primary i{margin-left:8px}.boiler-btn-ghost{color:white!important;border-color:#ffffff80!important;background:#ffffff0b!important}.boiler-btn-ghost:hover{background:#ffffff21!important}
+
+    .hero-proof{display:flex;gap:10px;flex-wrap:wrap;margin-top:31px}.hero-proof span{font-size:12px;font-weight:650;color:#c3d8dc;padding:7px 10px;border:1px solid #ffffff27;border-radius:30px}.hero-proof i{color:#8fe3d0;margin-right:5px}
+
+    .boiler-hero-card{background:#fff;box-shadow:0 32px 65px #0005;border-radius:18px;overflow:hidden}
+
+    .boiler-hero .boiler-hero-card{transition:transform .45s ease,box-shadow .45s ease}
+
+    .boiler-hero .boiler-hero-card:hover{transform:translateY(-8px);box-shadow:0 40px 85px #0007}
+
+    .boiler-hero .hero-proof span{transition:transform .25s ease,border-color .25s ease,background .25s ease}
+
+    .boiler-hero .hero-proof span:hover{transform:translateY(-3px);border-color:#8fe3d099;background:#8fe3d01a}
+
+    .boiler-hero .boiler-hero-cta a{transition:transform .25s ease,box-shadow .25s ease,background .25s ease}
+
+    .boiler-hero .boiler-hero-cta a:hover{transform:translateY(-3px)}
+
+    .ietrack-real-screen{display:block;width:100%;height:auto;object-fit:contain}
+
+    .ietrack-real-screen-link{display:block;position:relative;cursor:zoom-in}
+
+    .ietrack-real-screen-link::after{content:"View image full size ↗";position:absolute;right:14px;bottom:14px;padding:9px 13px;border-radius:8px;background:#0d2036e8;color:#fff;font-size:13px;font-weight:700}
+
+    .boiler-hero-meta{padding:18px 24px;color:#183344}.boiler-hero-meta h3{color:#16394a}
+
+    .boiler-types{background:#f6faf9;color:#173243}.boiler-types-kicker{color:#087f91}.boiler-types-title{color:#122e3e;font-size:clamp(28px,3.2vw,44px);letter-spacing:-.035em;max-width:700px}.boiler-types-sub{color:#617781;font-size:15px;line-height:1.55}
+
+    .boiler-types-grid{gap:16px}.boiler-type-card{background:white;border:1px solid #dceaea;border-radius:15px;padding:25px;box-shadow:0 8px 24px #0a39400b;transition:transform .2s,box-shadow .2s}.boiler-type-card:hover{transform:translateY(-5px);box-shadow:0 18px 36px #0a394021}.feature-icon{width:45px;height:45px;border-radius:11px;display:grid;place-items:center;background:#e0f5ee;color:#087f91;font-size:19px}.boiler-type-tag{background:transparent;color:#27818c;letter-spacing:.08em;font-weight:800;padding:0;margin-top:11px}.boiler-type-title{color:#102d40;font-size:19px;letter-spacing:-.02em;margin:5px 0}.boiler-type-text{color:#607480;font-size:14px;line-height:1.6}.boiler-type-meta{color:#358290;font-weight:700}.boiler-type-meta span{background:#ecf7f6;border-radius:20px;padding:5px 9px}
+
+    .ietrack-flow-section{background:#f6faf9;padding:0 0 clamp(48px,6vw,86px)}
+
+    .ietrack-flow-figure{margin:0;background:#fff;padding:clamp(10px,2vw,22px);border:1px solid #dceaea;border-radius:18px;box-shadow:0 16px 42px #0a394017}
+
+    .ietrack-flow-figure figcaption{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:3px 3px 18px;color:#16394a;font-size:clamp(19px,2.2vw,26px);font-weight:800}
+
+    .ietrack-flow-figure figcaption small{font-size:13px;font-weight:500;color:#607480}
+
+    .ietrack-flow-figure a{display:block;border-radius:10px;overflow:hidden;cursor:zoom-in}
+
+    .ietrack-flow-figure img{display:block;width:100%;height:auto}
+
+    @media(max-width:650px){.ietrack-flow-figure figcaption{display:block}.ietrack-flow-figure figcaption small{display:block;margin-top:5px}}
+
+    .boiler-types{position:relative;overflow:hidden;background:radial-gradient(circle at 8% 3%,#dff5f0 0,transparent 32%),#f6faf9}
+
+    .boiler-types-head{position:relative;z-index:1}
+
+    .boiler-types-grid{position:relative;z-index:1}
+
+    .boiler-types .boiler-type-card{position:relative;overflow:hidden;border-color:#daeae7;box-shadow:0 12px 30px #0a394012;transition:opacity .6s ease,transform .6s ease,box-shadow .35s ease,border-color .35s ease}
+
+    .boiler-types .boiler-type-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#0a8b91,#7edbca);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+
+    .boiler-types .boiler-type-card:hover{transform:translateY(-8px);border-color:#94d7cd;box-shadow:0 22px 44px #0a394026}
+
+    .boiler-types .boiler-type-card:hover::before{transform:scaleX(1)}
+
+    .boiler-types .feature-icon{transition:transform .35s ease,background .35s ease}
+
+    .boiler-types .boiler-type-card:hover .feature-icon{transform:rotate(-6deg) scale(1.1);background:#cdf3e8}
+
+    .boiler-types .boiler-type-card:nth-child(3n + 2) .feature-icon{background:#e3eefb;color:#285ea1}
+
+    .boiler-types .boiler-type-card:nth-child(3n) .feature-icon{background:#eae8fa;color:#6750a4}
+
+    .boiler-types .boiler-type-card:nth-child(3n + 2)::before{background:linear-gradient(90deg,#376cc1,#89b8ec)}
+
+    .boiler-types .boiler-type-card:nth-child(3n)::before{background:linear-gradient(90deg,#7654be,#b9a5e8)}
+
+    .boiler-types .boiler-type-card:nth-child(3n + 2):hover{border-color:#b3d2f2}
+
+    .boiler-types .boiler-type-card:nth-child(3n):hover{border-color:#d2c3ee}
+
+    .boiler-types .boiler-type-card:nth-child(2){transition-delay:.06s}.boiler-types .boiler-type-card:nth-child(3){transition-delay:.12s}.boiler-types .boiler-type-card:nth-child(4){transition-delay:.18s}.boiler-types .boiler-type-card:nth-child(5){transition-delay:.24s}.boiler-types .boiler-type-card:nth-child(6){transition-delay:.3s}
+
+    .boiler-overview{background:white}.boiler-section-title{letter-spacing:-.04em;line-height:1.15}.overview-link{display:inline-flex;gap:8px;align-items:center;color:#087f91;font-weight:800;text-decoration:none;margin-top:18px}.overview-link:hover{text-decoration:underline}
+
+    .ietrack-overview-art{min-height:380px;background:#0d3447;color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:26px;position:relative;overflow:hidden;padding:24px;text-align:center}.ietrack-overview-art::before{content:"";position:absolute;width:410px;height:410px;border:1px solid #ffffff35;border-radius:50%}.ietrack-overview-art::after{content:"";position:absolute;width:290px;height:290px;border:1px solid #ffffff40;border-radius:50%}.ietrack-overview-art>*{z-index:1}.overview-eyebrow{font-size:11px;font-weight:800;letter-spacing:.19em;color:#9ae6d8}.overview-emblem{font-size:clamp(44px,5vw,72px);font-weight:800;letter-spacing:-.075em}.overview-emblem span{color:#8fe3d0}.overview-chips{display:flex;justify-content:center;flex-wrap:wrap;gap:7px}.overview-chips span{background:#ffffff1d;border:1px solid #ffffff5a;border-radius:25px;padding:9px 11px;font-size:12px}.overview-chips i{margin-right:4px}.overview-caption{color:#d0e5e8;font-size:13px}
+
+    .boiler-process{background:#f6faf9}.boiler-timeline-icon{background:#0d3447;color:#92ead8}.boiler-industries{background:white}.boiler-industry-card{padding:24px;box-shadow:none;border-color:#e3ecec}.case-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:11px;background:#e3f5f1;color:#117e8b;font-size:19px;margin-bottom:15px}
+
+    @media(max-width:1050px){.boiler-hero-inner{grid-template-columns:1fr}.boiler-hero-media{max-width:900px;width:100%}}
+
+    @media(max-width:600px){.boiler-hero{padding:65px 0}.boiler-hero-title{font-size:clamp(39px,11vw,58px)}}
+
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.boiler-hero .boiler-hero-left,.boiler-hero .boiler-hero-media,.boiler-hero .boiler-hero-card,.boiler-hero .hero-proof span,.boiler-hero .boiler-hero-cta a{transition:none;transition-delay:0s}.boiler-hero-title span{animation:none}}
+
+    .ietrack-feature-group-title{font-size:clamp(22px,2.5vw,30px);color:#173243;margin:46px 0 18px}.ietrack-feature-group-title:first-of-type{margin-top:28px}
+
+    /* Compact feature catalogue: every name is visible, descriptions open on demand. */
+    .boiler-types .boiler-types-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;align-items:stretch}
+    .boiler-types .ietrack-feature-group-title{margin:27px 0 11px;font-size:clamp(18px,1.8vw,23px);color:#173243}
+    .boiler-types .ietrack-feature{min-width:0;position:relative;background:#fff;border:1px solid #daeae7;border-radius:11px;box-shadow:0 4px 16px #0a394010}
+    .boiler-types .ietrack-feature[open]{border-color:#72bcb7;box-shadow:0 9px 22px #0a394018}
+    .boiler-types .ietrack-feature summary{list-style:none;display:flex;align-items:center;gap:10px;min-height:62px;padding:10px 13px;cursor:pointer}
+    .boiler-types .ietrack-feature summary::-webkit-details-marker{display:none}
+    .boiler-types .ietrack-feature summary:focus-visible{outline:3px solid #087f91;outline-offset:3px;border-radius:9px}
+    .boiler-types .ietrack-feature .feature-icon{width:32px;height:32px;flex:none;border-radius:8px;font-size:14px}
+    .boiler-types .ietrack-feature .boiler-type-title{margin:0;font-size:14px;line-height:1.35;font-weight:700;min-width:0}
+    .boiler-types .ietrack-feature-chevron{color:#39868c;font-size:11px;margin-left:auto;transition:transform .2s}
+    .boiler-types .ietrack-feature[open] .ietrack-feature-chevron{transform:rotate(180deg)}
+    .boiler-types .ietrack-feature .boiler-type-text{margin:0;padding:0 13px 14px 55px;font-size:13px;line-height:1.5}
+    @media(max-width:1080px){.boiler-types .boiler-types-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(max-width:720px){.boiler-types .boiler-types-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:430px){.boiler-types .boiler-types-grid{grid-template-columns:1fr}.boiler-types .ietrack-feature summary{min-height:54px}}
+    .ietrack-story{padding:clamp(52px,6vw,88px) 0;background:#fff}
+    .ietrack-story-head{max-width:790px;margin-bottom:25px}.ietrack-story-head h2{color:#16394a;font-size:clamp(30px,3.5vw,46px);line-height:1.12;margin:8px 0 12px}.ietrack-story-head p{color:#607480;line-height:1.7}
+    .ietrack-story-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .ietrack-story-panel{padding:25px;border-radius:18px;border:1px solid #dce9e9;background:#f6faf9;min-height:210px}.ietrack-story-panel:nth-child(2){background:#eff5fc}.ietrack-story-panel:nth-child(3){background:#eaf8f4}
+    .ietrack-story-panel i{font-size:25px;color:#087f91}.ietrack-story-panel h3{font-size:19px;color:#173243;margin:21px 0 9px}.ietrack-story-panel p{color:#5d7081;line-height:1.6;margin:0;font-size:14px}
+    .ietrack-story-panel .ietrack-story-step{font-size:12px;color:#087f91;font-weight:800;letter-spacing:.08em;margin-left:12px}
+    .ietrack-story-note{font-size:13px;line-height:1.6;color:#617781;margin:18px 0 0}
+    .ietrack-about-points{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.ietrack-about-points span{border:1px solid #bfdedb;border-radius:30px;padding:8px 12px;color:#195966;font-weight:700;font-size:13px;background:#f0faf8}
+    @media(max-width:760px){.ietrack-story-grid{grid-template-columns:1fr}.ietrack-story-panel{min-height:0}}
+    .ietrack-workday-visual{margin:0;min-height:500px;border-radius:24px;background:linear-gradient(145deg,#102b41 0%,#0d5360 100%);padding:clamp(20px,3vw,38px);box-shadow:0 24px 55px #0a39402e;position:relative;overflow:hidden;display:flex;align-items:center;isolation:isolate}
+    .ietrack-visual-glow{position:absolute;width:430px;height:430px;right:-140px;top:-180px;border-radius:50%;background:radial-gradient(circle,#3dd7ca66,transparent 67%);animation:ietrack-glow 8s ease-in-out infinite alternate;z-index:-1}
+    .ietrack-visual-grid{position:absolute;inset:0;background-image:linear-gradient(#ffffff0c 1px,transparent 1px),linear-gradient(90deg,#ffffff0c 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(110deg,transparent,#000);z-index:-1}
+    .ietrack-ui-main{width:100%;max-width:570px;background:#f9fcfd;border:1px solid #e2f1ef;border-radius:17px;box-shadow:0 22px 45px #001b2955;transform:rotate(-2deg);animation:ietrack-float 7s ease-in-out infinite}
+    .ietrack-ui-top{height:58px;padding:0 17px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e1eeef;color:#16394a;font-size:14px;white-space:nowrap}.ietrack-ui-mark{width:31px;height:31px;display:grid;place-items:center;background:#def4ee;color:#098b8b;border-radius:9px}.ietrack-ui-live{margin-left:auto;color:#0b837c;font-size:10px;font-weight:800;letter-spacing:.07em;display:flex;align-items:center;gap:6px}.ietrack-ui-live span{width:7px;height:7px;border-radius:50%;background:#11ab91;box-shadow:0 0 0 3px #d5f3e9;animation:ietrack-pulse 2s ease-in-out infinite}
+    .ietrack-ui-content{padding:20px 20px 29px}.ietrack-ui-eyebrow{color:#3c7580;font-weight:800;font-size:10px;letter-spacing:.08em;margin:0 0 16px;display:flex;justify-content:space-between;gap:8px}.ietrack-ui-eyebrow span{font-weight:500;color:#738d93;letter-spacing:0}
+    .ietrack-ui-numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.ietrack-ui-numbers>div{background:white;border:1px solid #e1eced;border-radius:11px;padding:13px 11px}.ietrack-ui-numbers small{display:block;color:#6b838a;font-size:11px}.ietrack-ui-numbers strong{display:block;color:#183b49;font-size:22px;margin-top:5px}
+    .ietrack-ui-title{display:flex;justify-content:space-between;margin:25px 0 10px;color:#173a49;font-size:12px}.ietrack-ui-title span{color:#728991}
+    .ietrack-ui-timeline{height:26px;display:flex;position:relative;border-radius:7px;overflow:visible;background:#e4edf0}.ietrack-ui-timeline>span{height:100%;display:block}.ietrack-ui-timeline>span:nth-child(1){width:30%;background:#27a89e;border-radius:7px 0 0 7px}.ietrack-ui-timeline>span:nth-child(2){width:12%;background:#edc563}.ietrack-ui-timeline>span:nth-child(3){width:38%;background:#498dbb}.ietrack-ui-timeline>span:nth-child(4){width:20%;background:#27a89e;border-radius:0 7px 7px 0}.ietrack-ui-timeline i{position:absolute;width:4px;height:42px;top:-8px;left:0;border-radius:4px;background:#173c4b;box-shadow:0 0 0 5px #ffffff9c;animation:ietrack-scan 9s ease-in-out infinite alternate}
+    .ietrack-ui-legend{display:flex;gap:13px;flex-wrap:wrap;margin-top:15px;color:#66818a;font-size:10px}.ietrack-ui-legend span{display:flex;align-items:center;gap:5px}.ietrack-ui-legend b{width:7px;height:7px;border-radius:50%}.ietrack-legend-work{background:#27a89e}.ietrack-legend-break{background:#edc563}.ietrack-legend-context{background:#498dbb}
+    .ietrack-ui-float{position:absolute;bottom:27px;left:18px;right:18px;max-width:405px;margin:auto;display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #d8ece9;border-radius:14px;padding:15px;box-shadow:0 18px 42px #001b2966;animation:ietrack-float-card 6s ease-in-out infinite}.ietrack-ui-float-icon{width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:10px;background:#d8f3ea;color:#087f91}.ietrack-ui-float div{min-width:0}.ietrack-ui-float small,.ietrack-ui-float strong,.ietrack-ui-float div span{display:block}.ietrack-ui-float small{color:#158a86;font-size:9px;font-weight:800;letter-spacing:.09em}.ietrack-ui-float strong{font-size:13px;line-height:1.4;color:#173a49}.ietrack-ui-float div span{font-size:10px;color:#647d86}.ietrack-ui-tick{margin-left:auto;color:#0a9e84}
+    @keyframes ietrack-float{50%{transform:translateY(-8px) rotate(-1deg)}}@keyframes ietrack-float-card{50%{transform:translateY(8px)}}@keyframes ietrack-pulse{50%{box-shadow:0 0 0 8px #d5f3e900}}@keyframes ietrack-scan{to{left:calc(100% - 4px)}}@keyframes ietrack-glow{to{transform:translate(-65px,70px);opacity:.65}}
+    @media(max-width:600px){.ietrack-workday-visual{min-height:445px;padding:15px}.ietrack-ui-main{transform:none}.ietrack-ui-content{padding:15px 13px 55px}.ietrack-ui-float{bottom:19px;left:24px;right:24px}.ietrack-ui-numbers strong{font-size:17px}.ietrack-ui-top{font-size:12px}}
+    @media(prefers-reduced-motion:reduce){.ietrack-visual-glow,.ietrack-ui-main,.ietrack-ui-live span,.ietrack-ui-timeline i,.ietrack-ui-float{animation:none}.ietrack-ui-timeline i{left:45%}}
+    .ietrack-workday-visual figcaption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+    /* Feature distribution and category explorer */
+    .ietrack-feature-explorer{display:grid;grid-template-columns:minmax(415px,0.85fr) minmax(0,1.5fr);gap:clamp(18px,2vw,30px);align-items:start;margin-top:30px}
+    .ietrack-feature-chart-area{background:#f4faf8;border:1px solid #dbeae7;border-radius:22px;padding:20px;display:grid;grid-template-columns:155px minmax(0,1fr);grid-template-rows:auto 1fr;gap:8px 12px;align-items:center}
+    .ietrack-feature-chart{width:155px;aspect-ratio:1;margin:0 auto;border-radius:50%;background:conic-gradient(var(--chart-segments));display:grid;place-items:center;box-shadow:0 13px 27px #1763681c;position:relative}
+    .ietrack-feature-chart::after{content:"";position:absolute;inset:27%;background:#f4faf8;border-radius:50%;box-shadow:inset 0 1px 8px #143f4b10}
+    .ietrack-chart-icon{position:absolute;z-index:1;left:var(--icon-x);top:var(--icon-y);transform:translate(-50%,-50%);color:white;font-size:16px;line-height:1;text-shadow:0 1px 5px #163d4b55;pointer-events:none}.ietrack-feature-chart-center{position:relative;z-index:1;display:grid;text-align:center;color:#143d49;line-height:1.1}.ietrack-feature-chart-center strong{font-size:37px}.ietrack-feature-chart-center span{font-size:12px;font-weight:700}
+    .ietrack-feature-chart-caption{text-align:center;font-size:12px;color:#54727a;font-weight:750;letter-spacing:.08em;text-transform:uppercase;margin:0;grid-column:1;grid-row:2}
+    .ietrack-feature-tabs{display:grid;gap:6px;grid-column:2;grid-row:1/3}.ietrack-feature-tab{width:100%;display:flex;align-items:center;gap:10px;padding:12px 9px;border-radius:10px;border:1px solid transparent;background:transparent;color:#284b55;text-align:left;font:inherit;font-size:13px;cursor:pointer;line-height:1.3;transition:background .18s,border-color .18s,transform .18s}.ietrack-feature-tab:hover{background:white;transform:translateX(2px)}.ietrack-feature-tab[aria-pressed="true"]{background:white;border-color:#b9dbd6;box-shadow:0 4px 12px #113e4710}.ietrack-feature-tab:focus-visible{outline:3px solid #087f91;outline-offset:2px}.ietrack-feature-tab span:nth-child(2){flex:1}.ietrack-feature-tab strong{font-size:13px;color:#234550}.ietrack-feature-dot{width:11px;height:11px;flex:none;border-radius:50%;background:var(--feature-color)}
+    .ietrack-feature-panel[hidden]{display:none!important}.ietrack-feature-panel-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:17px}.ietrack-feature-overline{color:#168c89;font-size:11px;letter-spacing:.13em;font-weight:800}.boiler-types .ietrack-feature-panel .ietrack-feature-group-title{margin:6px 0 0;font-size:clamp(22px,2.5vw,30px)}.ietrack-feature-panel-count{white-space:nowrap;font-size:12px;color:#557480;border:1px solid #d8e9e7;padding:6px 9px;border-radius:99px}.boiler-types .ietrack-feature-panel .boiler-types-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.boiler-types .ietrack-feature-panel .ietrack-feature{align-self:start}
+    @media(max-width:950px){.ietrack-feature-explorer{grid-template-columns:1fr}.ietrack-feature-chart-area{grid-template-columns:165px 1fr;column-gap:18px}.ietrack-feature-chart{width:165px}.ietrack-feature-chart-caption{text-align:center}}
+    @media(max-width:570px){.ietrack-feature-chart-area{display:block;padding:18px}.ietrack-feature-chart{width:155px;margin:0 auto 16px}.ietrack-feature-chart-caption{text-align:center;margin-bottom:12px}.boiler-types .ietrack-feature-panel .boiler-types-grid{grid-template-columns:1fr}.ietrack-feature-panel-head{align-items:start;flex-direction:column}}
+    @media(prefers-reduced-motion:reduce){.ietrack-feature-tab{transition:none}}
+
+    .ietrack-about-section{background:linear-gradient(115deg,#fff 0%,#f5faf9 100%)}
+    .ietrack-about-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(330px,.85fr);align-items:center;gap:clamp(26px,5vw,76px)}
+    .ietrack-about-copy .title-meet-ieng-about{max-width:680px;line-height:1.2}
+    .ietrack-about-copy .about-text-abou-ieng{max-width:770px;line-height:1.7}
+    .ietrack-about-caveat{color:#28737b;font-size:14px;font-weight:700;line-height:1.5;margin:19px 0 0}
+    .ietrack-about-highlights{display:grid;gap:12px}.ietrack-about-highlight{display:flex;align-items:flex-start;gap:16px;background:#fff;border:1px solid #dcebe9;border-radius:16px;padding:21px 22px;box-shadow:0 8px 22px #12434b0b}.ietrack-about-icon{display:grid;place-items:center;flex:none;width:44px;height:44px;background:#e0f4ef;color:#087f91;border-radius:12px;font-size:18px}.ietrack-about-highlight h3{margin:0 0 6px;color:#173c4b;font-size:17px}.ietrack-about-highlight p{margin:0;color:#5d7380;font-size:14px;line-height:1.55}
+    @media(max-width:850px){.ietrack-about-layout{grid-template-columns:1fr}.ietrack-about-highlights{grid-template-columns:repeat(3,minmax(0,1fr))}.ietrack-about-highlight{display:block}.ietrack-about-icon{margin-bottom:12px}}
+    @media(max-width:650px){.ietrack-about-highlights{grid-template-columns:1fr}.ietrack-about-highlight{display:flex}.ietrack-about-icon{margin-bottom:0}}
+  </style>
 
   <link rel="icon" href="{% static 'images/logo1.png' %}">
+
   <link rel="stylesheet"
+
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 
 <body>
+
   <!-- Google Tag Manager (noscript) -->
+
   <noscript>
+
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKQV8LKX"
+
             height="0"
+
             width="0"
+
             style="display:none;visibility:hidden"></iframe>
+
   </noscript>
+
   <!-- End Google Tag Manager (noscript) -->
 
   {% include 'header.html' %}
+
   {% include 'request_demo_modal.html' %}
 
   <!-- ============ HERO ============ -->
-  <section class="boiler-hero" id="home">
-    <div class="boiler-container">
-      <div class="boiler-hero-inner">
 
-        <div class="boiler-hero-left boiler-reveal">
-          <div class="boiler-hero-kicker">
-            <span>Steam &amp; Hot Water Systems</span>
-          </div>
+  <section class="boiler-hero" id="home"><div class="boiler-container"><div class="boiler-hero-inner">
 
-          <h1 class="boiler-hero-title">
-            Industrial <span>Boilers</span> for Reliable Process &amp; Building Heat
-          </h1>
+    <div class="boiler-hero-left boiler-reveal">
 
-          <p class="boiler-hero-sub">
-            A boiler is a closed vessel used to heat water and generate steam or hot water for industrial and
-            commercial applications from space heating and process steam to power generation and sterilisation.
-          </p>
-          <p class="boiler-hero-sub">
-            iEngineering supports boiler deployments for food processing, chemical plants, sugar mills, textile
-            facilities, healthcare, paper mills and FMCG industries across Australia, Fiji, India and the Pacific.
-          </p>
+      <div class="boiler-hero-kicker"><span><i class="fa-solid fa-circle-nodes" aria-hidden="true"></i> iEngineering workforce platform</span></div>
 
-          <div class="boiler-hero-cta">
-            <a href="#types" class="boiler-btn-primary">View Boiler Types</a>
-            <!-- <a href="#contact" class="boiler-btn-ghost js-open-demo">Submit Boiler Enquiry</a> -->
-          </div>
+      <h1 class="boiler-hero-title">Make every workday<br><span>easier to understand.</span></h1>
 
-          <div class="boiler-hero-stats">
-            <!-- <div class="boiler-stat">
-              <div class="boiler-stat-label">Regions</div>
-              <div class="boiler-stat-value">AU • Fiji • India</div>
-            </div> -->
-            <!-- <div class="boiler-stat">
-              <div class="boiler-stat-label">Applications</div>
-              <div class="boiler-stat-value">Process &amp; HVAC</div>
-            </div> -->
-          </div>
-        </div>
+      <p class="boiler-hero-sub">From punch in and leave requests to Learning Reports and productivity insights, iEtrack brings the full workday together.</p>
 
-        <div class="boiler-hero-media boiler-reveal">
-          <div class="boiler-hero-card">
-            <div class="boiler-hero-image-wrap">
-              <!-- Replace with boiler-specific hero image when available -->
-              <img src="{% static 'images/boiler.avif' %}" alt="Industrial boiler and steam header in plant" />
+      <p class="boiler-hero-sub">Employees add context to their work. Team leads and administrators use permission-based views to review attendance, activity, tasks and exceptions.</p>
 
-              <div class="boiler-hero-pill">Typical steam boiler installation</div>
-            </div>
-            <div class="boiler-hero-meta">
-              <h3>Flexible Integration</h3>
-              <p>
-                Support for low, medium and high-pressure boiler systems, burners, pumps, controls and safety
-                devices tailored to your process.
-              </p>
-            </div>
-          </div>
-        </div>
+      <div class="boiler-hero-cta"><a href="#types" class="boiler-btn-primary">See what iEtrack does <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a><a href="#contact" class="boiler-btn-ghost">Book a walkthrough</a></div>
 
-      </div>
+      <div class="hero-proof"><span><i class="fa-solid fa-check" aria-hidden="true"></i> Attendance &amp; breaks</span><span><i class="fa-solid fa-check" aria-hidden="true"></i> Leave &amp; permissions</span><span><i class="fa-solid fa-check" aria-hidden="true"></i> Activity &amp; tasks</span><span><i class="fa-solid fa-check" aria-hidden="true"></i> Workforce reports</span></div>
+
     </div>
-  </section>
+
+    <div class="boiler-hero-media boiler-reveal"><div class="boiler-hero-card">
+
+      <a class="ietrack-real-screen-link" href="{% static 'images/hero-activity-dashboard.png' %}" target="_blank" rel="noopener" aria-label="Open iEtrack image at full size"><img class="ietrack-real-screen" src="{% static 'images/hero-activity-dashboard.png' %}" alt="Woman using the iEtrack dashboard and punch-in window on a laptop" fetchpriority="high"></a>
+
+      <div class="boiler-hero-meta"><h3>Built for the way teams work</h3><p>Combine tracker records with employee updates and review the full workday in context.</p></div>
+
+    </div></div>
+
+  </div></div></section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="boiler-types" id="types"><div class="boiler-container">
+    <div class="boiler-types-head"><div><div class="boiler-types-kicker">iEtrack features</div><h2 class="boiler-types-title">Everything in one connected workday.</h2></div><p class="boiler-types-sub">Explore features across five areas. Select a category, then open any feature for details.</p></div>
+    <div class="ietrack-feature-explorer">
+      <div class="ietrack-feature-chart-area">
+        <div class="ietrack-feature-chart" role="img" aria-label="features: attendance and working time, activity and visibility, Learning Reports and task review, workforce insights, and users and access" style="--chart-segments:#119e98 0.0000% 17.2414%, #4e91c7 17.2414% 44.8276%, #987ac9 44.8276% 62.0690%, #e0ad58 62.0690% 82.7586%, #65af8d 82.7586% 100.0000%"><span class="ietrack-chart-icon" style="--icon-x:69%;--icon-y:18%" aria-hidden="true"><i class="fa-solid fa-clock"></i></span><span class="ietrack-chart-icon" style="--icon-x:84%;--icon-y:64%" aria-hidden="true"><i class="fa-solid fa-desktop"></i></span><span class="ietrack-chart-icon" style="--icon-x:42%;--icon-y:86%" aria-hidden="true"><i class="fa-solid fa-list-check"></i></span><span class="ietrack-chart-icon" style="--icon-x:14%;--icon-y:56%" aria-hidden="true"><i class="fa-solid fa-chart-line"></i></span><span class="ietrack-chart-icon" style="--icon-x:31%;--icon-y:18%" aria-hidden="true"><i class="fa-solid fa-users-gear"></i></span><span class="ietrack-feature-chart-center"><span>features</span></span></div>
+        <p class="ietrack-feature-chart-caption">Explore by area</p>
+        <div class="ietrack-feature-tabs" aria-label="Feature categories"><button type="button" class="ietrack-feature-tab" data-feature-category="0" aria-controls="ietrack-feature-panel-0" aria-pressed="true"><span class="ietrack-feature-dot" style="--feature-color:#119e98"></span><span>Attendance, leave &amp; working time</span></button><button type="button" class="ietrack-feature-tab" data-feature-category="1" aria-controls="ietrack-feature-panel-1" aria-pressed="false"><span class="ietrack-feature-dot" style="--feature-color:#4e91c7"></span><span>Activity &amp; visibility</span></button><button type="button" class="ietrack-feature-tab" data-feature-category="2" aria-controls="ietrack-feature-panel-2" aria-pressed="false"><span class="ietrack-feature-dot" style="--feature-color:#987ac9"></span><span>Learning Reports &amp; task review</span></button><button type="button" class="ietrack-feature-tab" data-feature-category="3" aria-controls="ietrack-feature-panel-3" aria-pressed="false"><span class="ietrack-feature-dot" style="--feature-color:#e0ad58"></span><span>Workforce insights</span></button><button type="button" class="ietrack-feature-tab" data-feature-category="4" aria-controls="ietrack-feature-panel-4" aria-pressed="false"><span class="ietrack-feature-dot" style="--feature-color:#65af8d"></span><span>Users, groups &amp; access</span></button></div>
+      </div>
+      <div class="ietrack-feature-panels"><section class="ietrack-feature-panel" id="ietrack-feature-panel-0" data-feature-panel="0" aria-labelledby="ietrack-feature-heading-0"><div class="ietrack-feature-panel-head"><div><span class="ietrack-feature-overline">CATEGORY 01 / 05</span><h3 id="ietrack-feature-heading-0" class="ietrack-feature-group-title">Attendance, leave &amp; working time</h3></div><span class="ietrack-feature-panel-count">5 features</span></div><div class="boiler-types-grid">
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-clock" aria-hidden="true"></i></span><span class="boiler-type-title">Attendance &amp; break report</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Review punch in, punch out, working hours, late logins, break time and exceptions for selected employees and dates.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-clock" aria-hidden="true"></i></span><span class="boiler-type-title">Attendance policies &amp; time zones</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Configure work schedules and attendance settings for teams in different locations.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-clock" aria-hidden="true"></i></span><span class="boiler-type-title">Leave records &amp; permissions</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Employees request leave or permission hours, and authorised reviewers manage the approval status.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-clock" aria-hidden="true"></i></span><span class="boiler-type-title">Offsite attendance</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Record attendance for work carried out away from the tracked computer.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-clock" aria-hidden="true"></i></span><span class="boiler-type-title">Holiday master</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Maintain the holiday calendar used in attendance reviews.</p></details>
+    </div></section><section class="ietrack-feature-panel" id="ietrack-feature-panel-1" data-feature-panel="1" aria-labelledby="ietrack-feature-heading-1"><div class="ietrack-feature-panel-head"><div><span class="ietrack-feature-overline">CATEGORY 02 / 05</span><h3 id="ietrack-feature-heading-1" class="ietrack-feature-group-title">Activity &amp; visibility</h3></div><span class="ietrack-feature-panel-count">8 features</span></div><div class="boiler-types-grid">
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-desktop" aria-hidden="true"></i></span><span class="boiler-type-title">Activity dashboard</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Review an overview of recorded workday activity and trends.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-desktop" aria-hidden="true"></i></span><span class="boiler-type-title">Activity log</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Examine the timeline of tracker events and active and idle periods.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-desktop" aria-hidden="true"></i></span><span class="boiler-type-title">Manual activity</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Add context for meetings, calls, training, site visits and work away from the keyboard.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-desktop" aria-hidden="true"></i></span><span class="boiler-type-title">Application usage</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Review recorded time spent in desktop applications.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-desktop" aria-hidden="true"></i></span><span class="boiler-type-title">Website usage</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Review recorded website activity over a selected period.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-desktop" aria-hidden="true"></i></span><span class="boiler-type-title">Category usage</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Understand recorded activity through work categories.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-desktop" aria-hidden="true"></i></span><span class="boiler-type-title">Real-time visibility</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">View the latest available employee activity where your role permits access.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-desktop" aria-hidden="true"></i></span><span class="boiler-type-title">Live screen &amp; screenshots</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Authorised reviewers can view live screens and available captured screenshots where enabled.</p></details>
+    </div></section><section class="ietrack-feature-panel" id="ietrack-feature-panel-2" data-feature-panel="2" aria-labelledby="ietrack-feature-heading-2"><div class="ietrack-feature-panel-head"><div><span class="ietrack-feature-overline">CATEGORY 03 / 05</span><h3 id="ietrack-feature-heading-2" class="ietrack-feature-group-title">Learning Reports &amp; task review</h3></div><span class="ietrack-feature-panel-count">5 features</span></div><div class="boiler-types-grid">
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span><span class="boiler-type-title">Learning Reports &amp; tasks</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Record daily work and the time spent so the workday has employee-provided context.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span><span class="boiler-type-title">Time comparison</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Compare employee-reported task time with recorded tracker time.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span><span class="boiler-type-title">Task match report</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Find task and tracker activity matches as well as records that need review.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span><span class="boiler-type-title">Honesty score report</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Review comparison and verification indicators with supporting context; scores support human review.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span><span class="boiler-type-title">Allocation report</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Examine how recorded or reported time is distributed across work.</p></details>
+    </div></section><section class="ietrack-feature-panel" id="ietrack-feature-panel-3" data-feature-panel="3" aria-labelledby="ietrack-feature-heading-3"><div class="ietrack-feature-panel-head"><div><span class="ietrack-feature-overline">CATEGORY 04 / 05</span><h3 id="ietrack-feature-heading-3" class="ietrack-feature-group-title">Workforce insights</h3></div><span class="ietrack-feature-panel-count">6 features</span></div><div class="boiler-types-grid">
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span><span class="boiler-type-title">Daily work metrics</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Review daily working time and activity measures.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span><span class="boiler-type-title">Productivity trends</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Follow productivity measures across selected dates.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span><span class="boiler-type-title">Productivity by user</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Examine individual productivity and activity details.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span><span class="boiler-type-title">Employee of the month</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">View the employee recognition report and its supporting measures.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span><span class="boiler-type-title">Report overview</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Access a consolidated view of workforce reports.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span><span class="boiler-type-title">Organisation overview</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">View organisation-wide workforce information and patterns.</p></details>
+    </div></section><section class="ietrack-feature-panel" id="ietrack-feature-panel-4" data-feature-panel="4" aria-labelledby="ietrack-feature-heading-4"><div class="ietrack-feature-panel-head"><div><span class="ietrack-feature-overline">CATEGORY 05 / 05</span><h3 id="ietrack-feature-heading-4" class="ietrack-feature-group-title">Users, groups &amp; access</h3></div><span class="ietrack-feature-panel-count">5 features</span></div><div class="boiler-types-grid">
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-users-gear" aria-hidden="true"></i></span><span class="boiler-type-title">Role-based access</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Employees, assigned team leads and administrators see the information available to their roles.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-users-gear" aria-hidden="true"></i></span><span class="boiler-type-title">Users &amp; groups</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Manage accounts, tracker identities, team assignments and groups.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-users-gear" aria-hidden="true"></i></span><span class="boiler-type-title">Historical employee records</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Disable an account while retaining previous data for historical review.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-users-gear" aria-hidden="true"></i></span><span class="boiler-type-title">Profile &amp; password settings</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Maintain account details and password access.</p></details>
+      <details class="ietrack-feature"><summary><span class="feature-icon"><i class="fa-solid fa-users-gear" aria-hidden="true"></i></span><span class="boiler-type-title">Desktop tracker agent</span><i class="fa-solid fa-chevron-down ietrack-feature-chevron" aria-hidden="true"></i></summary><p class="boiler-type-text">Capture attendance and activity through the installed desktop agent.</p></details>
+    </div></section></div>
+    </div>
+  </div></section>
+  <!-- ============ USER FLOW ============ -->
+
+  <section class="ietrack-flow-section" aria-label="iEtrack user flow"><div class="boiler-container">
+
+    <figure class="ietrack-flow-figure boiler-reveal"><figcaption>How the iEtrack workday flows <small>Click the diagram to view it full size</small></figcaption>
+
+      <a href="{% static 'images/ietrack-user-flow.svg' %}" target="_blank" rel="noopener" aria-label="Open iEtrack user flow at full size"><img src="{% static 'images/ietrack-user-flow.svg' %}" alt="Current iEtrack flow showing punch in, activity tracking, manual activity, idle screenshots, on-demand live screen and SQL reports" loading="lazy"></a>
+
+    </figure>
+
+  </div></section>
+
+  <!-- ============ FROM RECORD TO REVIEW ============ -->
+  <section class="ietrack-story" id="connected-workday"><div class="boiler-container">
+    <div class="ietrack-story-head boiler-reveal"><p class="boiler-eyebrow">How the information connects</p><h2>One day. Three useful perspectives.</h2><p>iEtrack places tracker records beside employee-provided updates, so the person reviewing a report can see both the activity and its context.</p></div>
+    <div class="ietrack-story-grid">
+      <article class="ietrack-story-panel boiler-reveal"><i class="fa-solid fa-fingerprint" aria-hidden="true"></i><span class="ietrack-story-step">01 · RECORD</span><h3>Attendance &amp; activity</h3><p>Punch times, breaks and available computer activity build the day's recorded timeline.</p></article>
+      <article class="ietrack-story-panel boiler-reveal"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i><span class="ietrack-story-step">02 · EXPLAIN</span><h3>Employee context</h3><p>Learning Reports, manual activity, leave and offsite records explain work the tracker alone may not show.</p></article>
+      <article class="ietrack-story-panel boiler-reveal"><i class="fa-solid fa-chart-column" aria-hidden="true"></i><span class="ietrack-story-step">03 · REVIEW</span><h3>Relevant reports</h3><p>People with the right access review task matches, working time, productivity and exceptions by employee or period.</p></article>
+    </div><p class="ietrack-story-note">Reports support a conversation about work; a score or activity record does not by itself explain every task.</p>
+  </div></section>
 
   <!-- ============ OVERVIEW ============ -->
-  
 
-  <!-- ============ TYPES / CLASSIFICATION ============ -->
-  <section class="boiler-types" id="types">
-    <div class="boiler-container">
-      <div class="boiler-types-head">
-        <div>
-          <div class="boiler-types-kicker">Boiler classification</div>
-          <h2 class="boiler-types-title">Boiler Types &amp; Operating Characteristics</h2>
+  <section class="boiler-overview" id="overview"><div class="boiler-container"><div class="boiler-overview-grid">
+
+    <div class="boiler-overview-main boiler-reveal"><p class="boiler-eyebrow">The bigger picture</p><h2 class="boiler-section-title">See the work behind the hours.</h2>
+
+      <p class="boiler-section-text">A timesheet tells you how long someone worked. iEtrack helps you understand the day itself: when work began, which activities were recorded and what the employee says they worked on.</p>
+
+      <p class="boiler-section-text">When work happens away from the keyboard, employees can add manual activity and Learning Report tasks. Leave and offsite records complete the picture, making reviews more useful for both employees and team leads.</p>
+
+      <ul class="boiler-check-list"><li><span class="boiler-check-dot"></span> Follow attendance, breaks, leave and working hours</li><li><span class="boiler-check-dot"></span> Understand activity with employee-provided context</li><li><span class="boiler-check-dot"></span> Spot task and time differences that need a closer look</li><li><span class="boiler-check-dot"></span> Review the right people and dates for your role</li></ul>
+
+      <a class="overview-link" href="#process">See how it works <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+
+    </div><aside class="boiler-overview-media boiler-reveal"><figure class="ietrack-workday-visual" aria-label="Illustrated iEtrack workday dashboard showing attendance, activity and Learning Report context">
+      <div class="ietrack-visual-glow" aria-hidden="true"></div>
+      <div class="ietrack-visual-grid" aria-hidden="true"></div>
+      <div class="ietrack-ui-main">
+        <div class="ietrack-ui-top"><span class="ietrack-ui-mark"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></span><strong>Your workday, connected</strong><span class="ietrack-ui-live"><span></span> LIVE VIEW</span></div>
+        <div class="ietrack-ui-content">
+          <p class="ietrack-ui-eyebrow">WORKDAY SNAPSHOT <span>Illustrative view</span></p>
+          <div class="ietrack-ui-numbers"><div><small>Punch in</small><strong>09:00</strong></div><div><small>Break</small><strong>01:00</strong></div><div><small>Tracked day</small><strong>08:30</strong></div></div>
+          <div class="ietrack-ui-title"><strong>Activity timeline</strong><span>09:00 — 17:30</span></div>
+          <div class="ietrack-ui-timeline" aria-label="Illustrative activity timeline"><span></span><span></span><span></span><span></span><i></i></div>
+          <div class="ietrack-ui-legend"><span><b class="ietrack-legend-work"></b> Recorded work</span><span><b class="ietrack-legend-break"></b> Break</span><span><b class="ietrack-legend-context"></b> Task context</span></div>
         </div>
-        <p class="boiler-types-sub">
-          Boilers are classified by gas and water flow paths, circulation method, operating pressure,
-          orientation and application. We align these technical characteristics to your thermal demand and process.
-        </p>
       </div>
+      <div class="ietrack-ui-float"><span class="ietrack-ui-float-icon"><i class="fa-solid fa-list-check" aria-hidden="true"></i></span><div><small>LEARNING REPORT</small><strong>Tasks add the missing context</strong><span>Meetings · Project work · Follow-ups</span></div><span class="ietrack-ui-tick"><i class="fa-solid fa-check" aria-hidden="true"></i></span></div>
+      <figcaption>A conceptual view showing how attendance, activity and employee-provided tasks connect in iEtrack.</figcaption>
+    </figure></aside>
 
-      <div class="boiler-types-grid">
+  </div></div></section>
 
-        <article class="boiler-type-card boiler-reveal">
-          <div class="boiler-type-tag">
-            <span>Flow path</span>
-          </div>
-          <h3 class="boiler-type-title">Water-Tube Boilers</h3>
-          <p class="boiler-type-text">
-            Water flows inside tubes while hot gases pass over them. Suitable for higher pressures and larger
-            steam capacities used in power plants, refineries and major process industries.
-          </p>
-          <div class="boiler-type-meta">
-            <span>High pressure</span>
-            <span>Large capacity</span>
-          </div>
-        </article>
+  <!-- ============ WORKFLOW ============ -->
 
-        <article class="boiler-type-card boiler-reveal">
-          <div class="boiler-type-tag">
-            <span>Flow path</span>
-          </div>
-          <h3 class="boiler-type-title">Fire-Tube Boilers</h3>
-          <p class="boiler-type-text">
-            Hot gases flow through tubes immersed in water. Compact and robust, they are ideal for low and
-            medium-pressure steam and hot water in food, textile, healthcare and commercial buildings.
-          </p>
-          <div class="boiler-type-meta">
-            <span>Compact</span>
-            <span>Low/medium pressure</span>
-          </div>
-        </article>
+  <section class="boiler-process" id="process"><div class="boiler-container"><div class="boiler-process-inner"><div class="boiler-process-intro boiler-reveal"><p class="boiler-eyebrow">How it works</p><h2 class="boiler-section-title">From punch in to a useful review</h2><p class="boiler-process-text">The desktop tracker captures a timeline. Employees add what they worked on. Authorised reviewers explore reports alongside that context.</p><p class="boiler-process-text">Attendance schedules, team assignments and account permissions shape the records each person can review.</p></div><div class="boiler-timeline boiler-reveal"><ol class="boiler-timeline-list">          <li class="boiler-timeline-item"><div class="boiler-timeline-icon">01</div><div class="boiler-timeline-content"><h3 class="boiler-timeline-title">Start and track</h3><p class="boiler-timeline-text">Employees punch in through the desktop agent. Attendance, breaks and recorded activity build a workday timeline.</p></div></li>
 
-        <article class="boiler-type-card boiler-reveal">
-          <div class="boiler-type-tag">
-            <span>Energy source</span>
-          </div>
-          <h3 class="boiler-type-title">Electric Boilers</h3>
-          <p class="boiler-type-text">
-            Use electrical energy to generate steam or hot water. A clean option where flue emissions are restricted,
-            or where electricity tariffs favour electric heating for smaller loads.
-          </p>
-          <div class="boiler-type-meta">
-            <span>Zero on-site emissions</span>
-            <span>Quiet operation</span>
-          </div>
-        </article>
+          <li class="boiler-timeline-item"><div class="boiler-timeline-icon">02</div><div class="boiler-timeline-content"><h3 class="boiler-timeline-title">Record the full day</h3><p class="boiler-timeline-text">Employees enter Learning Reports and manual activity, and can submit leave or permission requests when needed.</p></div></li>
 
-        <article class="boiler-type-card boiler-reveal">
-          <div class="boiler-type-tag">
-            <span>Pressure</span>
-          </div>
-          <h3 class="boiler-type-title">Low, Medium &amp; High-Pressure</h3>
-          <p class="boiler-type-text">
-            Solutions for low-pressure heating systems, medium-pressure process steam and high-pressure or
-            supercritical units for power generation and demanding industrial duties.
-          </p>
-          <div class="boiler-type-meta">
-            <span>Heating &amp; process</span>
-            <span>Power generation</span>
-          </div>
-        </article>
+          <li class="boiler-timeline-item"><div class="boiler-timeline-icon">03</div><div class="boiler-timeline-content"><h3 class="boiler-timeline-title">Explore the reports</h3><p class="boiler-timeline-text">Authorised reviewers explore attendance, leave, activity, productivity and task comparisons in filtered views.</p></div></li>
 
-        <article class="boiler-type-card boiler-reveal">
-          <div class="boiler-type-tag">
-            <span>Circulation</span>
-          </div>
-          <h3 class="boiler-type-title">Natural &amp; Forced Circulation</h3>
-          <p class="boiler-type-text">
-            Both buoyancy-driven (natural) and pump-driven (forced) circulation boilers are deployed based on height,
-            layout, pressure requirements and response time.
-          </p>
-          <div class="boiler-type-meta">
-            <span>Stable operation</span>
-            <span>Process responsive</span>
-          </div>
-        </article>
+          <li class="boiler-timeline-item"><div class="boiler-timeline-icon">04</div><div class="boiler-timeline-content"><h3 class="boiler-timeline-title">Discuss what needs attention</h3><p class="boiler-timeline-text">Use task matches, time comparisons and attendance exceptions to ask useful questions and confirm the full context.</p></div></li></ol></div></div></div></section>
 
-        <article class="boiler-type-card boiler-reveal">
-          <div class="boiler-type-tag">
-            <span>Application</span>
-          </div>
-          <h3 class="boiler-type-title">Stationary, Portable &amp; Marine</h3>
-          <p class="boiler-type-text">
-            Stationary plant boilers, portable units for temporary or remote sites, locomotive and marine boilers,
-            configured with the right mounting, orientation and controls.
-          </p>
-          <div class="boiler-type-meta">
-            <span>Site-specific</span>
-            <span>Flexible deployment</span>
-          </div>
-        </article>
+  <!-- ============ USE CASES ============ -->
 
-      </div>
-    </div>
-  </section>
+  <section class="boiler-industries" id="applications"><div class="boiler-container"><div class="boiler-industries-header boiler-reveal"><p class="boiler-eyebrow">Who it helps</p><h2 class="boiler-section-title">The right view for the right person</h2><p>Employees add context. Team leads and administrators see the reports their roles allow.</p></div><div class="boiler-industries-grid">        <article class="boiler-industry-card boiler-reveal"><i class="fa-solid fa-user-clock case-icon" aria-hidden="true"></i><h3 class="boiler-industry-title">For HR teams</h3><p class="boiler-industry-text">Review attendance, late logins, breaks, leave requests, permissions and working-hour exceptions.</p></article>
 
-  <section class="boiler-overview" id="overview">
-    <div class="boiler-container">
-      <div class="boiler-overview-grid">
+        <article class="boiler-industry-card boiler-reveal"><i class="fa-solid fa-people-group case-icon" aria-hidden="true"></i><h3 class="boiler-industry-title">For team leads</h3><p class="boiler-industry-text">Review assigned teams, task updates and activity according to group permissions.</p></article>
 
-        <div class="boiler-overview-main boiler-reveal">
-          <p class="boiler-eyebrow">What we provide</p>
-          <h2 class="boiler-section-title">
-            Complete Boiler Solutions – From Selection to Commissioning
-          </h2>
-          <p class="boiler-section-text">
-            We help you define thermal loads, select the right boiler type and pressure range,
-            and coordinate supply, installation support and integration with your wider plant.
-          </p>
-          <p class="boiler-section-text">
-            Our team works across new installations, replacement units and efficiency upgrades,
-            considering fuel type, emissions, safety standards and lifecycle operating costs.
-          </p>
+        <article class="boiler-industry-card boiler-reveal"><i class="fa-solid fa-globe case-icon" aria-hidden="true"></i><h3 class="boiler-industry-title">For distributed work</h3><p class="boiler-industry-text">Review work across locations, shifts and time zones in one workspace.</p></article>
 
-          <ul class="boiler-check-list">
-            <li>
-              <span class="boiler-check-dot"></span>
-              Fire-tube, water-tube and electric boiler options
-            </li>
-            <li>
-              <span class="boiler-check-dot"></span>
-              Steam &amp; hot water systems for process and building services
-            </li>
-            <li>
-              <span class="boiler-check-dot"></span>
-              Burner, pump, valve, control and safety integration
-            </li>
-            <li>
-              <span class="boiler-check-dot"></span>
-              Support across Australia, Fiji, India &amp; the Pacific
-            </li>
-          </ul>
-        </div>
+        <article class="boiler-industry-card boiler-reveal"><i class="fa-solid fa-chart-pie case-icon" aria-hidden="true"></i><h3 class="boiler-industry-title">For management</h3><p class="boiler-industry-text">Move from scattered records to focused, filterable reporting.</p></article>
 
-         <!-- Right: real boiler photo -->
-        <aside class="boiler-overview-media boiler-reveal">
-          <figure class="boiler-overview-image-wrap">
-            <!-- update the image path to your real boiler image -->
-            <img src="./static/images/boiler2.avif"
-                 alt="Industrial boiler installation in plant" />
-          </figure>
-        </aside>
+        <article class="boiler-industry-card boiler-reveal"><i class="fa-solid fa-user case-icon" aria-hidden="true"></i><h3 class="boiler-industry-title">For employees</h3><p class="boiler-industry-text">Record Learning Reports and manual activity, submit leave requests and review permitted personal information.</p></article>
 
-      </div>
-    </div>
-  </section>
-  <!-- ============ PROCESS ============ -->
-  <section class="boiler-process" id="process">
-    <div class="boiler-container">
-      <div class="boiler-process-inner">
-
-        <div class="boiler-process-intro boiler-reveal">
-          <p class="boiler-eyebrow">How we work</p>
-          <h2 class="boiler-section-title">Boiler Project Workflow</h2>
-          <p class="boiler-process-text">
-            We follow a structured approach from load assessment and type selection through to supply coordination
-            and commissioning support so your boiler installation is safe, efficient and compliant.
-          </p>
-          <p class="boiler-process-text">
-            Our team can work with your consultants, mechanical contractors and facility team to integrate boilers
-            into existing plant rooms, new builds or retrofit projects.
-          </p>
-        </div>
-
-        <div class="boiler-timeline boiler-reveal">
-          <ol class="boiler-timeline-list">
-            <li class="boiler-timeline-item">
-              <div class="boiler-timeline-icon">1</div>
-              <div class="boiler-timeline-content">
-                <h3 class="boiler-timeline-title">Thermal Load &amp; Site Assessment</h3>
-                <p class="boiler-timeline-text">
-                  Review of process or building heating demand, operating pressure and temperature, duty cycles,
-                  available utilities, fuel options and installation constraints.
-                </p>
-              </div>
-            </li>
-            <li class="boiler-timeline-item">
-              <div class="boiler-timeline-icon">2</div>
-              <div class="boiler-timeline-content">
-                <h3 class="boiler-timeline-title">Boiler Type &amp; Configuration Selection</h3>
-                <p class="boiler-timeline-text">
-                  Selection of water-tube, fire-tube or electric boiler; flow path, circulation method, pressure class
-                  and orientation to match performance and regulatory needs.
-                </p>
-              </div>
-            </li>
-            <li class="boiler-timeline-item">
-              <div class="boiler-timeline-icon">3</div>
-              <div class="boiler-timeline-content">
-                <h3 class="boiler-timeline-title">Engineering &amp; Supply Coordination</h3>
-                <p class="boiler-timeline-text">
-                  Coordination with manufacturers for boiler packages, burners, pumps, feedwater systems, valves
-                  and controls including documentation, QA and logistics.
-                </p>
-              </div>
-            </li>
-            <li class="boiler-timeline-item">
-              <div class="boiler-timeline-icon">4</div>
-              <div class="boiler-timeline-content">
-                <h3 class="boiler-timeline-title">Commissioning Support &amp; Ongoing Optimisation</h3>
-                <p class="boiler-timeline-text">
-                  Support for commissioning, performance checks and safety interlocks, followed by ongoing guidance
-                  on efficiency improvements and lifecycle upgrades.
-                </p>
-              </div>
-            </li>
-          </ol>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ INDUSTRIES / APPLICATIONS ============ -->
-  <section class="boiler-industries" id="applications">
-    <div class="boiler-container">
-      <div class="boiler-industries-header boiler-reveal">
-        <p class="boiler-eyebrow">Where boilers are used</p>
-        <h2 class="boiler-section-title">Typical Boiler Applications</h2>
-        <p>
-          iEngineering supports boiler and steam/hot-water solutions across a wide range of industries,
-          from food production and chemicals to healthcare and power.
-        </p>
-      </div>
-
-      <div class="boiler-industries-grid">
-        <article class="boiler-industry-card boiler-reveal">
-          <h3 class="boiler-industry-title">Food &amp; Beverage Processing</h3>
-          <p class="boiler-industry-text">
-            Process steam for cooking, sterilisation, CIP systems and packaging lines.
-          </p>
-        </article>
-
-        <article class="boiler-industry-card boiler-reveal">
-          <h3 class="boiler-industry-title">Chemical &amp; Pharmaceutical</h3>
-          <p class="boiler-industry-text">
-            Controlled steam and hot water for reactors, distillation and critical processes.
-          </p>
-        </article>
-
-        <article class="boiler-industry-card boiler-reveal">
-          <h3 class="boiler-industry-title">Refineries &amp; Distilleries</h3>
-          <p class="boiler-industry-text">
-            Boiler systems for distillation, stripping, heating and associated balance-of-plant.
-          </p>
-        </article>
-
-        <article class="boiler-industry-card boiler-reveal">
-          <h3 class="boiler-industry-title">Sugar &amp; Paper Mills</h3>
-          <p class="boiler-industry-text">
-            Steam for process, cogeneration, drying sections and mill-wide heating loads.
-          </p>
-        </article>
-
-        <article class="boiler-industry-card boiler-reveal">
-          <h3 class="boiler-industry-title">Textiles &amp; Laundries</h3>
-          <p class="boiler-industry-text">
-            Steam and hot water for washing, dyeing, pressing and finishing operations.
-          </p>
-        </article>
-
-        <article class="boiler-industry-card boiler-reveal">
-          <h3 class="boiler-industry-title">Healthcare &amp; FMCG</h3>
-          <p class="boiler-industry-text">
-            Boiler solutions for hospitals, sterilisation, HVAC systems and FMCG process lines.
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
+        <article class="boiler-industry-card boiler-reveal"><i class="fa-solid fa-shield-halved case-icon" aria-hidden="true"></i><h3 class="boiler-industry-title">For authorised reviewers</h3><p class="boiler-industry-text">Use account permissions to limit access to sensitive views and monitoring.</p></article></div></div></section>
 
   <!-- ============ ABOUT ============ -->
-  <section id="about-us" class="cmms-contact-form-wrap">
-    <div class="cmms-contact-form-inner">
-      <p class="eyebrow-neplan-what-we-bring">About us</p>
-      <h2 class="title-meet-ieng-about">
-        About us – where vision meets execution!
-      </h2>
-      <p class="about-text-abou-ieng">
-        iEngineering is your trusted partner for advanced electrical and energy solutions across Australia, Fiji, and
-        India. We deliver high-quality hardware products from switchboards and transformers to solar, BESS, EV charging
-        systems and industrial boilers backed by expert engineering, reliable installation and dedicated local support.
-      </p>
+
+  <section id="about-us" class="cmms-contact-form-wrap ietrack-about-section"><div class="cmms-contact-form-inner ietrack-about-layout">
+    <div class="ietrack-about-copy"><p class="eyebrow-neplan-what-we-bring">About iEtrack</p><h2 class="title-meet-ieng-about">A clearer view of the workday, from attendance to outcomes.</h2><p class="about-text-abou-ieng">Developed by iEngineering Australia, iEtrack brings attendance, desktop activity and employee-reported work into one place. It helps teams understand when work happened, what was recorded and how employees describe the tasks behind it.</p><p class="about-text-abou-ieng">Employees can record leave, permissions, offsite work and Learning Reports alongside their tracked time. Authorised team leads and administrators can review relevant reports, compare records and investigate exceptions with the employee's context in view.</p><p class="ietrack-about-caveat">Access to individual and team information is controlled by assigned roles and groups.</p></div>
+    <div class="ietrack-about-highlights" aria-label="How iEtrack supports teams">
+      <div class="ietrack-about-highlight"><span class="ietrack-about-icon"><i class="fa-solid fa-clock" aria-hidden="true"></i></span><div><h3>Record the workday</h3><p>Bring punch times, breaks and available activity into a consistent timeline.</p></div></div>
+      <div class="ietrack-about-highlight"><span class="ietrack-about-icon"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i></span><div><h3>Add the human context</h3><p>Explain tasks, leave, meetings and work away from the tracked computer.</p></div></div>
+      <div class="ietrack-about-highlight"><span class="ietrack-about-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span><div><h3>Review with confidence</h3><p>Use role-appropriate reports to compare time, activity and employee updates.</p></div></div>
     </div>
-  </section>
-
-
+  </div></section>
 
   <!-- ============ MISSION / VISION / VALUES ============ -->
-<section class="boiler-mvv-section" id="mission">
-  <div class="boiler-container">
 
-    <!-- Tabs -->
-    <div class="boiler-mvv-tabs">
-      <button class="boiler-mvv-tab is-active" data-tab="mission">Mission</button>
-      <button class="boiler-mvv-tab" data-tab="vision">Vision</button>
-      <button class="boiler-mvv-tab" data-tab="values">Values</button>
-    </div>
+  <section class="boiler-mvv-section" id="mission"><div class="boiler-container"><div class="boiler-mvv-tabs"><button type="button" class="boiler-mvv-tab is-active" data-tab="mission">Mission</button><button type="button" class="boiler-mvv-tab" data-tab="vision">Vision</button><button type="button" class="boiler-mvv-tab" data-tab="values">Values</button></div><div class="boiler-mvv-content-wrap">
 
-    <!-- Content wrapper -->
-    <div class="boiler-mvv-content-wrap">
+    <div class="boiler-mvv-content is-active" data-tab="mission"><div class="boiler-mvv-text"><h2>Our Mission</h2><p>Help teams review attendance, activity and employee-provided work updates in one clear, permission-aware place.</p></div><div class="boiler-mvv-image"><img src="{% static 'images/mission.avif' %}" alt="iEngineering mission" loading="lazy"></div></div>
 
-      <!-- Mission -->
-      <div class="boiler-mvv-content is-active" data-tab="mission">
-        <div class="boiler-mvv-text">
-          <h2>Our Mission</h2>
-          <p>
-            At iEngineering Australia, our mission is to enhance efficiency, ensure quality
-            control, and deliver customer satisfaction through innovative engineering
-            solutions. We are committed to global standards and sustainable solutions that
-            create long-term value for our clients and communities.
-          </p>
-        </div>
-        <div class="boiler-mvv-image">
-          <!-- UPDATE with your mission image -->
-          <img src="./static/images/mission.avif"
-               alt="mission graphic" />
-        </div>
-      </div>
+    <div class="boiler-mvv-content" data-tab="vision"><div class="boiler-mvv-text"><h2>Our Vision</h2><p>Give employees and reviewers a shared view of recorded time, reported tasks and the context behind each workday.</p></div><div class="boiler-mvv-image"><img src="{% static 'images/vision.avif' %}" alt="iEngineering vision" loading="lazy"></div></div>
 
-      <!-- Vision -->
-      <div class="boiler-mvv-content" data-tab="vision">
-        <div class="boiler-mvv-text">
-          <h2>Our Vision</h2>
-          <p>
-            To be a trusted engineering partner across Australia, Fiji, India and the
-            Pacific delivering intelligent, resilient and low-carbon infrastructure for
-            utilities, industry and the built environment.
-          </p>
-        </div>
-        <div class="boiler-mvv-image">
-          <!-- UPDATE with your vision image (or reuse same) -->
-          <img src="./static/images/vision.avif"
-               alt="Strategic vision graphic" />
-        </div>
-      </div>
+    <div class="boiler-mvv-content" data-tab="values"><div class="boiler-mvv-text"><h2>Our Values</h2><p>We value clear records, employee context and responsible access to sensitive workforce information.</p></div><div class="boiler-mvv-image"><img src="{% static 'images/values.avif' %}" alt="iEngineering values" loading="lazy"></div></div>
 
-      <!-- Values -->
-      <div class="boiler-mvv-content" data-tab="values">
-        <div class="boiler-mvv-text">
-          <h2>Our Values</h2>
-          <p>
-            We operate with integrity, safety and accountability. Our team focuses on
-            practical innovation, clear communication and long-term partnerships so that
-            every project delivers real operational and commercial benefits.
-          </p>
-        </div>
-        <div class="boiler-mvv-image">
-          <!-- UPDATE with your values image (or reuse same) -->
-          <img src="./static/images/values.avif"
-               alt="Core values graphic" />
-        </div>
-      </div>
+  </div></div></section>
 
-    </div>
-  </div>
-</section>
-<!-- ===== SECTION 1: Our Journey ===== -->
+  <section id="journey" class="cmms-contact-form-wrap"><div class="cmms-contact-form-inner"><p class="eyebrow-neplan-what-we-bring">Our Journey</p><p class="about-text-abou-ieng">iEngineering Australia has expanded its engineering work into practical digital tools. iEtrack brings attendance, work activity and employee updates together to help teams review daily work with context.</p></div></section>
 
-</section> 
-<section id="about-us" class="cmms-contact-form-wrap">
-    <div class="cmms-contact-form-inner">
-      <p class="eyebrow-neplan-what-we-bring">Our Journey</p>
-      
-      <p class="about-text-abou-ieng">
-         Founded in 2013, iEngineering Australia delivers a comprehensive range of high-quality electrical and energy
-      hardware solutions tailored for Australian and Pacific conditions. From design and engineering to manufacturing,
-      testing, and commissioning support, we ensure every product whether switchboards, transformers, oil filtration
-      machines, solar systems, or EV chargers is safe, reliable, and built to last.
-      </p>
-    </div>
-  </section>
-
-<!-- ===== SECTION 2: Where We Operate ===== -->
-
-
-<section id="about-us" class="cmms-contact-form-wrap">
-    <div class="cmms-contact-form-inner">
-      <p class="eyebrow-neplan-what-we-bring">Where We Operate</p>
-      
-      <p class="about-text-abou-ieng">
-       iEngineering Australia operates across Australia, Fiji, and India, delivering reliable technology and asset
-      management solutions to organisations of all sizes from local enterprises to large multinational companies.
-      </p>
-    </div>
-  </section>
+  <section id="where-we-operate" class="cmms-contact-form-wrap"><div class="cmms-contact-form-inner"><p class="eyebrow-neplan-what-we-bring">Where We Operate</p><p class="about-text-abou-ieng">Our teams work across Australia, Fiji and India, supporting organisations with different schedules, locations and reporting needs.</p></div></section>
 
 <!-- ===== SECTION 3: Locations ===== -->
+
 <section class="ieng-locations" id="locations">
+
   <div class="ieng-container">
 
     <div class="ieng-loc-grid">
+
       <!-- Australia -->
+
       <article class="ieng-loc-card ieng-loc-card--au">
+
         <header class="ieng-loc-head">
+
           <span class="ieng-loc-icon" aria-hidden="true">
+
             <!-- pin icon -->
+
             <svg viewBox="0 0 24 24" width="20" height="20">
+
               <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"
+
                 fill="currentColor" />
+
             </svg>
+
           </span>
+
           <h4 class="ieng-loc-title">Australia – Sydney</h4>
+
         </header>
 
         <p class="ieng-loc-row"><strong>Phone:</strong> +61 (02) 8318 1490</p>
+
         <p class="ieng-loc-row"><strong>Email:</strong> <a href="mailto:enquiries@iengaust.com.au">enquiries@iengaust.com.au</a></p>
+
         <p class="ieng-loc-address">Rooty Hill, NSW 2766, Australia</p>
 
         <a class="ieng-loc-btn" target="_blank" rel="noopener"
+
            href="https://www.google.com/maps?ll=-33.723524,150.875902&z=5&t=m&hl=en-US&gl=US&mapclient=embed&cid=2860432314088839065">
+
           View map
+
         </a>
+
       </article>
 
       <!-- India -->
+
       <article class="ieng-loc-card ieng-loc-card--in">
+
         <header class="ieng-loc-head">
+
           <span class="ieng-loc-icon" aria-hidden="true">
+
             <svg viewBox="0 0 24 24" width="20" height="20">
+
               <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"
+
                 fill="currentColor" />
+
             </svg>
+
           </span>
+
           <h4 class="ieng-loc-title">India – Pune</h4>
+
         </header>
 
         <p class="ieng-loc-row"><strong>Phone:</strong> +91 9168627258</p>
+
         <p class="ieng-loc-row"><strong>Email:</strong> <a href="mailto:shila@iengaust.com.au">shila@iengaust.com.au</a></p>
+
         <p class="ieng-loc-address">
+
           Navale IT Zone, Office No. 501, 5th Floor, A-Wing, Near Navale Bridge, Mumbai-Bangalore Highway, Narhe,
+
           Pune – 411041.
+
         </p>
 
         <a class="ieng-loc-btn" target="_blank" rel="noopener"
+
            href="https://www.google.com/maps/place/Navale+IT+Zone+Phase2/@18.4597518,73.8199254,17z/">
+
           View map
+
         </a>
+
       </article>
 
       <!-- Fiji -->
+
       <article class="ieng-loc-card ieng-loc-card--fj">
+
         <header class="ieng-loc-head">
+
           <span class="ieng-loc-icon" aria-hidden="true">
+
             <svg viewBox="0 0 24 24" width="20" height="20">
+
               <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"
+
                 fill="currentColor" />
+
             </svg>
+
           </span>
+
           <h4 class="ieng-loc-title">Fiji – Suva</h4>
+
         </header>
 
         <p class="ieng-loc-row"><strong>Phone:</strong> +679 9488589</p>
+
         <p class="ieng-loc-row"><strong>Email:</strong> <a href="mailto:enquiries@iengaust.com.au">enquiries@iengaust.com.au</a></p>
+
         <p class="ieng-loc-address"> Suva, Fiji.</p>
 
         <a class="ieng-loc-btn" target="_blank" rel="noopener"
+
            href="https://www.google.com/maps/search/Lot+17,+River+Drive+Pacific+Harbour+Navua+Suva+Fiji/">
+
           View map
+
         </a>
+
       </article>
+
     </div>
 
   </div>
+
 </section>
 
-
   <!-- CONTACT -->
+
   <section id="contact">
+
     {% include "components/contact_block.html" with form_only=True %}
+
   </section>
 
   {% include 'footer.html' %}
 
   <!-- JS includes -->
+
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
   <script defer src="{% static 'js/demo_form.js' %}"></script>
+
   <script defer src="{% static 'js/main.js' %}"></script>
 
-
   <!-- Simple reveal script for .boiler-reveal -->
+
   <script>
+
     (function () {
+
       const els = document.querySelectorAll(".boiler-reveal");
+
       if (!("IntersectionObserver" in window)) {
+
         els.forEach((el) => el.classList.add("is-visible"));
+
         return;
+
       }
+
       const io = new IntersectionObserver(
+
         (entries) => {
+
           entries.forEach((e) => {
+
             if (e.isIntersecting) {
+
               e.target.classList.add("is-visible");
+
               io.unobserve(e.target);
+
             }
+
           });
+
         },
+
         { threshold: 0.15 }
+
       );
+
       els.forEach((el) => io.observe(el));
+
     })();
 
-
   </script>
+
   <script>
+
   document.addEventListener("DOMContentLoaded", function () {
+
     const tabs = document.querySelectorAll(".boiler-mvv-tab");
+
     const panels = document.querySelectorAll(".boiler-mvv-content");
 
     if (!tabs.length) return;
 
     tabs.forEach((tab) => {
+
       tab.addEventListener("click", () => {
+
         const target = tab.dataset.tab;
 
         // update tabs
+
         tabs.forEach((t) => t.classList.toggle("is-active", t === tab));
 
         // update content
+
         panels.forEach((panel) => {
+
           const match = panel.dataset.tab === target;
+
           panel.classList.toggle("is-active", match);
+
         });
+
       });
+
     });
+
   });
+
+</script>
+
+
+<script>
+  (function () {
+    const explorer = document.querySelector('#types .ietrack-feature-explorer');
+    if (!explorer) return;
+    const buttons = [...explorer.querySelectorAll('[data-feature-category]')];
+    const panels = [...explorer.querySelectorAll('[data-feature-panel]')];
+    function selectFeatureCategory(index) {
+      buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.featureCategory === index)));
+      panels.forEach(panel => { panel.hidden = panel.dataset.featurePanel !== index; });
+    }
+    buttons.forEach(button => button.addEventListener('click', () => selectFeatureCategory(button.dataset.featureCategory)));
+    selectFeatureCategory('0');
+  })();
 </script>
 
 </body>
+
 </html>

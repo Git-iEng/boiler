@@ -1,6 +1,7 @@
 {% load static %}
 
 <style>
+.ietrack-contact-intro{margin:0 0 18px;color:#5d7081;line-height:1.6;max-width:600px}
 .form-captcha{
   width: 100%;
   margin: 15px 0 20px;
@@ -20,23 +21,16 @@
 </style>
 
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-TKQV8LKX');</script>
-<!-- End Google Tag Manager -->
 <section class="consult-block" {% if form_only %}data-form-only="1" {% endif %}>
     <div class="consult-block__inner">
 
         {% if not form_only %}
         <!-- Left side (you can replace this content per page) -->
         <aside class="consult-left">
-            <span class="consult-badge">Why Choose Us</span>
-            <h2 class="consult-title">Join 500+<br>companies<br>trusting us</h2>
-            <a href="/contact/" class="consult-cta">
-                Get Started <span>↗</span>
+            <span class="consult-badge">Talk to our team</span>
+            <h2 class="consult-title">See iEtrack<br>in action</h2>
+            <a href="#contact" class="consult-cta">
+                Get in touch <span>↗</span>
             </a>
             <figure class="consult-photo">
                 <!-- You can replace image; transparent PNG works nicely -->
@@ -53,7 +47,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% endfor %}
             {% endif %}
 
-            <h3 class="consult-form__title">Send a message</h3>
+            <h3 class="consult-form__title">Let’s talk about iEtrack</h3>
+            <p class="ietrack-contact-intro">Tell us about your team and what you would like to explore. We’ll get back to you about a suitable walkthrough.</p>
 
             <form id="consult-form" class="consult-grid" method="post" action="{% url 'cmmsApp:contact_submit' %}"
                 novalidate>
@@ -62,7 +57,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <input type="text" name="name" placeholder="Your Name * " required>
                 <!-- =========================================================
                      CHANGE BY JYOTI - 12-Sep-2026
-                     BOILERS EMAIL OTP VERIFICATION - START
+                     CONTACT EMAIL OTP VERIFICATION - START
                 ========================================================== -->
                 <div class="consult-email-verification">
                     <div class="consult-email-input-wrap">
@@ -141,7 +136,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </div>
                 <!-- =========================================================
                      CHANGE BY JYOTI - 12-Sep-2026
-                     BOILERS EMAIL OTP VERIFICATION - END
+                     CONTACT EMAIL OTP VERIFICATION - END
                 ========================================================== -->
 
                 <input type="text" name="phone" placeholder="Phone Number (e.g. +61 4xx…) *" id="cf_phone" required>
@@ -168,7 +163,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <option>Additional Solutions</option>
                 </select> -->
 
-                <textarea name="message" rows="2" placeholder="Your Message (optional)"></textarea>
+                <textarea name="message" rows="2" placeholder="What would you like to see in iEtrack? (optional)"></textarea>
 
                 <div class="form-captcha">
     <div class="g-recaptcha" data-sitekey="{{ RECAPTCHA_SITE_KEY }}"></div>
@@ -176,7 +171,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <br>
 
                 <button id="consult-submit" class="consult-send btn-primary-solar-system" type="submit" disabled>
-                    <span class="label">Send Message</span>
+                    <span class="label">Send enquiry</span>
                     <span class="spinner" aria-hidden="true"></span>
                 </button>
             </form>
@@ -192,7 +187,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <style>
 /* ============================================================
    CHANGE BY JYOTI - 12-Sep-2026
-   BOILERS CONTACT EMAIL OTP
+   CONTACT EMAIL OTP
 ============================================================ */
 
 .consult-email-verification {
@@ -348,7 +343,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script>
 /* ============================================================
    CHANGE BY JYOTI - 12-Sep-2026
-   BOILERS CONTACT EMAIL OTP
+   CONTACT EMAIL OTP
 ============================================================ */
 
 (function () {
